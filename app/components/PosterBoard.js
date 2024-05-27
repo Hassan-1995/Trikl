@@ -43,6 +43,7 @@ const styles = StyleSheet.create({
     },
     messageText:{
         fontSize: 25,
+        fontWeight: 900,
         color: colors.black,
     },
 });

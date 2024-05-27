@@ -6,7 +6,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import AppText from './AppText';
 import colors from '../config/colors';
 
-function SummaryCard(props) {
+function SummaryCard({ totalBalance, processingBalance, totalProfit, activeInvestment}) {
     return (
         <LinearGradient
             colors={[colors.primary, colors.dark]}
@@ -17,14 +17,14 @@ function SummaryCard(props) {
                     <AppText style={styles.title}>Total Balance</AppText>
                         <View style={styles.values}>
                             <AppText style={styles.currencySymbol}>PKR</AppText>
-                            <AppText style={styles.amount}>0</AppText>
+                            <AppText style={styles.amount}>{totalBalance}</AppText>
                         </View>
                 </View>
                 <View style={styles.smallContainer} >
                     <AppText style={styles.title}>Processing Balance</AppText>
                         <View style={styles.values}>
                             <AppText style={styles.currencySymbol}>PKR</AppText>
-                            <AppText style={styles.amount}>0</AppText>
+                            <AppText style={styles.amount}>{processingBalance}</AppText>
                         </View>
                 </View>
             </View>
@@ -33,12 +33,12 @@ function SummaryCard(props) {
                     <AppText style={styles.title}>Total Profit</AppText>
                         <View style={styles.values}>
                             <AppText style={styles.currencySymbol}>PKR</AppText>
-                            <AppText style={styles.amount}>0</AppText>
+                            <AppText style={styles.amount}>{totalProfit}</AppText>
                         </View>
                 </View>
                 <View style={styles.smallContainer} >
                     <AppText style={styles.title}>Active Investments</AppText>
-                    <AppText style={styles.amount}>0</AppText>
+                    <AppText style={styles.amount}>{activeInvestment}</AppText>
                 </View>
             </View>
         </LinearGradient>

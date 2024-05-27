@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { View, StyleSheet } from 'react-native';
 import AmountInput from '../components/AmountInput';
 import Screen from '../components/Screen';
-import AppText from '../components/AppText';
 import AppButton from '../components/AppButton';
 
 const items = [
@@ -14,38 +13,42 @@ const items = [
 
 
 
-function InvestmentPlanScreen(props) {
-
-
+function InvestmentPlanScreen({ navigation, route }) {
     const [activeComponent, setActiveComponent] = useState(items[0]);
-    const [number, setNumber] =useState('');
+    const [number, setNumber] =useState(null);
     const [amount, setAmount]=useState([])
 
+    console.log("InvestmentPlanScreen", route.params.title)
+
+    useEffect(() => {
+        if(amount.length==3){
+            navigation.navigate('PlannerScreen', amount)
+            setAmount([])
+        }
+    }, [amount]);
 
 
-    const handlePress=(keyId)=>{
+    const handlePress = (keyId) => {
         setActiveComponent(items[keyId])
-
-        const tempArray = [...amount, number];
-        setAmount(tempArray);
-        
+        setAmount([...amount, number]);
         setNumber(null)
-        
         if(keyId==3){
             setActiveComponent(items[0])
         }
     }
 
+    const handleAmount=(value)=>{
+        setNumber(value)
+    }
+
     return (
-        <Screen>    
+        <Screen>
             <AmountInput
-                title={activeComponent.keyId}
+                title={route.params.title}
                 subTitle={activeComponent.subTitle}
                 description={activeComponent.description}
                 initialValue={number}
-                onChangeText={(value)=>{
-                    setNumber(value)
-                }}
+                onAmount={handleAmount}
             />
             {
                 number === null?

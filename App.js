@@ -1,30 +1,31 @@
+import { useState } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 
-import SliderComponent from './app/components/SliderComponent';
-import CustomSlider from './app/components/CustomSlider';
-import GoalCard from './app/components/GoalCard';
-import Screen from './app/components/Screen';
-import { useState } from 'react';
-import AppText from './app/components/AppText';
-import PlannerScreen from './app/screens/PlannerScreen';
-import PreferenceInvestmentOptionComponent from './app/components/PreferenceInvestmentOptionComponent';
-import InvestmentScreen from './app/screens/InvestmentScreen';
-import HomeScreen from './app/screens/HomeScreen';
-import AmountInput from './app/components/AmountInput';
-import InvestmentPlanScreen from './app/screens/InvestmentPlanScreen';
 
+import PlannerScreen from './app/screens/PlannerScreen';
+import InvestmentPlanScreen from './app/screens/InvestmentPlanScreen';
+import InvestmentScreen from './app/screens/InvestmentScreen';
+import RegisterScreen from './app/screens/RegisterScreen';
+
+import { NavigationContainer } from '@react-navigation/native';
+import AuthNavigator from './app/navigation/AuthNavigator';
+import CustomSlider from './app/components/CustomSlider';
+import myTheme from './app/navigation/navigationTheme';
 
 export default function App() {
-  const[number,setNumber] = useState();
-
+  const [initialInvestment,setInitialInvestment] =  useState(500);
 
 
   return (
-    // <InvestmentScreen/>
-    <InvestmentPlanScreen/> 
     // <HomeScreen/>
-    // <PlannerScreen/>
+    // <InvestmentScreen/>
+    // <CredentialScreen/>
+    <RegisterScreen/>
+
+    // <NavigationContainer theme={myTheme}>
+    //   <AuthNavigator/>
+    // </NavigationContainer>
   );
 }
 

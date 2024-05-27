@@ -15,15 +15,26 @@ const items = [
 ]
 
 function HomeScreen(props) {
+
+    const handlePress=(value)=>{
+        console.log("value of button which is pressed:", value)
+    }
+
     return (
         <Screen style={styles.container}>
             <LinearGradient
                 colors={['rgba(0,0,0,0.8)', 'transparent']}
                 style={styles.background}
             />
-            <SummaryCard/>
+            <SummaryCard
+                totalBalance={123}
+                processingBalance={456}
+                totalProfit={789}
+                activeInvestment={10}
+            />
             <ListingItem
                 items={items}
+                onPress={handlePress}
             />
         </Screen>
     );

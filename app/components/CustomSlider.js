@@ -9,8 +9,8 @@ import AppText from './AppText';
 import colors from '../config/colors';
 
 
-const CustomSlider = ({ trackBarWidth = trackBar, trackBarHeight = 20, thumbSize = 30, minimumValue = 0, maximumValue = 100, onChange, title='Title is missing' }) => {
-  const [value, setValue] = useState(minimumValue);
+const CustomSlider = ({ trackBarWidth = trackBar, trackBarHeight = 20, thumbSize = 30, minimumValue = 0, maximumValue = 100, onChange, title='Title is missing', typedValue=0 }) => {
+  const [value, setValue] = useState(typedValue);
 
   const handlePanResponderMove = (event, gestureState) => {
     const newValue = Math.max(minimumValue, Math.min(maximumValue, value + gestureState.dx / width * (maximumValue - minimumValue)));

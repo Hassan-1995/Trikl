@@ -6,13 +6,19 @@ import GoalCardPicker from './GoalCardPicker';
 import EnquiryCard from './EnquiryCard';
 import colors from '../config/colors';
 
-function ListingItem({ items }) {
+function ListingItem({ items, onPress }) {
+
+    const handlePress=(value)=>{
+        onPress(value)
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.scrollView}>
                 <PosterBoard/>
                 <GoalCardPicker
-                    items={items}
+                    assets={items}
+                    onPress={handlePress}
                 />
                 <EnquiryCard/>
                 <EnquiryCard/>

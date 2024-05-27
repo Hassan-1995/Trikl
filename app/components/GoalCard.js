@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,37 +6,24 @@ import { LinearGradient } from 'expo-linear-gradient';
 import colors from '../config/colors';
 import AppText from './AppText';
 
-function GoalCard({ assets, onPress }) {
-
-    const [selectedBox, setSelectedBox] = useState('');
-
+function GoalCard({ assets, selectedBox, setSelectedBox, onPress }) {  
 
     const handlePress = (boxId) => {
-        onPress(assets)
-        setSelectedBox(0);
         setSelectedBox(boxId);
+        onPress(boxId)
     }
 
     return (
         <View style={styles.container}>
-            <TouchableOpacity 
-                // onPress={() => {
-                //     onPress(assets)
-                //     setSelectedBox(assets.value)
-                // }}  
-                onPress={() => handlePress(assets.value)}
-            >
+            <TouchableOpacity onPress={()=>handlePress(assets.value)}>
                 <LinearGradient
                     colors={[colors.secondary, colors.light]}
-
-                    // style={[styles.box]}
-                    style={[styles.box, selectedBox === 1 &&  styles.selectedBox]}
+                    style={[
+                        selectedBox === assets.value ? styles.pressedBox : styles.box
+                    ]}
                 >
-                    <Image
-                        style={styles.vectorImage}
-                        source={assets.image}
-                    />
-                    <AppText>{assets.value}</AppText>
+                    <Image style={styles.vectorImage} source={assets.image} />
+                    {/* <AppText>{assets.value} and {selectedBox}</AppText> */}
                 </LinearGradient>
             </TouchableOpacity>
             <AppText style={styles.title}>{assets.title}</AppText>
@@ -48,6 +35,7 @@ const styles = StyleSheet.create({
     box:{
         height: 100,
         width: 100,
+        // borderWidth: 3,
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
@@ -55,13 +43,16 @@ const styles = StyleSheet.create({
     container:{
         alignItems: 'center',
         marginHorizontal: 5,
+        // backgroundColor: 'blue'
     },
-    selectedBox:{
+    pressedBox:{
         // backgroundColor: 'red',
         height: 100,
         width: 100,
-        borderWidth: 5,
-        borderRadius: 25
+        borderWidth: 2,
+        borderRadius: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     title:{
         paddingVertical: 5,

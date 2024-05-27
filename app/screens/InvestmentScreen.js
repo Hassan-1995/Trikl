@@ -22,14 +22,14 @@ const items = [
 
 
 
-function InvestmentScreen(props) {
+function InvestmentScreen({ navigation }) {
     
     const [option,setOption] = useState('');
 
     const handlePress = (item) => {
-        setOption(item);
+        setOption(items.find(data => data.value === item));
         console.log("Selected item:", item);
-        console.log("Selected option:", option.title);
+        console.log("Selected option:", option);
       };
 
     return (
@@ -56,6 +56,10 @@ function InvestmentScreen(props) {
                 option !==''?
                     <AppButton
                         title={'Continue'}
+                        onPress={()=>{
+                            console.log("items:", option)
+                            navigation.navigate('InvestmentPlanScreen', option)  
+                        }}
                     />
                 :
                     <>
