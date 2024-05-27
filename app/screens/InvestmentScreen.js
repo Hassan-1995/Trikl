@@ -43,7 +43,7 @@ function InvestmentScreen({ navigation }) {
                 assets={items}
                 onPress={handlePress}
             />
-            <ScrollView>
+            <ScrollView horizontal={false}>
                 <GoalCardPicker
                     label='Pick an Icon for your goal'
                     assets={items}
