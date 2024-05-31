@@ -7,7 +7,7 @@
     "icon": "./app/assets/favicon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./app/assets/trikl.png",
+      "image": "./app/assets/trikl2.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },

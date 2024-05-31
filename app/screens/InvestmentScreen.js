@@ -8,15 +8,15 @@ import AppButton from '../components/AppButton';
 import colors from '../config/colors';
 
 const items = [
-    { title: 'Travel', value: 1, image: require('../assets/kaaba.png')},
+    { title: 'Travel', value: 1, image: require('../assets/travel.png')},
     { title: 'Education', value: 2, image: require('../assets/education.png')},
     { title: 'Electronics', value: 3, image: require('../assets/electronics.png')},
-    { title: 'Travel', value: 5, image: require('../assets/kaaba.png')},
-    { title: 'Education', value: 6, image: require('../assets/education.png')},
-    { title: 'Electronics', value: 7, image: require('../assets/electronics.png')},
-    { title: 'Travel', value: 8, image: require('../assets/kaaba.png')},
-    { title: 'Education', value: 9, image: require('../assets/education.png')},
-    { title: 'Electronics', value: 10, image: require('../assets/electronics.png')},
+    { title: 'Car', value: 5, image: require('../assets/car.png')},
+    { title: 'Furniture', value: 6, image: require('../assets/furniture.png')},
+    { title: 'Wedding', value: 7, image: require('../assets/wedding.png')},
+    { title: 'Music', value: 8, image: require('../assets/music.png')},
+    { title: 'Jewelry', value: 9, image: require('../assets/jewelry.png')},
+    { title: 'Fitness', value: 10, image: require('../assets/fitness.png')},
     { title: 'Others', value: 4, image: require('../assets/others.png')},
 ]
 

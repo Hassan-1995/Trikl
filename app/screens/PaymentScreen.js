@@ -102,7 +102,7 @@ function PaymentScreen(props) {
                             </TouchableOpacity>
                             <AppText style={styles.title}>Bank Transfer</AppText>
                         </View>
-                        <AppText style={styles.subTitle}>From your bank account to Trikl account</AppText>
+                        <AppText style={styles.subTitle}>From your bank account to SavvySave account</AppText>
                     </View>
                 </View>
             </View>

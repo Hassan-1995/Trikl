@@ -12,7 +12,7 @@ import colors from '../config/colors';
 
 
 const items = [
-    { title: 'Travel', value: 1, image: require('../assets/kaaba.png')},
+    { title: 'Travel', value: 1, image: require('../assets/travel.png')},
     { title: 'Education', value: 2, image: require('../assets/education.png')},
     { title: 'Electronics', value: 3, image: require('../assets/electronics.png')},
     { title: 'Others', value: 4, image: require('../assets/others.png')},

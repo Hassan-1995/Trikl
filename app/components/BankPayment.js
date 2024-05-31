@@ -30,7 +30,7 @@ function BankPayment({ onPress }) {
                             iconColor={colors.primary}
                         />
                     </TouchableOpacity>
-                    <AppText style={styles.title}>Trikl Bank Details</AppText>
+                    <AppText style={styles.title}>SavvySave Bank Details</AppText>
                 </View>
                 <View style={styles.bankDetail}>
                     {

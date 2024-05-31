@@ -17,6 +17,7 @@ import myTheme from './app/navigation/navigationTheme';
 import LoginScreen from './app/screens/LoginScreen';
 import PaymentScreen from './app/screens/PaymentScreen';
 import BankPayment from './app/components/BankPayment';
+import SuitabilityAssesmentScreen from './app/screens/SuitabilityAssesmentScreen';
 
 export default function App() {
   const [initialInvestment,setInitialInvestment] =  useState(500);
@@ -31,10 +32,11 @@ export default function App() {
     // <HomeScreen/>
     // <PaymentScreen/>
     // <BankPayment/>
+    <SuitabilityAssesmentScreen/>
 
-    <NavigationContainer theme={myTheme}>
-      <AuthNavigator/>
-    </NavigationContainer>
+    // <NavigationContainer theme={myTheme}>
+    //   <AuthNavigator/>
+    // </NavigationContainer>
   );
 }
 
