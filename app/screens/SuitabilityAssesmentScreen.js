@@ -4,6 +4,7 @@ import { View, StyleSheet } from 'react-native';
 import Screen from '../components/Screen';
 import MultipleChoiceQuestions from '../components/MultipleChoiceQuestions';
 import AppButton from '../components/AppButton';
+import LogoContainer from '../components/LogoContainer';
 
 
 const questionnaire = [
@@ -118,6 +119,7 @@ function SuitabilityAssesmentScreen(props) {
 
     return (
         <Screen>
+            <LogoContainer/>
             <MultipleChoiceQuestions
                 questionNumber={currentIndex+1}
                 question={activeComponent.question}
@@ -156,6 +158,8 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 20,
+        // flex: 1,
+        // alignItems: 'flex-end',
     },
     button:{
         width: '40%'

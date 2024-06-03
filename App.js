@@ -18,6 +18,7 @@ import LoginScreen from './app/screens/LoginScreen';
 import PaymentScreen from './app/screens/PaymentScreen';
 import BankPayment from './app/components/BankPayment';
 import SuitabilityAssesmentScreen from './app/screens/SuitabilityAssesmentScreen';
+import AccountOnBoardingScreen from './app/screens/AccountOnBoardingScreen';
 
 export default function App() {
   const [initialInvestment,setInitialInvestment] =  useState(500);
@@ -32,7 +33,8 @@ export default function App() {
     // <HomeScreen/>
     // <PaymentScreen/>
     // <BankPayment/>
-    <SuitabilityAssesmentScreen/>
+    // <SuitabilityAssesmentScreen/>
+    <AccountOnBoardingScreen/>
 
     // <NavigationContainer theme={myTheme}>
     //   <AuthNavigator/>
