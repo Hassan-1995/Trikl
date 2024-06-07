@@ -125,7 +125,7 @@ function PaymentScreen(props) {
            <BankPayment
                 onPress={()=>setModalVisible(!modalVisible)}
            />
-      </Modal>
+        </Modal>
 
 
 

@@ -19,6 +19,11 @@ import PaymentScreen from './app/screens/PaymentScreen';
 import BankPayment from './app/components/BankPayment';
 import SuitabilityAssesmentScreen from './app/screens/SuitabilityAssesmentScreen';
 import AccountOnBoardingScreen from './app/screens/AccountOnBoardingScreen';
+import DateInput from './app/components/DateInput';
+import CountryPickerComponent from './app/components/CountryPickerComponent';
+import ContactNumberComponent from './app/components/ContactNumberComponent';
+import AttachmentComponents from './app/components/AttachmentComponents';
+import ImageCapture from './app/components/ImageCapture';
 
 export default function App() {
   const [initialInvestment,setInitialInvestment] =  useState(500);
@@ -34,7 +39,12 @@ export default function App() {
     // <PaymentScreen/>
     // <BankPayment/>
     // <SuitabilityAssesmentScreen/>
-    <AccountOnBoardingScreen/>
+    // <AccountOnBoardingScreen/>
+    // <DateInput/>
+    // <CountryPickerComponent/>
+    // <ContactNumberComponent/>
+    <AttachmentComponents/>
+    // <ImageCapture/>
 
     // <NavigationContainer theme={myTheme}>
     //   <AuthNavigator/>
