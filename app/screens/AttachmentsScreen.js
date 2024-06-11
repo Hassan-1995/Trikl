@@ -8,33 +8,28 @@ import { AppForm, AppFormField, AppFormDate, SubmitButton, AppFormCountry, AppFo
 import LogoContainer from '../components/LogoContainer';
 
 const validationSchema = Yup.object().shape({
-    name: Yup.string().required().label('Name'),
-    guardian: Yup.string().required().label('Guardian Name'),
-    email: Yup.string().required().email().label('Email'),
-    date: Yup.string().required().label('Date'),
-    country: Yup.string().required().label('Country'),
-    contact: Yup.object().shape({
-        dial_code: Yup.string().required('Dial code is required'),
-        dial_number: Yup.string().required('Contact number is required'),
-    }).required().label('Contact'),
+    
+    idCardNumber: Yup.string().required().label('Identification'),
+    idCardAttachment: Yup.string().required().label('ID Attachment'),
+    billingNumber: Yup.string().required().label('Address'),
+    billingNumberAttachment: Yup.string().required().label('Address Attachment'),
+    funds: Yup.string().required().label('Fund'),
+    fundsAttachment: Yup.string().required().label('Funds Attachment'),
 })
 
-function AccountOnBoardingScreen(props) {
+function AttachmentsScreen(props) {
     return (
         <Screen>
             <ScrollView contentContainerStyle={styles.scrollView}>
                 <LogoContainer/>
                 <AppForm
                     initialValues={{
-                        name:'', 
-                        guardian:'', 
-                        email:'', 
-                        date:'', 
-                        country:'', 
-                        contact: { 
-                            dial_code: '',
-                            dial_number: ''
-                        },
+                        idCardNumber:'',
+                        idCardAttachment:'',
+                        billingNumber:'',
+                        billingNumberAttachment:'',
+                        funds:'',
+                        fundsAttachment:''
                     }}
                     onSubmit={(values) => console.log(values)}
                     validationSchema={validationSchema}
@@ -42,34 +37,32 @@ function AccountOnBoardingScreen(props) {
                     <AppFormField
                         autoCapitalise='none' 
                         autoCorrect={false}
-                        icon={'account'}
-                        name={'name'}
-                        placeholder='Name'
+                        icon={'card-account-details-outline'}
+                        name={'idCardNumber'}
+                        placeholder="Government Issued Identification"
+                    />
+                    <AppFormAttachment
+                        name={'idCardAttachment'}
                     />
                     <AppFormField
                         autoCapitalise='none' 
                         autoCorrect={false}
-                        icon={'shield-account-outline'}
-                        name={'guardian'}
-                        placeholder="Father's or Hsusband's name"
+                        icon={'map-marker-outline'}
+                        name={'billingNumber'}
+                        placeholder="House/Billing Address"
                     />
-                    <AppFormDate
-                        name={'date'}
-                    />
-                    <AppFormCountry
-                        name={'country'}
+                    <AppFormAttachment
+                        name={'billingNumberAttachment'}
                     />
                     <AppFormField
                         autoCapitalise='none' 
                         autoCorrect={false}
-                        icon={'email'}
-                        keyboardType="email-address"
-                        name={'email'}
-                        placeholder='Email'
-                        textContentType='emailAddress'
+                        icon={'bank'}
+                        name={'funds'}
+                        placeholder="Source of Income"
                     />
-                    <AppFormContactNumber
-                        name={'contact'}
+                    <AppFormAttachment
+                        name={'fundsAttachment'}
                     />
                     <View style={styles.buttonContainer}>
                         <SubmitButton title={'Save and Continue'}/>
@@ -85,7 +78,6 @@ const styles = StyleSheet.create({
     scrollView: {
         flexGrow: 1,
         justifyContent: 'center',
-        paddingHorizontal: 10,
     },
     buttonContainer: {
         flexGrow: 1,
@@ -93,4 +85,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AccountOnBoardingScreen;
+export default AttachmentsScreen;

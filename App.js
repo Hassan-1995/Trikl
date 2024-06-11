@@ -22,8 +22,13 @@ import AccountOnBoardingScreen from './app/screens/AccountOnBoardingScreen';
 import DateInput from './app/components/DateInput';
 import CountryPickerComponent from './app/components/CountryPickerComponent';
 import ContactNumberComponent from './app/components/ContactNumberComponent';
-import AttachmentComponents from './app/components/AttachmentComponents';
+
 import ImageCapture from './app/components/ImageCapture';
+import ImageUpload from './app/components/ImageUpload';
+import AttachmentComponent from './app/components/AttachmentComponent';
+import AttachmentsScreen from './app/screens/AttachmentsScreen';
+import HomeScreenCopy from './app/screens/HomScreenCopy';
+import ChartComponent from './app/components/ChartComponent';
 
 export default function App() {
   const [initialInvestment,setInitialInvestment] =  useState(500);
@@ -36,15 +41,20 @@ export default function App() {
     // <RegisterScreen/>
     // <LoginScreen/>
     // <HomeScreen/>
+    <HomeScreenCopy/>
     // <PaymentScreen/>
     // <BankPayment/>
     // <SuitabilityAssesmentScreen/>
     // <AccountOnBoardingScreen/>
+    // <AttachmentsScreen/>
     // <DateInput/>
     // <CountryPickerComponent/>
     // <ContactNumberComponent/>
-    <AttachmentComponents/>
+    // <ChartComponent/>
+
+    // <AttachmentComponent/>
     // <ImageCapture/>
+    // <ImageUpload/>
 
     // <NavigationContainer theme={myTheme}>
     //   <AuthNavigator/>

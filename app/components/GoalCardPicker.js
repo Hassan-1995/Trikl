@@ -38,7 +38,7 @@ function GoalCardPicker({ assets, horizontal=true, numberOfColumns=0, label='Lab
 
 const styles = StyleSheet.create({
     container:{
-        paddingVertical: 20,
+        paddingVertical: 10,
     },
     header:{
         fontSize: 30,

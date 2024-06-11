@@ -3,7 +3,6 @@ import React from 'react';
 import { ScrollView, StyleSheet, View } from 'react-native';
 import SummaryCard from '../components/SummaryCard';
 import Screen from '../components/Screen';
-import ListingItem from '../components/ListingItem';
 import { LinearGradient } from 'expo-linear-gradient';
 import PosterBoard from '../components/PosterBoard';
 import GoalCardPicker from '../components/GoalCardPicker';
