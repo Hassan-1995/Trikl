@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, TouchableOpacity, Modal } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Modal, ScrollView } from 'react-native';
 
 import ToggleSwitch from 'toggle-switch-react-native'
 
@@ -39,6 +39,7 @@ function PaymentScreen(props) {
 
     return (
         <Screen>
+            <ScrollView>
             <View style={styles.header}>
                 <AppText style={styles.title}>Investment Payment</AppText>
                 <AppText>This is what you are about to commit.</AppText>
@@ -117,24 +118,16 @@ function PaymentScreen(props) {
             }
 
 
-        <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-        >
-           <BankPayment
-                onPress={()=>setModalVisible(!modalVisible)}
-           />
-        </Modal>
-
-
-
-
-
-
-
-
-
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+            >
+            <BankPayment
+                    onPress={()=>setModalVisible(!modalVisible)}
+            />
+            </Modal>
+            </ScrollView>
         </Screen>
     );
 }

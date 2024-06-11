@@ -41,7 +41,7 @@ function BankPayment({ onPress }) {
                             <AppText>IBAN Number</AppText>
                         </>
                         :
-                        <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center'}}>
+                        <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center'}} >
                             <Icon
                                 name={'card-plus-outline'}
                                 size={100}

@@ -14,7 +14,7 @@ function LoginScreen({ navigation }) {
 
     const handleSubmit=(values)=>{
         console.log(values)
-        navigation.navigate('HomeScreen')
+        navigation.navigate('HomeScreenCopy')
     }
 
     return (
