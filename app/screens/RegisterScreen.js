@@ -1,9 +1,10 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { StyleSheet } from 'react-native';
 import *as Yup from 'yup';
 
-import Screen from '../components/Screen';
 import { AppForm, AppFormField, SubmitButton } from '../components/forms';
+import LogoContainer from '../components/LogoContainer';
+import Screen from '../components/Screen';
 
 const validationSchema = Yup.object().shape({
     name: Yup.string().required().label('Name'),
@@ -14,10 +15,7 @@ const validationSchema = Yup.object().shape({
 function RegisterScreen(props) {
     return (
         <Screen style={styles.container} >
-            {/* <Image
-                style={styles.logo}
-                source={require('../assets/logo.png')} 
-            /> */}
+            <LogoContainer/>
             <AppForm
                 initialValues={{name:'', email:'', password:''}}
                 onSubmit={(values) => console.log(values)}

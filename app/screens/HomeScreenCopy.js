@@ -22,7 +22,7 @@ const items = [
     { title: 'Music', status: 'On', goal: 18000, invested: 10000, value: 8, image: require('../assets/music.png') },
     { title: 'Jewelry', status: 'On', goal: 35000, invested: 18000, value: 9, image: require('../assets/jewelry.png') },
     { title: 'Fitness', status: 'Off', goal: 20000, invested: 9000, value: 10, image: require('../assets/fitness.png') },
-    { title: 'Others', status: 'On', goal: 24000, invested: 5000, value: 4, image: require('../assets/others.png') },
+    { title: 'Create New', status: 'On', goal: 24000, invested: 5000, value: 4, image: require('../assets/others.png') },
 ];
   
 
@@ -41,8 +41,8 @@ function HomeScreenCopy({ navigation }) {
                 style={styles.background}
             />
             <SummaryCard
-                totalBalance={123}
-                processingBalance={456}
+                totalBalance={10000}
+                processingBalance={450006}
                 totalProfit={789}
                 activeInvestment={10}
             />
@@ -50,6 +50,7 @@ function HomeScreenCopy({ navigation }) {
                 <ScrollView>
                     <GoalCardPicker
                         assets={items}
+                        label='To continue with your investments'
                         onPress={handlePress}
                     />
                     <ChartComponent

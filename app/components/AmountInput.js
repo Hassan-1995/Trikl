@@ -40,17 +40,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     currency:{
-        fontSize: 40, 
+        fontSize: 20, 
         fontWeight: '900',
         marginHorizontal:10,
     },
     input:{
-        fontSize: 30,
+        fontSize: 20,
         flex: 1,
         fontWeight: '900',
     },
     subTitle:{ 
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: '900',
         marginBottom: 30,
     },

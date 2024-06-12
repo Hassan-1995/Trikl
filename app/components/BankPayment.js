@@ -1,22 +1,44 @@
 import React, { useState } from 'react';
 
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Modal, Dimensions, Image, Alert } from 'react-native';
 import AppText from './AppText';
 import colors from '../config/colors';
 import AppButton from './AppButton';
 import Icon from './Icon';
+import ImageUpload from './ImageUpload';
 
-
+const { width, height } = Dimensions.get('window');
 
 function BankPayment({ onPress }) {
 
     const[screenShot, setScreenShot]=useState(false);
+    const [upload, setUpload] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+
 
     const handlePayment=()=>{
         console.log('Pressed')
         if(screenShot==false){
             setScreenShot(true)
+        }else{
+            if (upload==null){
+                Alert.alert(
+                    "Prompt message by SavvySave", 
+                    "You need to attach proof of payment's transaction", 
+                    [
+                      { 
+                        text: "OK", 
+                        onPress: () => console.log("OK Pressed") 
+                      }
+                    ],
+                  );
+            }else{
+                onPress(onPress)
+            }
         }
+    }
+    const handleUpload = (data) => {
+        setUpload(data)
     }
     return (
         <View style={styles.container}>
@@ -41,13 +63,39 @@ function BankPayment({ onPress }) {
                             <AppText>IBAN Number</AppText>
                         </>
                         :
-                        <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center'}} >
-                            <Icon
-                                name={'card-plus-outline'}
-                                size={100}
-                                backgroundColor='transparent'
-                                iconColor={colors.primary}
-                            />
+                        <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center'}} onPress={()=>setModalVisible(!modalVisible)} >
+                            {
+                                upload == null ?
+                                    <Icon
+                                        name={'card-plus-outline'}
+                                        size={100}
+                                        backgroundColor='transparent'
+                                        iconColor={colors.primary}
+                                    />
+                                :
+                                    <View style={styles.imageContainer}>
+                                        <Image source={{ uri: upload.uri }} style={styles.image}  />
+                                        <View style={styles.overlay} />
+                                    </View>
+                            }
+                            
+
+                            <Modal
+                                animationType="slide"
+                                transparent={false}
+                                visible={modalVisible}
+                            >
+                                <ImageUpload
+                                        onPress={()=>setModalVisible(!modalVisible)}
+                                        onImageUpload={handleUpload}
+                                />
+                            </Modal>
+
+
+
+
+
+
                         </TouchableOpacity>
                     }
                 </View>
@@ -94,6 +142,26 @@ const styles = StyleSheet.create({
     title:{
         fontSize: 25,
         fontWeight: '600'
+    },
+    imageContainer:{
+        width: '90%',
+        height: height*0.2,
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: colors.secondary,
+        overflow: 'hidden'
+    },
+    image: {
+        width: '100%', 
+        height: '100%'
+    },
+    overlay: {
+        position: 'absolute', 
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: 'rgba(16, 75, 125, 0.5)', 
     },
 });
 

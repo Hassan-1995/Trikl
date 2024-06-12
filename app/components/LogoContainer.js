@@ -2,6 +2,7 @@ import React from 'react';
 
 import { View, StyleSheet, Image, Dimensions } from 'react-native';
 
+
 const { width, height } = Dimensions.get('window');
 
 function LogoContainer(props) {

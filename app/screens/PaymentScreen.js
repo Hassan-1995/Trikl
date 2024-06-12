@@ -39,7 +39,7 @@ function PaymentScreen(props) {
 
     return (
         <Screen>
-            <ScrollView>
+            <ScrollView contentContainerStyle={styles.scrollView}>
             <View style={styles.header}>
                 <AppText style={styles.title}>Investment Payment</AppText>
                 <AppText>This is what you are about to commit.</AppText>
@@ -111,10 +111,12 @@ function PaymentScreen(props) {
                 medium === null ?
                     <></>
                 :
-                <AppButton
-                    title={'Agree and Continue'}
-                    onPress={handlePayment}
-                />
+                <View style={{ flexGrow: 1, justifyContent: 'flex-end' }}>
+                    <AppButton
+                        title={'Agree and Continue'}
+                        onPress={handlePayment}
+                    />
+                </View>
             }
 
 
@@ -123,9 +125,9 @@ function PaymentScreen(props) {
                 transparent={true}
                 visible={modalVisible}
             >
-            <BankPayment
-                    onPress={()=>setModalVisible(!modalVisible)}
-            />
+                <BankPayment
+                        onPress={()=>setModalVisible(!modalVisible)}
+                />
             </Modal>
             </ScrollView>
         </Screen>
@@ -183,7 +185,11 @@ const styles = StyleSheet.create({
     optionButtonTitle:{
         flexDirection: 'row', 
         alignItems: 'center'
-    }
+    },
+    scrollView: {
+        flexGrow: 1,
+        // justifyContent: 'center',
+    },
 });
 
 export default PaymentScreen;

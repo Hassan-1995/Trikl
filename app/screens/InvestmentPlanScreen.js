@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, Alert } from 'react-native';
 import AmountInput from '../components/AmountInput';
 import Screen from '../components/Screen';
 import AppButton from '../components/AppButton';
@@ -22,8 +22,19 @@ function InvestmentPlanScreen({ navigation, route }) {
 
     useEffect(() => {
         if(amount.length==3){
-            navigation.navigate('PlannerScreen', amount)
+            // navigation.navigate('PlannerScreen', amount)
             setAmount([])
+            Alert.alert(
+                "Prompt message by SavvySave", 
+                "We need to asses your investment suitability.\nPlease answer some questions.", 
+                [
+                  { 
+                    text: "OK", 
+                    // onPress: () => console.log("OK Pressed") 
+                    onPress: ()=> {navigation.navigate('SuitabilityAssesmentScreen', amount)}
+                  }
+                ],
+              );
         }
     }, [amount]);
 

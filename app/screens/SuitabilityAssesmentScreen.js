@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ScrollView, Modal } from 'react-native';
 import Screen from '../components/Screen';
 import MultipleChoiceQuestions from '../components/MultipleChoiceQuestions';
 import AppButton from '../components/AppButton';
 import LogoContainer from '../components/LogoContainer';
+import BankPayment from '../components/BankPayment';
+import AlertBox from '../components/AlertBox';
 
 
 const questionnaire = [
@@ -86,11 +88,15 @@ const questionnaire = [
     },
 ]
 
-function SuitabilityAssesmentScreen(props) {
+function SuitabilityAssesmentScreen({ navigation, route  }) {
 
     const [currentIndex, setCurrentIndex] = useState(0);
     const [selectedBox, setSelectedBox] = useState(null);
     const [feedback, setFeedback] = useState([])
+
+
+    const [modalVisible, setModalVisible] = useState(false);
+
     const activeComponent = questionnaire[currentIndex];
 
     const handlePress = (value)=>{
@@ -107,6 +113,7 @@ function SuitabilityAssesmentScreen(props) {
         } else {
             setCurrentIndex(0);
             setSelectedBox(null)
+            setModalVisible(!modalVisible)
         }
     };
     const handleBackPress = () => {
@@ -120,49 +127,76 @@ function SuitabilityAssesmentScreen(props) {
     return (
         <Screen>
             <LogoContainer/>
-            <MultipleChoiceQuestions
-                questionNumber={currentIndex+1}
-                question={activeComponent.question}
-                answer={activeComponent.answers}
-                numberOfQuestions={questionnaire.length}
-                selectedBox={selectedBox}
-                setSelectedBox={setSelectedBox}
-                onPress={handlePress}
-            />
-            <View style={styles.buttonContainer} >
-                <View style={styles.button}>
-                    {
-                        currentIndex == 0 ?
-                        <></>
-                        :
-                        <AppButton
-                            title={'Back'}
-                            onPress={handleBackPress}        
-                        />
-                    }
-                </View>
-                <View style={styles.button}>
-                    <AppButton
-                        title={'Continue'}
-                        onPress={handleForwardPress}             
+            <ScrollView contentContainerStyle={styles.scrollView}>
+                <View style={styles.container}>
+                    <MultipleChoiceQuestions
+                        questionNumber={currentIndex+1}
+                        question={activeComponent.question}
+                        answer={activeComponent.answers}
+                        numberOfQuestions={questionnaire.length}
+                        selectedBox={selectedBox}
+                        setSelectedBox={setSelectedBox}
+                        onPress={handlePress}
                     />
                 </View>
-            </View>
+
+                <View style={styles.buttonContainer} >
+                    <View style={styles.button}>
+                        {
+                            currentIndex == 0 ?
+                            <></>
+                            :
+                            <AppButton
+                                title={'Back'}
+                                onPress={handleBackPress}        
+                            />
+                        }
+                    </View>
+                    <View style={styles.button}>
+                        <AppButton
+                            title={'Continue'}
+                            onPress={handleForwardPress}             
+                        />
+                    </View>
+                </View>
+
+                <Modal
+                    animationType="slide"
+                    transparent={false}
+                    visible={modalVisible}
+                >
+                    <AlertBox
+                            onPress={()=> {
+                                setModalVisible(!modalVisible)
+                                console.log(route.params)
+                                navigation.navigate('PlannerScreen', route.params)
+                            }}
+                    />
+                </Modal>
+
+
+            </ScrollView>
         </Screen>
     );
 }
 
 const styles = StyleSheet.create({
-    container:{},
+    container:{
+        flexGrow: 1, 
+        paddingTop: 30,
+    },
     buttonContainer:{
         flexDirection: 'row',
         justifyContent: 'space-between',
         paddingHorizontal: 20,
-        // flex: 1,
-        // alignItems: 'flex-end',
+        flexGrow: 1,
+        alignItems: 'flex-end',
     },
     button:{
         width: '40%'
+    },
+    scrollView: {
+        flexGrow: 1,
     },
 });
 

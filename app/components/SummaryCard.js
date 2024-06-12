@@ -12,19 +12,19 @@ function SummaryCard({ totalBalance, processingBalance, totalProfit, activeInves
             colors={[colors.primary, colors.dark]}
             style={styles.container}
         >
-            <View style={[styles.horzontalContainer, {marginBottom: 20}]} >
+            <View style={[styles.horzontalContainer, {marginBottom: 10}]} >
                 <View style={styles.smallContainer}>
                     <AppText style={styles.title}>Total Balance</AppText>
                         <View style={styles.values}>
                             <AppText style={styles.currencySymbol}>PKR</AppText>
-                            <AppText style={styles.amount}>{totalBalance}</AppText>
+                            <AppText style={styles.amount} numberOfLines={1} ellipsizeMode="tail">{totalBalance.toLocaleString(Math.floor(totalBalance))}</AppText>
                         </View>
                 </View>
                 <View style={styles.smallContainer} >
                     <AppText style={styles.title}>Processing Balance</AppText>
                         <View style={styles.values}>
                             <AppText style={styles.currencySymbol}>PKR</AppText>
-                            <AppText style={styles.amount}>{processingBalance}</AppText>
+                            <AppText style={styles.amount} numberOfLines={1} ellipsizeMode="tail">{processingBalance.toLocaleString(Math.floor(processingBalance))}</AppText>
                         </View>
                 </View>
             </View>
@@ -33,12 +33,12 @@ function SummaryCard({ totalBalance, processingBalance, totalProfit, activeInves
                     <AppText style={styles.title}>Total Profit</AppText>
                         <View style={styles.values}>
                             <AppText style={styles.currencySymbol}>PKR</AppText>
-                            <AppText style={styles.amount}>{totalProfit}</AppText>
+                            <AppText style={styles.amount} numberOfLines={1} ellipsizeMode="tail"> {totalProfit.toLocaleString(Math.floor(totalProfit))}</AppText>
                         </View>
                 </View>
                 <View style={styles.smallContainer} >
                     <AppText style={styles.title}>Active Investments</AppText>
-                    <AppText style={styles.amount}>{activeInvestment}</AppText>
+                    <AppText style={styles.amount} numberOfLines={1} ellipsizeMode="tail">{activeInvestment.toLocaleString(Math.floor(activeInvestment))}</AppText>
                 </View>
             </View>
         </LinearGradient>
@@ -48,13 +48,14 @@ function SummaryCard({ totalBalance, processingBalance, totalProfit, activeInves
 const styles = StyleSheet.create({
     amount:{
         color: colors.white,
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: 'bold',
+        width: '70%',
     },
     container:{
         borderRadius: 30,
-        padding: 15,
-        paddingVertical: 30,
+        paddingHorizontal: 15,
+        paddingVertical: 20,
         marginHorizontal: 5,
         marginTop: 20,
     },
@@ -69,12 +70,14 @@ const styles = StyleSheet.create({
     }, 
     smallContainer:{
         width: '50%',
+        overflow: 'hidden',
     },
     title:{
         color: colors.white,
+        width: '100%',
     },
     values:{
-        alignItems: 'baseline',
+        alignItems: 'center',
         flexDirection: 'row',
     },
 });

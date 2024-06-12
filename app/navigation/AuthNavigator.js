@@ -9,17 +9,29 @@ import InvestmentPlanScreen from '../screens/InvestmentPlanScreen';
 import InvestmentScreen from '../screens/InvestmentScreen';
 import PlannerScreen from '../screens/PlannerScreen';           
 import PaymentScreen from '../screens/PaymentScreen';           
+import WelcomeScreen from '../screens/WelcomeScreen';
+import RegisterScreen from '../screens/RegisterScreen';
+import SuitabilityAssesmentScreen from '../screens/SuitabilityAssesmentScreen';
 
 const Stack = createNativeStackNavigator();
 
 const AuthNavigator=()=>(
     <Stack.Navigator>
+
+        
+        <Stack.Screen name='WelcomeScreen' component={WelcomeScreen} />
         <Stack.Screen name='LoginScreen' component={LoginScreen} />
+        <Stack.Screen name='RegisterScreen' component={RegisterScreen} />
 
         <Stack.Screen name='HomeScreenCopy' component={HomeScreenCopy} />
         {/* <Stack.Screen name='HomeScreen' component={HomeScreen} /> */}
         <Stack.Screen name='InvestmentScreen' component={InvestmentScreen} />
         <Stack.Screen name='InvestmentPlanScreen' component={InvestmentPlanScreen} />
+        <Stack.Screen name='SuitabilityAssesmentScreen' component={SuitabilityAssesmentScreen} />
+        
+
+
+
         <Stack.Screen name='PlannerScreen' component={PlannerScreen} />
         <Stack.Screen name='PaymentScreen' component={PaymentScreen} />
     </Stack.Navigator>

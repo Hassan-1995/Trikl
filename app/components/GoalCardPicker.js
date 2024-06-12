@@ -41,10 +41,11 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
     },
     header:{
-        fontSize: 30,
+        fontSize: 24,
         color: colors.primary,
         fontWeight: 'bold',
-        paddingBottom: 20,
+        paddingBottom: 10,
+        paddingLeft: 10
     },
 });
 

@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
     disclaimerContainer:{
         justifyContent:'flex-end', 
         flex: 1, 
+        alignItems:'center',
         marginBottom: 10
     }
 });

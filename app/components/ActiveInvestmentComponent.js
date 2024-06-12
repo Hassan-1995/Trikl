@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity, Text } from 'react-native';
 import AppText from './AppText';
 import colors from '../config/colors';
 
@@ -17,7 +17,7 @@ function ActiveInvestmentComponent({ assets }) {
                 <View style={styles.title}>
                     <AppText style={styles.header}>{assets.title}</AppText>
                     <View style={[styles.status, assets.status == 'On' ? {backgroundColor: colors.safe}: {backgroundColor: colors.danger}]}>
-                        <AppText style={{color: 'white'}}>{assets.status} Track</AppText>
+                        <Text style={{color: 'white'}}>{assets.status} Track</Text>
                     </View>
                 </View>
 

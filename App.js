@@ -27,38 +27,35 @@ import ImageCapture from './app/components/ImageCapture';
 import ImageUpload from './app/components/ImageUpload';
 import AttachmentComponent from './app/components/AttachmentComponent';
 import AttachmentsScreen from './app/screens/AttachmentsScreen';
-import HomeScreenCopy from './app/screens/HomScreenCopy';
+import HomeScreenCopy from './app/screens/HomeScreenCopy';
 import ChartComponent from './app/components/ChartComponent';
+import WelcomeScreen from './app/screens/WelcomeScreen';
+import AlertBox from './app/components/AlertBox';
 
 export default function App() {
   const [initialInvestment,setInitialInvestment] =  useState(500);
 
 
   return (
-    // <HomeScreen/>
-    // <InvestmentScreen/>
-    // <CredentialScreen/>
-    // <RegisterScreen/>
+    // <WelcomeScreen/>
     // <LoginScreen/>
-    // <HomeScreen/>
-    <HomeScreenCopy/>
-    // <PaymentScreen/>
-    // <BankPayment/>
+    // <RegisterScreen/>
+    // <HomeScreenCopy/>
+    // <InvestmentScreen/>
+    // <InvestmentPlanScreen/>
     // <SuitabilityAssesmentScreen/>
-    // <AccountOnBoardingScreen/>
-    // <AttachmentsScreen/>
-    // <DateInput/>
-    // <CountryPickerComponent/>
-    // <ContactNumberComponent/>
-    // <ChartComponent/>
 
-    // <AttachmentComponent/>
-    // <ImageCapture/>
-    // <ImageUpload/>
+    // <PlannerScreen/>
+    // <PaymentScreen/>
 
-    // <NavigationContainer theme={myTheme}>
-    //   <AuthNavigator/>
-    // </NavigationContainer>
+
+    // <AlertBox/>
+
+
+
+    <NavigationContainer theme={myTheme}>
+      <AuthNavigator/>
+    </NavigationContainer>
   );
 }
 

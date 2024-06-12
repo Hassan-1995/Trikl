@@ -35,7 +35,6 @@ const styles = StyleSheet.create({
     box:{
         height: 100,
         width: 100,
-        // borderWidth: 3,
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
@@ -49,7 +48,7 @@ const styles = StyleSheet.create({
         // backgroundColor: 'red',
         height: 100,
         width: 100,
-        borderWidth: 2,
+        // borderWidth: 2,
         borderRadius: 50,
         justifyContent: 'center',
         alignItems: 'center',

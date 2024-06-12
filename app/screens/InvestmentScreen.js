@@ -38,14 +38,14 @@ function InvestmentScreen({ navigation }) {
             <View style={styles.headers}>
                 <AppText style={styles.title}>{option.title}</AppText>
             </View>
-            <GoalCardPicker
-                label='Suggested Goals'
-                assets={items}
-                onPress={handlePress}
-            />
-            <ScrollView horizontal={false}>
+            <ScrollView horizontal={false} contentContainerStyle={styles.scrollView}>
                 <GoalCardPicker
-                    label='Pick an Icon for your goal'
+                    label='Thematic Portfolios &\n General Saving'
+                    assets={items}
+                    onPress={handlePress}
+                />
+                <GoalCardPicker
+                    label='Suggested  Goals & \nOther (Custom Goals)'
                     assets={items}
                     horizontal={false}
                     numberOfColumns={3}
@@ -57,7 +57,7 @@ function InvestmentScreen({ navigation }) {
                     <AppButton
                         title={'Continue'}
                         onPress={()=>{
-                            console.log("items:", option)
+                            console.log("items:", option)  
                             navigation.navigate('InvestmentPlanScreen', option)  
                         }}
                     />
@@ -71,14 +71,14 @@ function InvestmentScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container:{
-        paddingHorizontal: 5, 
+        // paddingHorizontal: 5, 
         marginTop: 10,
     },
     headers:{
         width: '80%', 
-        marginTop: 10,
+        marginVertical: 10,
         padding: 10, 
-        backgroundColor: 'white',  
+        backgroundColor: colors.light,  
         borderRadius: 20, 
         borderWidth: 2, 
         borderColor: colors.primary, 
@@ -86,10 +86,12 @@ const styles = StyleSheet.create({
     },
     title:{
         textAlign: 'center', 
-        fontSize: 25, 
+        fontSize: 24, 
         fontWeight: '900',
     },
-
+    scrollView: {
+        flexGrow: 1,
+    },
 });
 
 export default InvestmentScreen;
