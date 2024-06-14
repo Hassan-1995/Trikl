@@ -19,7 +19,13 @@ const validationSchema = Yup.object().shape({
     }).required().label('Contact'),
 })
 
-function AccountOnBoardingScreen(props) {
+function AccountOnBoardingScreen({ navigation }) {
+
+    const handleOnSubmit=(values)=>{
+        console.log(values)
+        navigation.navigate('AttachmentsScreen')
+    }
+
     return (
         <Screen>
             <ScrollView contentContainerStyle={styles.scrollView}>
@@ -36,7 +42,7 @@ function AccountOnBoardingScreen(props) {
                             dial_number: ''
                         },
                     }}
-                    onSubmit={(values) => console.log(values)}
+                    onSubmit={handleOnSubmit}
                     validationSchema={validationSchema}
                 >
                     <AppFormField

@@ -12,6 +12,8 @@ import HomeScreen from './app/screens/HomeScreen';
 
 import { NavigationContainer } from '@react-navigation/native';
 import AuthNavigator from './app/navigation/AuthNavigator';
+import AppNavigator from './app/navigation/AppNavigator';
+
 import CustomSlider from './app/components/CustomSlider';
 import myTheme from './app/navigation/navigationTheme';
 import LoginScreen from './app/screens/LoginScreen';
@@ -31,6 +33,8 @@ import HomeScreenCopy from './app/screens/HomeScreenCopy';
 import ChartComponent from './app/components/ChartComponent';
 import WelcomeScreen from './app/screens/WelcomeScreen';
 import AlertBox from './app/components/AlertBox';
+import AccountProfileScreen from './app/screens/AccountProfileScreen';
+import WalletScreen from './app/screens/WalletScreen';
 
 export default function App() {
   const [initialInvestment,setInitialInvestment] =  useState(500);
@@ -50,12 +54,18 @@ export default function App() {
 
 
     // <AlertBox/>
-
-
+    // <AccountProfileScreen/>
+    // <WalletScreen/>
 
     <NavigationContainer theme={myTheme}>
-      <AuthNavigator/>
+      <AppNavigator/>
     </NavigationContainer>
+
+    // <NavigationContainer theme={myTheme}>
+    //   <AuthNavigator/>
+    // </NavigationContainer>
+
+
   );
 }
 

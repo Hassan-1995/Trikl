@@ -34,7 +34,7 @@ function ContactNumberComponent({ onSelectCode = () => {} }) {
                     <Picker.Item label="Code" value="" key="placeholder" style={styles.picker}/>
                         {countries.map((country) => (
                             <Picker.Item 
-                                label={[country.dial_code+country.emoji]} 
+                                label={[country.dial_code+" "+country.emoji+" "+country.name]} 
                                 value={country.code} 
                                 key={country.code}
                                 style={styles.picker}
