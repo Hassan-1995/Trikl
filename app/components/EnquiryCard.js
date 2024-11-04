@@ -10,7 +10,7 @@ function EnquiryCard(props) {
         <View style={styles.container}>
             <View style={styles.message}>
                 <AppText style={styles.title}>Comppleted your investment?</AppText>
-                <AppText style={styles.subTitle}>What's new in Trikl</AppText>
+                <AppText style={styles.subTitle}>What's new in SavvySave</AppText>
             </View>
             <View style={styles.icon}>
                 <Icon

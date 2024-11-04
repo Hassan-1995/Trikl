@@ -9,7 +9,7 @@ function PosterBoard(props) {
     return (
         <View style={styles.container}>
             <View style={styles.message}>
-                <AppText style={styles.messageText}>What's new in Trikl</AppText>
+                <AppText style={styles.messageText}>What's new in SavvySave</AppText>
             </View>
             <View style={styles.icon}>
                 <Icon
@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     messageText:{
-        fontSize: 25,
+        fontSize: 22,
+        fontWeight: 900,
         color: colors.black,
     },
 });

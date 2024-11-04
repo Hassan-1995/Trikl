@@ -5,8 +5,12 @@ import { View, StyleSheet } from 'react-native';
 import AppText from './AppText';
 import AppTextInput from './AppTextInput';
 
-function AmountInput({ title, subTitle, description, initialValue, onChangeText='' }) {
+function AmountInput({ title, subTitle, description, initialValue, onChangeText='', onAmount }) {
     
+
+    const handleText=(value)=>{
+        onAmount(value)
+    }
 
     return (
         <View style={styles.container}>
@@ -19,7 +23,10 @@ function AmountInput({ title, subTitle, description, initialValue, onChangeText=
                     width='60%'
                     keyboardType="numeric"
                     style={styles.input}
-                    onChangeText={onChangeText}
+                    onChangeText={(value)=>{
+                            handleText(value)
+                        }
+                    }
                 />
             </View>
             <AppText textAlign='center'>{description}</AppText>
@@ -33,17 +40,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     currency:{
-        fontSize: 40, 
+        fontSize: 20, 
         fontWeight: '900',
         marginHorizontal:10,
     },
     input:{
-        fontSize: 30,
+        fontSize: 20,
         flex: 1,
         fontWeight: '900',
     },
     subTitle:{ 
-        fontSize: 25,
+        fontSize: 20,
         fontWeight: '900',
         marginBottom: 30,
     },

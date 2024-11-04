@@ -6,8 +6,11 @@ import AppText from './AppText';
 import colors from '../config/colors';
 
 function GoalCardPicker({ assets, horizontal=true, numberOfColumns=0, label='Label is Missing', onPress}) {
-    
-    const [value, setValue] = useState();
+    const [selectedBox, setSelectedBox] = useState(null);
+
+    const handlePress=(value)=>{
+        onPress(value)
+    }
 
     return (
         <View style={styles.container}>
@@ -21,10 +24,9 @@ function GoalCardPicker({ assets, horizontal=true, numberOfColumns=0, label='Lab
                         renderItem={({ item }) =>
                             <GoalCard
                                 assets={item}
-                                // onPress={onPress}
-                                onPress={onPress}
-                                // onPress={() => onPress(assets)}
-
+                                selectedBox={selectedBox}
+                                setSelectedBox={setSelectedBox}
+                                onPress={handlePress}
                             />
                         }
                         contentContainerStyle={{ flexGrow: 1 }}
@@ -36,13 +38,14 @@ function GoalCardPicker({ assets, horizontal=true, numberOfColumns=0, label='Lab
 
 const styles = StyleSheet.create({
     container:{
-        paddingVertical: 20,
+        paddingVertical: 10,
     },
     header:{
-        fontSize: 30,
+        fontSize: 24,
         color: colors.primary,
         fontWeight: 'bold',
-        paddingBottom: 20,
+        paddingBottom: 10,
+        paddingLeft: 10
     },
 });
 
