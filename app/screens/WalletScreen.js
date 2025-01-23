@@ -13,7 +13,7 @@ const transactions = [
 ];
 
 
-const WalletScreen = () => {
+function WalletScreen(props) {
 
   const renderTransaction = ({ item }) => (
     <View style={styles.transactionItem}>

@@ -35,6 +35,8 @@ import WelcomeScreen from './app/screens/WelcomeScreen';
 import AlertBox from './app/components/AlertBox';
 import AccountProfileScreen from './app/screens/AccountProfileScreen';
 import WalletScreen from './app/screens/WalletScreen';
+import StatementsScreen from './app/screens/StatementsScreen';
+import StatementComponent from './app/components/StatementComponent';
 
 export default function App() {
   const [initialInvestment,setInitialInvestment] =  useState(500);
@@ -52,10 +54,13 @@ export default function App() {
     // <PlannerScreen/>
     // <PaymentScreen/>
 
+    // <StatementComponent/>
 
     // <AlertBox/>
     // <AccountProfileScreen/>
+    // <StatementsScreen/>
     // <WalletScreen/>
+
 
     <NavigationContainer theme={myTheme}>
       <AppNavigator/>

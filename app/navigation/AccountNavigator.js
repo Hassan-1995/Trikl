@@ -8,7 +8,7 @@ import AttachmentsScreen from '../screens/AttachmentsScreen';
 const Stack = createNativeStackNavigator();
 
 const AccountNavigator=()=>(
-    <Stack.Navigator mode='modal' >
+    <Stack.Navigator mode='modal' screenOptions={{ headerShown: false }} >
         <Stack.Screen name='AccountProfileScreen' component={AccountProfileScreen} />
         <Stack.Screen name='AccountOnBoardingScreen' component={AccountOnBoardingScreen} />
         <Stack.Screen name='AttachmentsScreen' component={AttachmentsScreen} />

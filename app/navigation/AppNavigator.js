@@ -8,6 +8,7 @@ import HomeNavigator from './HomeNavigator';
 import AccountProfileScreen from '../screens/AccountProfileScreen';
 import WalletScreen from '../screens/WalletScreen';
 import AccountNavigator from './AccountNavigator';
+import StatementsScreen from '../screens/StatementsScreen';
 
 
 const Tab = createBottomTabNavigator();
@@ -25,15 +26,15 @@ const AppNavigator=()=>(
             name='Wallet' 
             component={WalletScreen}
             options={{ 
-                // headerShown: false, 
+                headerShown: false, 
                 tabBarIcon: ({color, size})=> <MaterialCommunityIcons name='wallet' color={color} size={size} />
             }}  
         />
         <Tab.Screen 
             name='Statements' 
-            component={HomeScreen}
+            component={StatementsScreen}
             options={{ 
-                // headerShown: false, 
+                headerShown: false, 
                 tabBarIcon: ({color, size})=> <MaterialCommunityIcons name='file-document' color={color} size={size} />
             }}  
         />
@@ -41,7 +42,7 @@ const AppNavigator=()=>(
             name='Account' 
             component={AccountNavigator}
             options={{ 
-                // headerShown: false, 
+                headerShown: false, 
                 tabBarIcon: ({color, size})=> <MaterialCommunityIcons name='account' color={color} size={size} />
             }}  
         />
