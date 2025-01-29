@@ -120,7 +120,7 @@ function HomeScreenCopy({ navigation }) {
         <ScrollView>
           <GoalCardPicker
             assets={items}
-            label={"Create new plan or \n Continue with saved draft plans"}
+            label={"Start a New Plan or Resume Drafts"}
             onPress={handlePress}
           />
           <ChartComponent assets={items} />

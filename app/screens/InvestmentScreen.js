@@ -54,12 +54,12 @@ function InvestmentScreen({ navigation, route }) {
       </View>
       <ScrollView horizontal={false} contentContainerStyle={styles.scrollView}>
         <GoalCardPicker
-          label={"Suggested  Goals \n & Other (Custom Goals)"}
+          label={"Suggested  Goals:"}
           assets={items}
           onPress={handlePress}
         />
         <GoalCardPicker
-          label="Thematic Portfolios & General Saving"
+          label="Thematic Portfolios"
           assets={items}
           horizontal={false}
           numberOfColumns={3}

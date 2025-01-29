@@ -19,6 +19,7 @@ const AuthNavigator=()=>(
     <Stack.Navigator>
 
         
+        <Stack.Screen name='HomeScreenCopy' component={HomeScreenCopy} />
         <Stack.Screen name='WelcomeScreen' component={WelcomeScreen}/>
         <Stack.Screen 
             
@@ -26,7 +27,6 @@ const AuthNavigator=()=>(
         />
         <Stack.Screen name='RegisterScreen' component={RegisterScreen} />
 
-        <Stack.Screen name='HomeScreenCopy' component={HomeScreenCopy} />
         {/* <Stack.Screen name='HomeScreen' component={HomeScreen} /> */}
         <Stack.Screen name='InvestmentScreen' component={InvestmentScreen} />
         <Stack.Screen name='InvestmentPlanScreen' component={InvestmentPlanScreen} />
