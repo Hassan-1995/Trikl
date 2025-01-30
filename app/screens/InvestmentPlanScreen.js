@@ -39,7 +39,7 @@ function InvestmentPlanScreen({ navigation, route }) {
 
   useEffect(() => {
     if (amount.length == 3) {
-      // navigation.navigate('PlannerScreen', amount)
+      // navigation.navigate('PlanSummary', amount)
       setAmount([]);
       Alert.alert(
         "Prompt message by SavvySave",
@@ -77,6 +77,23 @@ function InvestmentPlanScreen({ navigation, route }) {
   return (
     <Screen>
       <View style={styles.container}>
+        {activeComponent.keyId == 3 && (
+          <>
+            {/* <AppText style={{ paddingLeft: 10 }}>{button.value} basis.</AppText> */}
+            <View
+              style={{
+                alignItems: "center",
+                marginTop: 10,
+                justifyContent: "space-between",
+              }}
+            >
+              <PreferenceInvestmentOptionComponent
+                onChange={(id, value) => setButton({ id, value })}
+              />
+            </View>
+          </>
+        )}
+
         <AmountInput
           title={route.params.goalName}
           subTitle={activeComponent.subTitle}
@@ -84,7 +101,7 @@ function InvestmentPlanScreen({ navigation, route }) {
           initialValue={number}
           onAmount={handleAmount}
         />
-        {activeComponent.keyId == 3 && (
+        {/* {activeComponent.keyId == 3 && (
           <>
             <AppText style={{ paddingLeft: 10 }}>{button.value} basis.</AppText>
             <View
@@ -99,7 +116,7 @@ function InvestmentPlanScreen({ navigation, route }) {
               />
             </View>
           </>
-        )}
+        )} */}
         {number === null ||
         (activeComponent.keyId === 3 && button.value === "_____") ? (
           <></>

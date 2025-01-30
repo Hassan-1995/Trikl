@@ -5,11 +5,12 @@ import HomeScreenCopy from "../screens/HomeScreenCopy";
 import InvestmentScreen from "../screens/InvestmentScreen";
 import InvestmentPlanScreen from "../screens/InvestmentPlanScreen";
 import SuitabilityAssesmentScreen from "../screens/SuitabilityAssesmentScreen";
-import PlannerScreen from "../screens/PlannerScreen";
+import PlanSummary from "../screens/PlanSummary";
 import PaymentScreen from "../screens/PaymentScreen";
 import LoginScreen from "../screens/LoginScreen";
 import AccountOnBoardingScreen from "../screens/AccountOnBoardingScreen";
 import AttachmentsScreen from "../screens/AttachmentsScreen";
+import WalletScreen from "../screens/WalletScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -21,7 +22,10 @@ const HomeNavigator = () => (
       name="InvestmentPlanScreen"
       component={InvestmentPlanScreen}
     />
-    <Stack.Screen name="PlannerScreen" component={PlannerScreen} />
+    <Stack.Screen name="PlanSummary" component={PlanSummary} />
+
+    <Stack.Screen name="WalletScreen" component={WalletScreen} />
+
     <Stack.Screen name="HomeScreenCopy" component={HomeScreenCopy} />
     {/*  */}
     <Stack.Screen
