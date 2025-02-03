@@ -57,11 +57,11 @@ export default function App() {
     // <AlertBox/>
     // <AccountProfileScreen/>
     // <StatementsScreen/>
-    // <WalletScreen/>
+    <WalletScreen />
 
-    <NavigationContainer theme={myTheme}>
-      <AppNavigator />
-    </NavigationContainer>
+    // <NavigationContainer theme={myTheme}>
+    //   <AppNavigator />
+    // </NavigationContainer>
 
     // <NavigationContainer theme={myTheme}>
     //   <AuthNavigator/>
