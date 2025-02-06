@@ -1,3 +1,5 @@
+import axios from "axios";
+
 
 export const baseUrl="https://savvy-save-api.finomics.com.pk/api/"
 
@@ -15,3 +17,18 @@ const apiUrl= baseUrl+"user/adduser"
       }
     }
 
+
+    export const sqlquery= async(sql,dispatch)=>{
+      const apiUrl= baseUrl+"goal/executeQuery"
+          try {
+              const response = await axios.post(apiUrl, {sql:sql}, {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              });
+              console.log('Query Execute Successfully:', response.data);
+              dispatch(response.data);
+            } catch (error) {
+              console.error('Query Failed with', error.response ? error.response.data : error.message);
+            }
+          }

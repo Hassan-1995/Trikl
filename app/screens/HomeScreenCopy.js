@@ -1,5 +1,5 @@
-import React from "react";
-
+import React, { useState,useEffect } from "react";
+import{sqlquery} from "../backendintegration/index";
 import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import Screen from "../components/Screen";
@@ -95,6 +95,14 @@ const items = [
 ];
 
 function HomeScreenCopy({ navigation }) {
+  const[usergoals,setuserGoals]=useState([]);
+  useEffect(async() => {
+
+    const sql="SELECT ug.*, tg.*, (SELECT SUM(amount) FROM PaymentSchedule WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) AS total_amount_due FROM UserGoal ug LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;"
+const resp=await sqlquery(sql,setuserGoals);
+console.log("UserGoals",usergoals)
+  }, [usergoals]);
+
   const handlePress = (id, value) => {
     console.log("ID number " + id + " is pressed which has value of ", value);
     // if (value == 4) {
