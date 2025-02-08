@@ -1,14 +1,28 @@
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import * as DocumentPicker from 'expo-document-picker';
+import {uploadFile} from '../backendintegration/index';
 
 import AppButton from './AppButton';
 import AppText from './AppText';
 
 
-function ImageUpload({ onImageUpload, onPress }) {
+function ImageUpload({ onImageUpload, onPress, setLink }) {
+    const [filelink, setFileLink] = useState(null);
     const [file, setFile] = useState(null);
 
+
+    const handleUpload = async () => {
+        if(file){
+        const resp= await uploadFile(file,setFileLink);
+        console.log("File Link:",resp);
+        setLink(resp);
+        }else{
+            alert("No file to Upload");
+        }
+        onImageUpload(fileLink);
+        onPress();
+    }
   const pickDocument = async () => {
     try {
         let result = await DocumentPicker.getDocumentAsync({});
@@ -39,7 +53,7 @@ function ImageUpload({ onImageUpload, onPress }) {
                         <View style={{ justifyContent: 'flex-end', width: '50%' }}>
                             <AppButton
                                 title={'Upload'}
-                                onPress={onPress}
+                                onPress={handleUpload}
                             />
                         </View>
                     </>

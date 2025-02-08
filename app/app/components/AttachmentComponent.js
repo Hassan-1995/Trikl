@@ -18,9 +18,11 @@ function AttachmentComponent({ onSelectAttachment }) {
 
 
     const handleImageCaptureComponent = () => {
+       
         setImageCaptureComponent(true)
     };
     const handlePicture = (data) => {
+        console.log("in handle image capture",data);
         setPicture(data)
         setUpload(null)
         onSelectAttachment(data)

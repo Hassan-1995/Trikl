@@ -29,6 +29,8 @@ function AttachmentComponent({ onSelectAttachment }) {
         setImageUploadComponent(true)
     }
     const handleUpload = (data) => {
+        console.log("in handle upload of Attachment ",data);
+        
         setUpload(data)
         setPicture(null)
         onSelectAttachment(data.uri)

@@ -41,6 +41,8 @@ export default function App() {
   const [initialInvestment, setInitialInvestment] = useState(500);
 
   return (
+    <AccountOnBoardingScreen/>
+   // <AttachmentsScreen/>
     // <WelcomeScreen/>
     // <LoginScreen/>
     // <RegisterScreen/>
@@ -59,9 +61,9 @@ export default function App() {
     // <StatementsScreen/>
    // <WalletScreen />
 
-    <NavigationContainer theme={myTheme}>
-      <AppNavigator />
-    </NavigationContainer>
+    // <NavigationContainer theme={myTheme}>
+    //   <AppNavigator />
+    // </NavigationContainer>
 
     // <NavigationContainer theme={myTheme}>
     //   <AuthNavigator/>

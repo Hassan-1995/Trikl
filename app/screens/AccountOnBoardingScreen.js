@@ -1,4 +1,5 @@
 import React from 'react';
+import {fillOnboarding,useronboarding} from '../backendintegration/index';
 
 import { View, StyleSheet, ScrollView } from 'react-native';
 import *as Yup from 'yup';
@@ -11,7 +12,7 @@ const validationSchema = Yup.object().shape({
     name: Yup.string().required().label('Name'),
     guardian: Yup.string().required().label('Guardian Name'),
     email: Yup.string().required().email().label('Email'),
-    date: Yup.string().required().label('Date'),
+    date: Yup.string().label('Date'),
     country: Yup.string().required().label('Country'),
     contact: Yup.object().shape({
         dial_code: Yup.string().required('Dial code is required'),
@@ -21,8 +22,11 @@ const validationSchema = Yup.object().shape({
 
 function AccountOnBoardingScreen({ navigation }) {
 
-    const handleOnSubmit=(values)=>{
-        console.log(values)
+    const handleOnSubmit=async(values)=>{
+        const payload=fillOnboarding(values);
+        console.log("Values before",values);
+        console.log("Payload after",payload);
+        const response= await useronboarding(payload);
         navigation.navigate('AttachmentsScreen')
     }
 
