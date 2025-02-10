@@ -41,7 +41,7 @@ export default function App() {
   const [initialInvestment, setInitialInvestment] = useState(500);
 
   return (
-    <AccountOnBoardingScreen/>
+   // <AccountOnBoardingScreen/>
    // <AttachmentsScreen/>
     // <WelcomeScreen/>
     // <LoginScreen/>
@@ -49,7 +49,7 @@ export default function App() {
     // <HomeScreenCopy/>
     // <InvestmentScreen/>
     // <InvestmentPlanScreen/>
-    // <SuitabilityAssesmentScreen/>
+     <SuitabilityAssesmentScreen/>
 
     // <PlanSummary/>
     // <PaymentScreen/>

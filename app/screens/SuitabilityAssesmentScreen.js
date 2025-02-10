@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import { View, StyleSheet, ScrollView, Modal } from "react-native";
 import Screen from "../components/Screen";
+import {findRiskProfile} from "../backendintegration/helperFunctions";
 import MultipleChoiceQuestions from "../components/MultipleChoiceQuestions";
 import AppButton from "../components/AppButton";
 import LogoContainer from "../components/LogoContainer";
@@ -10,101 +11,115 @@ import AlertBox from "../components/AlertBox";
 
 const questionnaire = [
   {
-    question: "Please select your age bracket",
-    keyId: 1,
-    answers: [
-      { key: "1", option: "Below 25" },
-      { key: "2", option: "Between 25 to 30" },
-      { key: "3", option: "Between 30 to 50" },
-      { key: "4", option: "Above 50" },
-    ],
+    "question": "What is your age group?",
+    "keyId": 1,
+    "category": "Demographics",
+    "answers": [
+      { "key": "1", "option": "Below 30", "riskScore": 80 },
+      { "key": "2", "option": "30 – 45", "riskScore": 60 },
+      { "key": "3", "option": "46 – 60", "riskScore": 40 },
+      { "key": "4", "option": "Above 60", "riskScore": 20 }
+    ]
   },
   {
-    question: "Which explains your Health Scenario the best",
-    keyId: 2,
-    answers: [
-      { key: "1", option: "Healthy with Insurance" },
-      { key: "2", option: "Healthy without Insurance" },
-      { key: "3", option: "Chronic Disease" },
-    ],
+    "question": "What is your primary financial goal?",
+    "keyId": 2,
+    "category": "Investment Goals",
+    "answers": [
+      { "key": "1", "option": "Capital preservation", "riskScore": 20 },
+      { "key": "2", "option": "Stable income", "riskScore": 40 },
+      { "key": "3", "option": "Growth with some risk", "riskScore": 60 },
+      { "key": "4", "option": "High growth with high risk", "riskScore": 80 }
+    ]
   },
   {
-    question: "How often do you exercise?",
-    keyId: 3,
-    answers: [
-      { key: "1", option: "Daily" },
-      { key: "2", option: "Few times a week" },
-      { key: "3", option: "Few times a month" },
-      { key: "4", option: "Rarely" },
-    ],
+    "question": "What is your investment time horizon?",
+    "keyId": 3,
+    "category": "Investment Strategy",
+    "answers": [
+      { "key": "1", "option": "Less than 3 years", "riskScore": 20 },
+      { "key": "2", "option": "3 – 5 years", "riskScore": 40 },
+      { "key": "3", "option": "6 – 10 years", "riskScore": 60 },
+      { "key": "4", "option": "More than 10 years", "riskScore": 80 }
+    ]
   },
   {
-    question: "What is your preferred type of exercise?",
-    keyId: 4,
-    answers: [
-      { key: "1", option: "Running" },
-      { key: "2", option: "Cycling" },
-      { key: "3", option: "Swimming" },
-      { key: "4", option: "Gym workouts" },
-    ],
+    "question": "How would you react if your investment dropped by 20% in a short period?",
+    "keyId": 4,
+    "category": "Risk Tolerance",
+    "answers": [
+      { "key": "1", "option": "Sell immediately to avoid further losses", "riskScore": 20 },
+      { "key": "2", "option": "Wait and monitor the market", "riskScore": 40 },
+      { "key": "3", "option": "Buy more at a lower price", "riskScore": 60 },
+      { "key": "4", "option": "Take it as a normal market movement", "riskScore": 80 }
+    ]
   },
   {
-    question: "How would you rate your diet?",
-    keyId: 5,
-    answers: [
-      { key: "1", option: "Very healthy" },
-      { key: "2", option: "Somewhat healthy" },
-      { key: "3", option: "Average" },
-      { key: "4", option: "Unhealthy" },
-    ],
+    "question": "How much of your portfolio are you comfortable investing in high-risk assets?",
+    "keyId": 5,
+    "category": "Portfolio Allocation",
+    "answers": [
+      { "key": "1", "option": "0 – 10%", "riskScore": 20 },
+      { "key": "2", "option": "11 – 30%", "riskScore": 40 },
+      { "key": "3", "option": "31 – 60%", "riskScore": 60 },
+      { "key": "4", "option": "61 – 100%", "riskScore": 80 }
+    ]
   },
   {
-    question: "How many hours of sleep do you get on average?",
-    keyId: 6,
-    answers: [
-      { key: "1", option: "Less than 5 hours" },
-      { key: "2", option: "5-6 hours" },
-      { key: "3", option: "7-8 hours" },
-      { key: "4", option: "More than 8 hours" },
-    ],
+    "question": "What is your level of investment knowledge?",
+    "keyId": 6,
+    "category": "Investor Experience",
+    "answers": [
+      { "key": "1", "option": "No knowledge", "riskScore": 20 },
+      { "key": "2", "option": "Basic understanding", "riskScore": 40 },
+      { "key": "3", "option": "Moderate knowledge", "riskScore": 60 },
+      { "key": "4", "option": "Advanced/expert", "riskScore": 80 }
+    ]
   },
   {
-    question: "What is your stress level?",
-    keyId: 7,
-    answers: [
-      { key: "1", option: "Very low" },
-      { key: "2", option: "Moderate" },
-      { key: "3", option: "High" },
-      { key: "4", option: "Very high" },
-    ],
+    "question": "How do you feel about investing in volatile markets?",
+    "keyId": 7,
+    "category": "Risk Tolerance",
+    "answers": [
+      { "key": "1", "option": "Very uncomfortable", "riskScore": 20 },
+      { "key": "2", "option": "Slightly uncomfortable", "riskScore": 40 },
+      { "key": "3", "option": "Neutral", "riskScore": 60 },
+      { "key": "4", "option": "Comfortable with high volatility", "riskScore": 80 }
+    ]
   },
   {
-    question: "How often do you visit a doctor for a check-up?",
-    keyId: 8,
-    answers: [
-      { key: "1", option: "Once a month" },
-      { key: "2", option: "Once every few months" },
-      { key: "3", option: "Once a year" },
-      { key: "4", option: "Rarely" },
-    ],
+    "question": "How would you describe your current financial situation?",
+    "keyId": 8,
+    "category": "Financial Stability",
+    "answers": [
+      { "key": "1", "option": "Highly dependent on savings", "riskScore": 20 },
+      { "key": "2", "option": "Stable with some surplus savings", "riskScore": 40 },
+      { "key": "3", "option": "No major financial liabilities", "riskScore": 60 },
+      { "key": "4", "option": "Significant wealth accumulation", "riskScore": 80 }
+    ]
   },
   {
-    question: "Do you smoke?",
-    keyId: 9,
-    answers: [
-      { key: "1", option: "Yes" },
-      { key: "2", option: "No" },
-    ],
+    "question": "What is your expected annual return on investment?",
+    "keyId": 9,
+    "category": "Investment Goals",
+    "answers": [
+      { "key": "1", "option": "4 – 6%", "riskScore": 20 },
+      { "key": "2", "option": "7 – 10%", "riskScore": 40 },
+      { "key": "3", "option": "11 – 15%", "riskScore": 60 },
+      { "key": "4", "option": "Above 15%", "riskScore": 80 }
+    ]
   },
   {
-    question: "Do you consume alcohol?",
-    keyId: 10,
-    answers: [
-      { key: "1", option: "Yes, regularly" },
-      { key: "2", option: "Yes, occasionally" },
-      { key: "3", option: "No" },
-    ],
-  },
+    "question": "What type of investments do you prefer?",
+    "keyId": 10,
+    "category": "Portfolio Allocation",
+    "answers": [
+      { "key": "1", "option": "Fixed deposits, government bonds", "riskScore": 20 },
+      { "key": "2", "option": "Balanced mutual funds", "riskScore": 40 },
+      { "key": "3", "option": "Stocks, ETFs, REITs", "riskScore": 60 },
+      { "key": "4", "option": "Startups, Crypto, Venture Capital", "riskScore": 80 }
+    ]
+  }
 ];
 
 function SuitabilityAssesmentScreen({ navigation, route }) {
@@ -117,10 +132,13 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
   const activeComponent = questionnaire[currentIndex];
 
   const handlePress = (value) => {
+    console.log("CurrentQuestion",questionnaire[currentIndex]);
+    const riskRespnse={questionId:questionnaire[currentIndex],selectedanswer:questionnaire[currentIndex].answers[value-1]}
+    console.log("Value in handlePress",riskRespnse)
     const tempArray = [...feedback];
-    tempArray[currentIndex] = value;
+    tempArray[currentIndex] = riskRespnse;
     setFeedback(tempArray);
-    console.log("Feedback", feedback);
+    console.log("Feedback", tempArray);
   };
 
   const handleForwardPress = () => {
@@ -128,6 +146,10 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
       setCurrentIndex(currentIndex + 1);
       setSelectedBox(currentIndex + 1);
     } else {
+
+        console.log("completed Assessment", feedback);
+        handleriskCalculation();
+      
       setCurrentIndex(0);
       setSelectedBox(null);
       setModalVisible(!modalVisible);
@@ -140,7 +162,21 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
       setCurrentIndex(questionnaire.length - 1);
     }
   };
-
+  function handleriskCalculation(){
+    let riskscore=0;
+    console.log("all Risk Risponses",feedback);
+    for(var i=0; i<feedback.length;i++){
+riskscore =feedback[i].selectedanswer.riskScore
+    }
+    console.log("Total  Risk Sore",riskscore);
+    const profile= findRiskProfile(riskscore);
+    console.log("Total  Risk Sore",riskscore,profile);
+  };
+  const handleriskFinalize=() => {
+    setModalVisible(!modalVisible);
+    console.log(route.params);
+    navigation.navigate("PlanSummary", route.params);
+  };
   return (
     <Screen>
       <LogoContainer />
