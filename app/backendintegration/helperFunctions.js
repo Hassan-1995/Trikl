@@ -27,7 +27,23 @@ export const fillOnboarding=(data)=>{
     });
   };
 
-
+  export const modifyRiskResponse = (riskResponse,userId) => {
+    let modifiedResponse=[];
+   
+    riskResponse.forEach(item=>{
+      const resp={
+        QuestionId:item.questionId.keyId,
+        AnswerId:item.selectedanswer.key
+      }
+      modifiedResponse.push(resp);
+    })
+    const returnedResponse={
+userId:userId,
+responses:modifiedResponse
+    };
+    console.log("Modified responses".returnedResponse);
+    return returnedResponse;
+  };
 
   const allRiskProfiles=[
     {

@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { View, StyleSheet, ScrollView, Modal } from "react-native";
 import Screen from "../components/Screen";
 import {findRiskProfile} from "../backendintegration/helperFunctions";
+import {submitRiskProfiling} from "../backendintegration/index";
 import MultipleChoiceQuestions from "../components/MultipleChoiceQuestions";
 import AppButton from "../components/AppButton";
 import LogoContainer from "../components/LogoContainer";
@@ -172,10 +173,17 @@ riskscore =feedback[i].selectedanswer.riskScore
     const profile= findRiskProfile(riskscore);
     console.log("Total  Risk Sore",riskscore,profile);
   };
-  const handleriskFinalize=() => {
+  const handleriskFinalize=async() => {
+    try{
+    const resp= await submitRiskProfiling(feedback);
     setModalVisible(!modalVisible);
-    console.log(route.params);
-    navigation.navigate("PlanSummary", route.params);
+    
+    console.log("Submitted Risk Profile",resp,feedback);
+    }catch(error){
+      console.log("Error Submitting Risk Profile",error);
+    };
+
+   // navigation.navigate("PlanSummary", route.params);
   };
   return (
     <Screen>
@@ -208,10 +216,10 @@ riskscore =feedback[i].selectedanswer.riskScore
 
         <Modal animationType="slide" transparent={false} visible={modalVisible}>
           <AlertBox
-            onPress={() => {
-              setModalVisible(!modalVisible);
-              console.log(route.params);
-              navigation.navigate("PlanSummary", route.params);
+            onPress={() => {handleriskFinalize()
+              // setModalVisible(!modalVisible);
+              // console.log(route);
+            //  navigation.navigate("PlanSummary", route.params);
             }}
           />
         </Modal>

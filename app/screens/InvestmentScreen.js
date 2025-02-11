@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 
 import { ScrollView, StyleSheet, View } from "react-native";
+import {StoreContext} from "../../GlobalState";
 import AppButton from "../components/AppButton";
 import AppText from "../components/AppText";
 import GoalCardPicker from "../components/GoalCardPicker";
@@ -35,6 +36,9 @@ const items = [
 function InvestmentScreen({ navigation, route }) {
   const [option, setOption] = useState(route.params);
 
+    // const contextData = useContext(StoreContext);
+
+    // console.log("Context in InvestmentPlanScreen", contextData);
   console.log("goal", option);
 
   const handlePress = (item) => {

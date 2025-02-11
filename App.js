@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState,createContext } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -29,6 +29,7 @@ import ImageUpload from "./app/components/ImageUpload";
 import AttachmentComponent from "./app/components/AttachmentComponent";
 import AttachmentsScreen from "./app/screens/AttachmentsScreen";
 import HomeScreenCopy from "./app/screens/HomeScreenCopy";
+import { StoreProvider } from './GlobalState';
 import ChartComponent from "./app/components/ChartComponent";
 import WelcomeScreen from "./app/screens/WelcomeScreen";
 import AlertBox from "./app/components/AlertBox";
@@ -39,6 +40,16 @@ import StatementComponent from "./app/components/StatementComponent";
 
 export default function App() {
   const [initialInvestment, setInitialInvestment] = useState(500);
+  const [user,setUser]=useState({
+    "user_Id":0,
+    "user_name":"Guest",
+    "user_email":"guest@finomics.com.pk",
+    "user_password":"$2a$10$nJw/VAS5C17H3BZGevLxj.sALm34IhYYZns6fvRFE.0V5WH.lp7eK"
+ });
+
+ //const StoreContext = createContext();
+
+ //const StoreProvider = StoreContext.Provider
 
   return (
    // <AccountOnBoardingScreen/>
@@ -61,9 +72,11 @@ export default function App() {
     // <StatementsScreen/>
    // <WalletScreen />
 
-    // <NavigationContainer theme={myTheme}>
-    //   <AppNavigator />
-    // </NavigationContainer>
+    //  <StoreProvider value={{ user, setUser }}>
+    //  <NavigationContainer theme={myTheme}>
+    //    <AppNavigator />
+    //  </NavigationContainer>
+    // </StoreProvider>
 
     // <NavigationContainer theme={myTheme}>
     //   <AuthNavigator/>

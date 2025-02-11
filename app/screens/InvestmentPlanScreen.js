@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 
 import { View, StyleSheet, Alert } from "react-native";
 import AmountInput from "../components/AmountInput";
+import {StoreContext} from "../../GlobalState";
 import Screen from "../components/Screen";
 import AppButton from "../components/AppButton";
 import PreferenceInvestmentOptionComponent from "../components/PreferenceInvestmentOptionComponent";
@@ -34,8 +35,9 @@ function InvestmentPlanScreen({ navigation, route }) {
   const [number, setNumber] = useState(null);
   const [button, setButton] = useState({ value: "_____", id: 1 });
   const [amount, setAmount] = useState([]);
-
+  const contextData = useContext(StoreContext);
   console.log("InvestmentPlanScreen", route.params);
+  console.log("Context in InvestmentPlanScreen", contextData);
 
   useEffect(() => {
     if (amount.length == 3) {

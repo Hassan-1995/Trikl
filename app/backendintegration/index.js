@@ -1,6 +1,6 @@
 import axios from "axios";
 import * as FileSystem from 'expo-file-system'; // If using Expo, otherwise adjust as needed
-
+import {modifyRiskResponse} from "./helperFunctions";
 
 
 export const baseUrl="https://savvy-cdn-api.finomics.com.pk/api/"
@@ -18,6 +18,25 @@ const apiUrl= baseUrl+"user/adduser"
         console.error('Error adding user:', error.response ? error.response.data : error.message);
       }
     }
+
+    export const submitRiskProfiling= async(payload)=>{
+      console.log("orginalRiskResponse",payload);
+      const modifiedresp= modifyRiskResponse(payload,"0");
+      console.log("modifiedRiskResponse",modifiedresp );
+      const apiUrl= baseUrl+"user/assessmentResponse"
+          try {
+              const response = await axios.post(apiUrl, modifiedresp, {
+                headers: {
+                  'Content-Type': 'application/json'
+                }
+              });
+              console.log('User added successfully:', response.data);
+              return response.data;
+            } catch (error) {
+              console.error('Error adding user risk profile:', error.response ? error.response.data : error.message);
+              return
+            }
+          }
 
 
     export const sqlquery= async(sql,dispatch)=>{
