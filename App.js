@@ -60,7 +60,7 @@ export default function App() {
     // <HomeScreenCopy/>
     // <InvestmentScreen/>
     // <InvestmentPlanScreen/>
-     <SuitabilityAssesmentScreen/>
+  //   <SuitabilityAssesmentScreen/>
 
     // <PlanSummary/>
     // <PaymentScreen/>
@@ -78,9 +78,9 @@ export default function App() {
     //  </NavigationContainer>
     // </StoreProvider>
 
-    // <NavigationContainer theme={myTheme}>
-    //   <AuthNavigator/>
-    // </NavigationContainer>
+    <NavigationContainer theme={myTheme}>
+      <AuthNavigator/>
+    </NavigationContainer>
   );
 }
 
