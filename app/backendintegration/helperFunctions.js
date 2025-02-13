@@ -45,6 +45,97 @@ responses:modifiedResponse
     return returnedResponse;
   };
 
+ /// tvm function
+
+ export const  timeToTargetFutureValue=(FV, PV, PMT, frequency, annualRate) =>{
+  // Convert annual rate to decimal
+  let r = annualRate / 100;
+  // Periodic rate
+  let n = frequency;
+  let periodicRate = r / n;
+
+  // Avoid division by zero when PMT is zero
+  if (periodicRate === 0) {
+      return Infinity;
+  }
+
+  // Calculate time in years
+  let numerator = Math.log((FV + (PMT / periodicRate)) / (PV + (PMT / periodicRate)));
+  let denominator = n * Math.log(1 + periodicRate);
+  let years = numerator / denominator;
+
+  // Convert to days
+  let days = years * 365;
+  console.log("TVM in helper",FV, PV, PMT, frequency, annualRate,years);
+  const formatteddays=formatDays(Math.ceil(days));
+
+  return {days:days,label:formatteddays};
+
+}
+
+// tvm function end
+
+//- format days
+
+function formatDays(days) {
+  if (typeof days !== 'number' || isNaN(days) || days < 0) {
+    return "Invalid input. Please provide a non-negative number of days.";
+  }
+
+  const years = Math.floor(days / 365);
+  const remainingDaysAfterYears = days % 365;
+  const months = Math.floor(remainingDaysAfterYears / 30); // Approximate months (30 days each)
+const daysleft=remainingDaysAfterYears % 30
+  let output = "";
+
+  if (years > 0) {
+    output += years + " Year";
+    if (years > 1) {
+       output += "s"; //pluralize year
+    }
+    
+    if (months > 0) {
+      output += " and " + months + " Month";
+      if(months > 1){
+        output += "s"; //pluralize month
+      }
+    }
+  } else if (months > 0) {
+    output += months + " Month";
+    if (months > 1) {
+      output += "s"; //pluralize month
+    }
+  } else {
+    output = "Less than a month"; // Handle cases less than a month
+  }
+  
+
+  return output.trim(); // Remove any trailing spaces.
+}
+
+
+
+// Test cases
+console.log(formatDays(400));    // Output: 1 Year and 1 Month
+console.log(formatDays(730));    // Output: 2 Years
+console.log(formatDays(365));    // Output: 1 Year
+console.log(formatDays(30));     // Output: 1 Month
+console.log(formatDays(60));     // Output: 2 Months
+console.log(formatDays(15));     // Output: Less than a month
+console.log(formatDays(0));      // Output: Less than a month
+console.log(formatDays(1000));   // Output: 2 Years and 9 Months
+console.log(formatDays(-10));    // Output: Invalid input. Please provide a non-negative number of days.
+console.log(formatDays("abc"));   // Output: Invalid input. Please provide a non-negative number of days.
+console.log(formatDays(395)); // Output: 1 Year and 1 Month
+console.log(formatDays(366)); // Output: 1 Year and 0 Months (or just "1 Year")
+
+
+
+
+
+
+
+
   const allRiskProfiles=[
     {
         "RiskProfileID": 3,

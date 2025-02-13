@@ -37,6 +37,36 @@ const apiUrl= baseUrl+"user/adduser"
               return
             }
           }
+          export const addGoal= async(goaltemplate, target,initialInv,frequency, recurring,duration)=>{
+            const apiUrl= baseUrl+"goal/addgoal";
+            console.log("Arguments",goaltemplate, target,initialInv,frequency, recurring,duration)
+            const payload={
+              goalName: goaltemplate.goalName,
+              templateId: goaltemplate.goalID, 
+              goalTarget:target,
+              goalDuration: duration, 
+              total_payments: "0",
+              savingFrequency: frequency,
+              initialContribution:initialInv,
+              recurringAmount: recurring,
+              status: "Draft" 
+            }
+            console.log("Payload in add goals",payload);
+
+            { 
+             
+            }
+                try {
+                    const response = await axios.post(apiUrl, payload, {
+                      headers: {
+                        'Content-Type': 'application/json'
+                      }
+                    });
+                    console.log('User goal successfully:', response.data);
+                  } catch (error) {
+                    console.error('Error adding goal:', error.response ? error.response.data : error.message);
+                  }
+                }
 
 
     export const sqlquery= async(sql,dispatch)=>{

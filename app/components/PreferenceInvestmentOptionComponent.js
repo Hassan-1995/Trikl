@@ -16,15 +16,15 @@ function PreferenceInvestmentOptionComponent({
 
   const handlePress = (buttonId, buttonValue) => {
     setSelectedButton(buttonId);
-    console.log("Button value: ", buttonValue);
+    console.log("Button value: ",buttonId, buttonValue);
     onChange(buttonId, buttonValue);
   };
 
   const options = [
-    { id: 1, label: "Monthly" },
-    { id: 2, label: "Quarterly" },
-    { id: 3, label: "Semi-Annual" },
-    { id: 4, label: "Annual" },
+    { id: 12, label: "Monthly" },
+    { id: 4, label: "Quarterly" },
+    { id: 2, label: "Semi-Annual" },
+    { id: 1, label: "Annual" },
   ];
 
   return (

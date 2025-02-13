@@ -60,9 +60,9 @@ export default function App() {
     // <HomeScreenCopy/>
     // <InvestmentScreen/>
     // <InvestmentPlanScreen/>
-  //   <SuitabilityAssesmentScreen/>
+    // <SuitabilityAssesmentScreen/>
 
-    // <PlanSummary/>
+  //   <PlanSummary/>
     // <PaymentScreen/>
 
     // <StatementComponent/>
@@ -73,14 +73,14 @@ export default function App() {
    // <WalletScreen />
 
     //  <StoreProvider value={{ user, setUser }}>
-    //  <NavigationContainer theme={myTheme}>
-    //    <AppNavigator />
-    //  </NavigationContainer>
+     <NavigationContainer theme={myTheme}>
+       <AppNavigator />
+     </NavigationContainer>
     // </StoreProvider>
 
-    <NavigationContainer theme={myTheme}>
-      <AuthNavigator/>
-    </NavigationContainer>
+    // <NavigationContainer theme={myTheme}>
+    //   <AuthNavigator/>
+    // </NavigationContainer>
   );
 }
 

@@ -179,11 +179,12 @@ riskscore =feedback[i].selectedanswer.riskScore
     setModalVisible(!modalVisible);
     
     console.log("Submitted Risk Profile",resp,feedback);
+    navigation.navigate("PlanSummary", route.params);
     }catch(error){
       console.log("Error Submitting Risk Profile",error);
     };
 
-   // navigation.navigate("PlanSummary", route.params);
+  
   };
   return (
     <Screen>

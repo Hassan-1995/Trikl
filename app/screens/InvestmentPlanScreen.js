@@ -32,12 +32,26 @@ const items = [
 
 function InvestmentPlanScreen({ navigation, route }) {
   const [activeComponent, setActiveComponent] = useState(items[0]);
-  const [number, setNumber] = useState(null);
+  const [number, setNumber] = useState(0);
+  const [target, setTarget] = useState(0);
+  const [initial, setInitial] = useState(0);
+  const [recurring, setRecurring] = useState(0);
+  const [frequency, setFrequency] = useState("");
   const [button, setButton] = useState({ value: "_____", id: 1 });
   const [amount, setAmount] = useState([]);
-  const contextData = useContext(StoreContext);
+  const [usergoal, setUserGoal] = useState({goalName:route?.paams?.goalName,
+    templateId:route?.paams?.goalName,
+    goalTarget:0,
+    goalDuration: 0, 
+    total_payments: 0,
+   savingFrequency: "",
+    initialContribution: 0,
+    recurringAmount:0,
+  });
+
+  //const contextData = useContext(StoreContext);
   console.log("InvestmentPlanScreen", route.params);
-  console.log("Context in InvestmentPlanScreen", contextData);
+  //console.log("Context in InvestmentPlanScreen", contextData);
 
   useEffect(() => {
     if (amount.length == 3) {
@@ -64,15 +78,40 @@ function InvestmentPlanScreen({ navigation, route }) {
 
   const handlePress = (keyId) => {
     setActiveComponent(items[keyId]);
+
+    //filtvm(keyId);
     setAmount([...amount, number]);
-    setNumber(null);
+    setNumber(0);
     if (keyId == 3) {
       setActiveComponent(items[0]);
     }
+    //console.log("TVM Values ",keyId,target,initial,recurroong,frequency);
+    console.log("Button from investmentPlanScreen ",keyId,amount, button.value);
   };
-  console.log("Button from investmentPlanScreen ", button.value);
+  function filtvm(keyId){
+    console.log("before TVM Values ",keyId,target,initial,recurroong,frequency);
+    switch(keyId) {
+      case 1:
+        setTarget(number);
+        break;
+      case 2:
+       setInitial(number);
+       break;
+       case 3:
+        setRecurring(number);
+         break;
+  
+      default:
+      break;
+    }
+    setNumber(0);
+
+return;
+  }
 
   const handleAmount = (value) => {
+
+
     setNumber(value);
   };
 
