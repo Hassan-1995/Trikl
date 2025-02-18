@@ -10,6 +10,7 @@ import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
+import {addRequest} from "../backendintegration/index";
 
 const balance = 1234.56;
 const transactions = [
@@ -21,6 +22,22 @@ const transactions = [
 function WalletScreen({ props, route }) {
   // console.log("WALLET SCREEN: ", route.params);
 
+  // request handler
+  const handleRequest = async() => {
+    // This function will be executed when the button is pressed.
+    console.log("Handle Request button pressed!");
+    await requestInvestment();
+    // You can add your desired logic here, e.g., navigation, API calls, etc.
+  };
+ async  function  requestInvestment(){
+  let goalId= 1;
+  let allocationId=1;
+  let requestType="Invest";
+  let amount=1000;
+  const response= await addRequest(goalId,requestType,allocationId,amount);
+  console.log("Response after request",response);
+
+  }
   const renderTransaction = ({ item }) => (
     <View style={styles.transactionItem}>
       <Image
@@ -40,7 +57,7 @@ function WalletScreen({ props, route }) {
           <AppText style={styles.transactionTitle}>Title</AppText>
           <AppText style={styles.transactionTitle}>Sub-Title</AppText>
         </View>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}onPress={handleRequest}>
           <AppText>Pay View</AppText>
         </TouchableOpacity>
       </View>

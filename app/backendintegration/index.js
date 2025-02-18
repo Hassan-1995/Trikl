@@ -67,7 +67,7 @@ const apiUrl= baseUrl+"user/adduser"
                     console.error('Error adding goal:', error.response ? error.response.data : error.message);
                   }
                 }
-
+// Payment Schedule API call
                 export const generatePaymentSchedule= async(goaltemgoalIdplate, target,initialInv,frequency, recurring,duration)=>{
                   const apiUrl= baseUrl+"goal/addPaymentSchedule";
                   console.log("Arguments",goaltemplate, target,initialInv,frequency, recurring,duration)
@@ -98,7 +98,35 @@ const apiUrl= baseUrl+"user/adduser"
                           console.error('Error adding goal:', error.response ? error.response.data : error.message);
                         }
                       }
+// add request API call
+export const addRequest= async(goalId, requestType,allocationId, amount)=>{
+  const apiUrl= baseUrl+"portfolio/addRequest";
+  console.log("Arguments",goalId, requestType,allocationId, amount);
+  const payload={
+    goalId:goalId,
+    request_type:requestType, 
+    allocation_id:allocationId,
+    amount: amount
 
+  }
+
+ 
+  console.log("Payload in add Request",payload);
+
+  { 
+   
+  }
+      try {
+          const response = await axios.post(apiUrl, payload, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          console.log('User Request successfully:', response.data);
+        } catch (error) {
+          console.error('Error adding request:', error.response ? error.response.data : error.message);
+        }
+      }
     export const sqlquery= async(sql,dispatch)=>{
       const apiUrl= baseUrl+"goal/executeQuery"
           try {
