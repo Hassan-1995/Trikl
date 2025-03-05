@@ -175,7 +175,8 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
             onPress={() => {
               setModalVisible(!modalVisible);
               console.log(route.params);
-              navigation.navigate("PlanSummary", route.params);
+              // navigation.navigate("PlanSummary", route.params);
+              navigation.navigate("FundSelection", route.params);
             }}
           />
         </Modal>

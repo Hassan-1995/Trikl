@@ -12,6 +12,7 @@ import PaymentScreen from "../screens/PaymentScreen";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import SuitabilityAssesmentScreen from "../screens/SuitabilityAssesmentScreen";
+import FundSelectionScreen from "../screens/FundSelectionScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -33,7 +34,10 @@ const AuthNavigator = () => (
       component={SuitabilityAssesmentScreen}
     />
 
+    <Stack.Screen name="FundSelection" component={FundSelectionScreen} />
+
     <Stack.Screen name="PlanSummary" component={PlanSummary} />
+
     <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
   </Stack.Navigator>
 );
