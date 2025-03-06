@@ -11,6 +11,7 @@ import LoginScreen from "../screens/LoginScreen";
 import AccountOnBoardingScreen from "../screens/AccountOnBoardingScreen";
 import AttachmentsScreen from "../screens/AttachmentsScreen";
 import WalletScreen from "../screens/WalletScreen";
+import FundSelectionScreen from "../screens/FundSelectionScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +37,9 @@ const HomeNavigator = () => (
     {/*  */}
 
     <Stack.Screen name="InvestmentScreen" component={InvestmentScreen} />
+
+    <Stack.Screen name="FundSelection" component={FundSelectionScreen} />
+
     <Stack.Screen
       name="SuitabilityAssesmentScreen"
       component={SuitabilityAssesmentScreen}

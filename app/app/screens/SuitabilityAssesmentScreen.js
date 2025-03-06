@@ -143,7 +143,7 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
 
   return (
     <Screen>
-      <LogoContainer />
+      {/* <LogoContainer /> */}
       <ScrollView contentContainerStyle={styles.scrollView}>
         <View style={styles.container}>
           <MultipleChoiceQuestions
@@ -175,7 +175,9 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
             onPress={() => {
               setModalVisible(!modalVisible);
               console.log(route.params);
-              navigation.navigate("PlanSummary", route.params);
+              // navigation.navigate("PlanSummary", route.params);
+              navigation.navigate("FundSelection", route.params);
+
             }}
           />
         </Modal>
