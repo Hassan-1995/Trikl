@@ -177,9 +177,12 @@ riskscore =feedback[i].selectedanswer.riskScore
     try{
     const resp= await submitRiskProfiling(feedback);
     setModalVisible(!modalVisible);
-    
+
+    console.log(route.params);
+               navigation.navigate("PlanSummary", route.params);
+              navigation.navigate("FundSelection", route.params);
     console.log("Submitted Risk Profile",resp,feedback);
-    navigation.navigate("PlanSummary", route.params);
+  //  navigation.navigate("PlanSummary", route.params);
     }catch(error){
       console.log("Error Submitting Risk Profile",error);
     };

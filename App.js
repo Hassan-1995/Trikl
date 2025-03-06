@@ -37,6 +37,7 @@ import AccountProfileScreen from "./app/screens/AccountProfileScreen";
 import WalletScreen from "./app/screens/WalletScreen";
 import StatementsScreen from "./app/screens/StatementsScreen";
 import StatementComponent from "./app/components/StatementComponent";
+import FundSelectionScreen from "./app/screens/FundSelectionScreen";
 
 export default function App() {
   const [initialInvestment, setInitialInvestment] = useState(500);
