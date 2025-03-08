@@ -21,8 +21,8 @@ function ModalFundSelectionScreenComponent({ item, tempValue }) {
   const strokeDashoffset = (1 - investedPercentage / 100) * circumference;
 
   const handlePress = () => {
-    console.log("Hello");
-    navigation.navigate("PlanSummary", tempValue);
+    console.log("Fund Selected",tempValue);
+    navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
   };
 
   return (

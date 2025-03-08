@@ -30,6 +30,7 @@ const rate=10;
 
 //useeffect for tvm
 useEffect(() => {
+  console.log("PlanSummary Routes after Fund Selection",route.params);
   // Effect runs once when the component mounts
   const duration=timeToTargetFutureValue(target,initialInvestment,recurringInvestment,frequency.id,rate);
   console.log("Total Days of:",target,initialInvestment,recurringInvestment,frequency.id,rate);

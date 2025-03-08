@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect,useState } from "react";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import Screen from "../components/Screen";
 
@@ -90,7 +90,13 @@ const items = [
 ];
 
 function FundSelectionScreen({ navigation, route }) {
-  console.log("From funds ", route.params);
+  console.log("Values From Suitability in funds Selection ", route.params);
+  const[riskProfile,setRiskProfile]=useState(route.params.riskProfile);
+  const[tvm,setTvm]=useState(route.params.tvm);
+// first useeffect
+  useEffect(() => {
+    console.log("RISK Profile and TVM in FundSelection",riskProfile,tvm)
+  },[]);
   const handlePress = (id, value) => {
     console.log("ID number " + id + " is pressed which has value of ", value);
     // if (value == 4) {

@@ -124,9 +124,11 @@ const questionnaire = [
 ];
 
 function SuitabilityAssesmentScreen({ navigation, route }) {
+  console.log("Values from TVM in Suitability",route.params);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedBox, setSelectedBox] = useState(null);
   const [feedback, setFeedback] = useState([]);
+  const [riskProfile, setRiskProfile] = useState([]);
 
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -172,15 +174,17 @@ riskscore =feedback[i].selectedanswer.riskScore
     console.log("Total  Risk Sore",riskscore);
     const profile= findRiskProfile(riskscore);
     console.log("Total  Risk Sore",riskscore,profile);
+    setRiskProfile(profile);
   };
   const handleriskFinalize=async() => {
     try{
     const resp= await submitRiskProfiling(feedback);
     setModalVisible(!modalVisible);
 
-    console.log(route.params);
-               navigation.navigate("PlanSummary", route.params);
-              navigation.navigate("FundSelection", route.params);
+    console.log("Params in -handle riskProfile",route.params);
+    console.log("Risk Profile in  -handle riskProfile",resp);
+            //   navigation.navigate("PlanSummary", route.params);
+              navigation.navigate("FundSelection", {riskProfile:riskProfile,tvm:route.params});
     console.log("Submitted Risk Profile",resp,feedback);
   //  navigation.navigate("PlanSummary", route.params);
     }catch(error){
@@ -220,11 +224,13 @@ riskscore =feedback[i].selectedanswer.riskScore
 
         <Modal animationType="slide" transparent={false} visible={modalVisible}>
           <AlertBox
-            onPress={() => {handleriskFinalize()
-              // setModalVisible(!modalVisible);
-              // console.log(route);
-            //  navigation.navigate("PlanSummary", route.params);
-            }}
+          onPress={() => {handleriskFinalize();
+            // setModalVisible(!modalVisible);
+            // console.log(route.params);
+            // // navigation.navigate("PlanSummary", route.params);
+            // navigation.navigate("FundSelection", route.params);
+            
+          }}
           />
         </Modal>
       </ScrollView>

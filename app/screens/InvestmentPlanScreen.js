@@ -86,7 +86,7 @@ function InvestmentPlanScreen({ navigation, route }) {
       setActiveComponent(items[0]);
     }
     //console.log("TVM Values ",keyId,target,initial,recurroong,frequency);
-    console.log("Button from investmentPlanScreen ",keyId,amount, button.value);
+   // console.log("Button from investmentPlanScreen ",keyId,amount, button.value);
   };
   function filtvm(keyId){
     console.log("before TVM Values ",keyId,target,initial,recurroong,frequency);
