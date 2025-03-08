@@ -57,6 +57,18 @@ function InvestmentPlanScreen({ navigation, route }) {
     if (amount.length == 3) {
       // navigation.navigate('PlanSummary', amount)
       setAmount([]);
+      const handletvm=()=>{
+        const tvm={
+          goal:usergoal,
+          target:amount[0],
+          initial:amount[1],
+          pmt:amount[2],
+          frequency:button
+        };
+console.log("Compiled TVM in Investment Planner",tvm);
+  navigation.navigate("SuitabilityAssesmentScreen",tvm);
+
+      }
       Alert.alert(
         "Prompt message by SavvySave",
         "We need to asses your investment suitability.\nPlease answer some questions.",
@@ -65,10 +77,11 @@ function InvestmentPlanScreen({ navigation, route }) {
             text: "OK",
             // onPress: () => console.log("OK Pressed")
             onPress: () => {
-              navigation.navigate("SuitabilityAssesmentScreen", {
-                amount,
-                button,
-              });
+              handletvm();
+              // navigation.navigate("SuitabilityAssesmentScreen", {
+              //   amount,
+              //   button,
+              // });
             },
           },
         ]

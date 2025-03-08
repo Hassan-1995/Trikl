@@ -95,7 +95,8 @@ function FundSelectionScreen({ navigation, route }) {
   const[tvm,setTvm]=useState(route.params.tvm);
 // first useeffect
   useEffect(() => {
-    console.log("RISK Profile and TVM in FundSelection",riskProfile,tvm)
+    console.log("RISK Profile and TVM in FundSelection",riskProfile,tvm);
+    console.log("ROUTES  in FundSelection",route.params);
   },[]);
   const handlePress = (id, value) => {
     console.log("ID number " + id + " is pressed which has value of ", value);
