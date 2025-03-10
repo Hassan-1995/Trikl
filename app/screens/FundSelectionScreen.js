@@ -101,7 +101,7 @@ function FundSelectionScreen({ navigation, route }) {
     console.log("ROUTES  in FundSelection",route?.params);
 
     async function  getfunds(riskprofile){
-      sql="SELECT * FROM `Template_Portfolios`";
+      sql="SELECT * FROM `Template_Portfolios`WHERE RiskProfileID ="+riskprofile;
       const response= await sqlquery(sql,setportfolios);
       console.log("SQL response in Fund selection",response,portfolios)
   
