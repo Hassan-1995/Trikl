@@ -96,12 +96,14 @@ const items = [
 
 function HomeScreenCopy({ navigation }) {
   const[usergoals,setuserGoals]=useState([]);
+  // useeffect for usergoals
   useEffect(async() => {
-
+async function getUserGoals(){
     const sql="SELECT ug.*, tg.*, (SELECT SUM(amount) FROM PaymentSchedule WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) AS total_amount_due FROM UserGoal ug LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;"
-//const resp=await 
-//sqlquery(sql,setuserGoals);
-console.log("UserGoals",usergoals)
+const resp=await sqlquery(sql,setuserGoals);
+console.log("UserGoals",resp,usergoals);
+}
+getUserGoals();
   }, [usergoals]);
 
   const handlePress = (id, value) => {
