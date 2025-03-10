@@ -19,6 +19,7 @@ function ActiveInvestmentComponent({ assets }) {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const openModal = (item) => {
+    console.log("Value in Goals Modal",item);
     setSelectedItem(item);
     setModalVisible(true);
   };

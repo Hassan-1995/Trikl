@@ -95,7 +95,7 @@ const items = [
 ];
 
 function HomeScreenCopy({ navigation }) {
-  const[usergoals,setuserGoals]=useState([]);
+  const[usergoals,setuserGoals]=useState(items);
   // useeffect for usergoals
   useEffect(async() => {
 async function getUserGoals(){
@@ -103,8 +103,8 @@ async function getUserGoals(){
 const resp=await sqlquery(sql,setuserGoals);
 console.log("UserGoals",resp,usergoals);
 }
-getUserGoals();
-  }, [usergoals]);
+//getUserGoals();
+  }, []);
 
   const handlePress = (id, value) => {
     console.log("ID number " + id + " is pressed which has value of ", value);
@@ -136,8 +136,8 @@ getUserGoals();
           />
           <ChartComponent assets={items} />
           <FlatList
-            data={items}
-            keyExtractor={(item) => item.value.toString()}
+            data={usergoals}
+            keyExtractor={(item) => item?.value?.toString()}
             renderItem={({ item }) => (
               <ActiveInvestmentComponent assets={item} />
             )}
