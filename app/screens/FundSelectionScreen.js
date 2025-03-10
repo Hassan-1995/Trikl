@@ -1,7 +1,7 @@
 import React, { useEffect,useState } from "react";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import Screen from "../components/Screen";
-
+import {addGoal,qlquery, sqlquery} from "../backendintegration/index";
 import FundInvestmentComponent from "../components/FundInvestmentComponent";
 import colors from "../config/colors";
 import AppText from "../components/AppText";
@@ -90,14 +90,25 @@ const items = [
 ];
 
 function FundSelectionScreen({ navigation, route }) {
-  console.log("Values From Suitability in funds Selection ", route.params);
-  const[riskProfile,setRiskProfile]=useState(route.params.riskProfile);
-  const[tvm,setTvm]=useState(route.params.tvm);
+  console.log("Values From Suitability in funds Selection ", route?.params);
+  const[riskProfile,setRiskProfile]=useState(route?.params.riskProfile);
+  const[tvm,setTvm]=useState(route?.params.tvm);
+  const[portfolios,setportfolios]=useState([]);
+
 // first useeffect
   useEffect(() => {
     console.log("RISK Profile and TVM in FundSelection",riskProfile,tvm);
-    console.log("ROUTES  in FundSelection",route.params);
+    console.log("ROUTES  in FundSelection",route?.params);
+
+    async function  getfunds(riskprofile){
+      sql="SELECT * FROM `Template_Portfolios`";
+      const response= await sqlquery(sql,setportfolios);
+      console.log("SQL response in Fund selection",response,portfolios)
+  
+    }
+  getfunds("1");
   },[]);
+ 
   const handlePress = (id, value) => {
     console.log("ID number " + id + " is pressed which has value of ", value);
     // if (value == 4) {
@@ -113,10 +124,10 @@ function FundSelectionScreen({ navigation, route }) {
       <View style={styles.container}>
         <ScrollView>
           <FlatList
-            data={items}
-            keyExtractor={(item) => item.value.toString()}
+            data={portfolios}
+            keyExtractor={(item) => item?.TemplateName?.toString()}
             renderItem={({ item }) => (
-              <FundInvestmentComponent assets={item} tempValue={route.params} />
+              <FundInvestmentComponent assets={item} tempValue={route?.params} />
             )}
           />
         </ScrollView>

@@ -34,7 +34,7 @@ function FundInvestmentComponent({ assets, tempValue }) {
         </View>
         <View style={styles.goalReportContainer}>
           <View style={styles.title}>
-            <AppText style={styles.header}>{assets.title}</AppText>
+            <AppText style={styles.header}>{assets.TemplateName}</AppText>
             <View
               style={[
                 styles.status,

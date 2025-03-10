@@ -65,7 +65,7 @@ export default function App() {
 
   //   <PlanSummary/>
     // <PaymentScreen/>
-
+<FundSelectionScreen/>
     // <StatementComponent/>
 
     // <AlertBox/>
@@ -74,9 +74,9 @@ export default function App() {
    // <WalletScreen />
 
     //  <StoreProvider value={{ user, setUser }}>
-     <NavigationContainer theme={myTheme}>
-       <AppNavigator />
-     </NavigationContainer>
+    //  <NavigationContainer theme={myTheme}>
+    //    <AppNavigator />
+    //  </NavigationContainer>
     // </StoreProvider>
 
     // <NavigationContainer theme={myTheme}>
