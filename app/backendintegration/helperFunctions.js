@@ -113,6 +113,20 @@ const daysleft=remainingDaysAfterYears % 30
   return output.trim(); // Remove any trailing spaces.
 }
 
+ export const  groupSumbyId=(payments) =>{
+
+  const groupedByGoal = payments.reduce((acc, { goal_id, amount, goalName }) => {
+    if (!acc[goal_id]) {
+        acc[goal_id] = { goal_id, goalName, totalAmount: 0 };
+    }
+    acc[goal_id].totalAmount += amount;
+    return acc;
+}, {});
+
+const result = Object.values(groupedByGoal);
+console.log("Grouped",result);
+return result;
+}
 
 
 // Test cases

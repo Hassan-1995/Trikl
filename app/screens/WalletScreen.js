@@ -11,12 +11,27 @@ import AppText from "../components/AppText";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
 import {addRequest,sqlquery} from "../backendintegration/index";
+import {groupSumbyId} from "../backendintegration/helperFunctions";
 
 const balance = 1234.56;
 const transactions = [
   { id: "1", date: "2024-06-10", type: "Deposit", amount: 1000.0 },
   { id: "2", date: "2024-06-09", type: "Withdrawal", amount: 500.0 },
   { id: "3", date: "2024-06-08", type: "Transfer", amount: 2000.0 },
+];
+
+const payments = [
+  { paymenSchedule_id: 375, goal_id: 1, amount: 5000, goalName: "My vacation" },
+  { paymenSchedule_id: 376, goal_id: 1, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 378, goal_id: 1, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 380, goal_id: 1, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 381, goal_id: 1, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 383, goal_id: 1, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 384, goal_id: 1, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 386, goal_id: 1, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 387, goal_id: 1, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 377, goal_id: 5, amount: 2000, goalName: "Dummy Goal" },
+  { paymenSchedule_id: 379, goal_id: 5, amount: 2000, goalName: "Dummy Goal" }
 ];
 const ps=[
   {
@@ -42,6 +57,7 @@ const ps=[
 function WalletScreen({ props, route }) {
   // console.log("WALLET SCREEN: ", route.params);
   const[schedule,setSchedule]= useState(ps);
+  const[groupedPayment,setGroupedPayment]= useState([]);
 
 // first useeffect for sql query
   useEffect(() => {
@@ -53,9 +69,13 @@ function WalletScreen({ props, route }) {
      const  sql="SELECT ps.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE ps.due_date < CURDATE()AND ug.UserId ="+userId.toString();
 
       const response= await sqlquery(sql,setSchedule);
-      console.log("SQL response in Wallet Screen",response,schedule)
+      console.log("SQL response in Wallet Screen",response,schedule);
+   
   
     }
+const grouped=groupSumbyId(payments);
+setGroupedPayment(grouped);
+console.log("Groupedin n Wallet Screen",groupedPayment);
   //getSchedule("1");
   },[]);
 
@@ -91,8 +111,8 @@ function WalletScreen({ props, route }) {
         }}
       >
         <View>
-          <AppText style={styles.transactionTitle}>{item.payment_type}</AppText>
-          <AppText style={styles.transactionTitle}>{item.due_date}</AppText>
+          <AppText style={styles.transactionTitle}>{item.goalName}</AppText>
+          <AppText style={styles.transactionTitle}>Amount due : {item.totalAmount}</AppText>
         </View>
         <TouchableOpacity style={styles.button}onPress={handleRequest}>
           <AppText>Pay View</AppText>
@@ -196,8 +216,8 @@ function WalletScreen({ props, route }) {
             </AppText>
           </AppText>
           <FlatList
-            data={schedule}
-            keyExtractor={(item) => item.paymenSchedule_id}
+            data={groupedPayment}
+            keyExtractor={(item) => item.payment_number}
             renderItem={renderTransaction}
           />
         </View>
