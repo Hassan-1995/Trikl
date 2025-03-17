@@ -71,12 +71,12 @@ export default function App() {
     // <AlertBox/>
     // <AccountProfileScreen/>
     // <StatementsScreen/>
-   // <WalletScreen />
+    <WalletScreen />
 
     //  <StoreProvider value={{ user, setUser }}>
-     <NavigationContainer theme={myTheme}>
-       <AppNavigator />
-     </NavigationContainer>
+    //  <NavigationContainer theme={myTheme}>
+    //    <AppNavigator />
+    //  </NavigationContainer>
     // </StoreProvider>
 
     // <NavigationContainer theme={myTheme}>

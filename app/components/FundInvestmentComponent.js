@@ -19,6 +19,7 @@ function FundInvestmentComponent({ assets, tempValue }) {
   const [selectedItem, setSelectedItem] = useState(null);
 
   const openModal = (item) => {
+    console.log("Selected Fund in Modal",item);
     setSelectedItem(item);
     setModalVisible(true);
   };
@@ -34,7 +35,7 @@ function FundInvestmentComponent({ assets, tempValue }) {
         </View>
         <View style={styles.goalReportContainer}>
           <View style={styles.title}>
-            <AppText style={styles.header}>{assets.TemplateName}</AppText>
+            <AppText style={styles.header}>{assets?.TemplateName}</AppText>
             <View
               style={[
                 styles.status,

@@ -20,13 +20,14 @@ function PlanSummary({ navigation, route }) {
   const [initialInvestment, setInitialInvestment] = useState(values[1]);
   const [recurringInvestment, setRecurringInvestment] = useState(values[2]);
   const [time, setTime] = useState(0);
+  const [rate,setRate ] = useState(10);
   const [result, setResult] = useState("Result appears  here");
   console.log("PLanner:", route?.params);
 
   const [toggle, setToggle] = useState(true);
 
   const [button, setButton] = useState(frequency);
-const rate=10;
+//const rate=10;
 
 //useeffect for tvm
 useEffect(() => {

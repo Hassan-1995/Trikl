@@ -1,4 +1,4 @@
-import React from "react";
+import{ React,useEffect,useState} from "react";
 import {
   View,
   FlatList,
@@ -10,7 +10,7 @@ import Screen from "../components/Screen";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
-import {addRequest} from "../backendintegration/index";
+import {addRequest,sqlquery} from "../backendintegration/index";
 
 const balance = 1234.56;
 const transactions = [
@@ -21,6 +21,23 @@ const transactions = [
 
 function WalletScreen({ props, route }) {
   // console.log("WALLET SCREEN: ", route.params);
+  const[schedule,setSchedule]= useState([]);
+
+// first useeffect for sql query
+  useEffect(() => {
+    console.log("Payment Schdule in Wallet Sceen",schedule);
+    console.log("ROUTES  in Wallet Screen",route?.params);
+
+    async function  getSchedule(userId){
+     // sql="SELECT * FROM `PaymentSchedule` WHERE goal_id="+userId.toString();
+     const  sql="SELECT ps.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE ps.due_date < CURDATE()AND ug.UserId ="+userId.toString();
+
+      const response= await sqlquery(sql,setSchedule);
+      console.log("SQL response in Wallet Screen",response,schedule)
+  
+    }
+  getSchedule("1");
+  },[]);
 
   // request handler
   const handleRequest = async() => {

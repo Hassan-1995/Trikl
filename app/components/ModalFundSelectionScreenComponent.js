@@ -77,7 +77,7 @@ function ModalFundSelectionScreenComponent({ item, tempValue }) {
 
       <View style={{ marginTop: 150 }}>
         <AppText style={[styles.subHeading, { paddingHorizontal: 10 }]}>
-          I am currently {item.status.toLowerCase()} track to achieve my desired
+          I am currently {item?.status?.toLowerCase()} track to achieve my desired
           goal.
         </AppText>
         <View style={styles.title}>
@@ -94,7 +94,7 @@ function ModalFundSelectionScreenComponent({ item, tempValue }) {
           </View>
           <View>
             <AppText style={styles.subHeading}>
-              Rs {item.goal.toLocaleString()}
+              Rs {item.goal?.toLocaleString()}
             </AppText>
           </View>
         </View>
@@ -107,7 +107,7 @@ function ModalFundSelectionScreenComponent({ item, tempValue }) {
           </View>
           <View>
             <AppText style={styles.subHeading}>
-              Rs {item.invested.toLocaleString()}
+              {/* Rs {item.invested?.toLocaleString()} */}
             </AppText>
           </View>
         </View>
@@ -120,7 +120,7 @@ function ModalFundSelectionScreenComponent({ item, tempValue }) {
           </View>
           <View>
             <AppText style={styles.subHeading}>
-              Rs {Math.abs(item.invested - item.goal).toLocaleString()}
+              {/* Rs {Math.abs(item.invested - item.goal).toLocaleString()} */}
             </AppText>
           </View>
         </View>

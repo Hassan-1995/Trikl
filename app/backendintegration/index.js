@@ -93,7 +93,7 @@ const apiUrl= baseUrl+"user/adduser"
                               'Content-Type': 'application/json'
                             }
                           });
-                          console.log('User goal successfully:', response.data);
+                          console.log('User goal successfully added:', response.data);
                         } catch (error) {
                           console.error('Error adding goal:', error.response ? error.response.data : error.message);
                         }
