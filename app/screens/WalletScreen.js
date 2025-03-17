@@ -18,10 +18,30 @@ const transactions = [
   { id: "2", date: "2024-06-09", type: "Withdrawal", amount: 500.0 },
   { id: "3", date: "2024-06-08", type: "Transfer", amount: 2000.0 },
 ];
+const ps=[
+  {
+      "paymenSchedule_id": 376,
+      "goal_id": 2,
+      "payment_number": 2,
+      "due_date": "2025-04-14T00:00:00.000Z",
+      "payment_type": "Recurring Investment",
+      "amount": 2000
+  },
+  {
+      "paymenSchedule_id": 377,
+      "goal_id": 3,
+      "payment_number": 3,
+      "due_date": "2025-05-14T00:00:00.000Z",
+      "payment_type": "Recurring Investment",
+      "amount": 2000
+  }
+  ]
+
+
 
 function WalletScreen({ props, route }) {
   // console.log("WALLET SCREEN: ", route.params);
-  const[schedule,setSchedule]= useState([]);
+  const[schedule,setSchedule]= useState(ps);
 
 // first useeffect for sql query
   useEffect(() => {
@@ -36,7 +56,7 @@ function WalletScreen({ props, route }) {
       console.log("SQL response in Wallet Screen",response,schedule)
   
     }
-  getSchedule("1");
+  //getSchedule("1");
   },[]);
 
   // request handler
@@ -71,8 +91,8 @@ function WalletScreen({ props, route }) {
         }}
       >
         <View>
-          <AppText style={styles.transactionTitle}>Title</AppText>
-          <AppText style={styles.transactionTitle}>Sub-Title</AppText>
+          <AppText style={styles.transactionTitle}>{item.payment_type}</AppText>
+          <AppText style={styles.transactionTitle}>{item.due_date}</AppText>
         </View>
         <TouchableOpacity style={styles.button}onPress={handleRequest}>
           <AppText>Pay View</AppText>
@@ -176,8 +196,8 @@ function WalletScreen({ props, route }) {
             </AppText>
           </AppText>
           <FlatList
-            data={transactions}
-            keyExtractor={(item) => item.id}
+            data={schedule}
+            keyExtractor={(item) => item.paymenSchedule_id}
             renderItem={renderTransaction}
           />
         </View>
