@@ -25,10 +25,10 @@ const payments = [
   { paymenSchedule_id: 376, goal_id: 1, amount: 2000, goalName: "My vacation" },
   { paymenSchedule_id: 378, goal_id: 1, amount: 2000, goalName: "My vacation" },
   { paymenSchedule_id: 380, goal_id: 1, amount: 2000, goalName: "My vacation" },
-  { paymenSchedule_id: 381, goal_id: 1, amount: 2000, goalName: "My vacation" },
-  { paymenSchedule_id: 383, goal_id: 1, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 381, goal_id: 4, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 383, goal_id: 6, amount: 2000, goalName: "My vacation" },
   { paymenSchedule_id: 384, goal_id: 1, amount: 2000, goalName: "My vacation" },
-  { paymenSchedule_id: 386, goal_id: 1, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 386, goal_id: 6, amount: 2000, goalName: "My vacation" },
   { paymenSchedule_id: 387, goal_id: 1, amount: 2000, goalName: "My vacation" },
   { paymenSchedule_id: 377, goal_id: 5, amount: 2000, goalName: "Dummy Goal" },
   { paymenSchedule_id: 379, goal_id: 5, amount: 2000, goalName: "Dummy Goal" }
