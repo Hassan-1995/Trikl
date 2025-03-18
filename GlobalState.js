@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { createContext, useState } from "react";
 
-const StoreContext = React.createContext();
+export const StoreContext = createContext();
 
-export const StoreProvider = StoreContext.Provider
+export const StoreProvider = ({ children }) => {
+  const [user, setUser] = useState({
+    user_Id: 0,
+    user_name: "Guest",
+    user_email: "guest@finomics.com.pk",
+  });
 
-export default StoreContext;
+  return (
+    <StoreContext.Provider value={{ user, setUser }}>
+      {children}
+    </StoreContext.Provider>
+  );
+};

@@ -1,4 +1,4 @@
-import{ React,useEffect,useState} from "react";
+import{ React,useEffect,useState,useContext} from "react";
 import {
   View,
   FlatList,
@@ -7,6 +7,7 @@ import {
   Image,
 } from "react-native";
 import Screen from "../components/Screen";
+import {StoreContext} from "../../GlobalState";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
 import Icon from "../components/Icon";
@@ -56,11 +57,13 @@ const ps=[
 
 function WalletScreen({ props, route }) {
   // console.log("WALLET SCREEN: ", route.params);
+   const contextData = useContext(StoreContext);
   const[schedule,setSchedule]= useState(ps);
   const[groupedPayment,setGroupedPayment]= useState([]);
 
 // first useeffect for sql query
   useEffect(() => {
+    console.log("Context in  Wallet Sceen",contextData);
     console.log("Payment Schdule in Wallet Sceen",schedule);
     console.log("ROUTES  in Wallet Screen",route?.params);
 
