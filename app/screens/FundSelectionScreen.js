@@ -91,8 +91,8 @@ const items = [
 
 function FundSelectionScreen({ navigation, route }) {
   console.log("Values From Suitability in funds Selection ", route?.params);
-  const[riskProfile,setRiskProfile]=useState(route?.params.riskProfile);
-  const[tvm,setTvm]=useState(route?.params.tvm);
+  const[riskProfile,setRiskProfile]=useState(route?.params?.riskProfile);
+  const[tvm,setTvm]=useState(route?.params?.tvm);
   const[portfolios,setportfolios]=useState(items);
 
 // first useeffect for sql query

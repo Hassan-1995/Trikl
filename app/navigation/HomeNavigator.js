@@ -18,7 +18,8 @@ const Stack = createNativeStackNavigator();
 const HomeNavigator = () => (
   <Stack.Navigator mode="modal" screenOptions={{ headerShown: true }}>
     {/* Temporary Solution: that's not how login screen works */}
-    <Stack.Screen name="LoginScreen" component={LoginScreen} />
+    <Stack.Screen name="FundSelection" component={FundSelectionScreen} />
+    <Stack.Screen name="Login Screen" component={LoginScreen} />
     <Stack.Screen
       name="InvestmentPlanScreen"
       component={InvestmentPlanScreen}
@@ -38,7 +39,6 @@ const HomeNavigator = () => (
 
     <Stack.Screen name="InvestmentScreen" component={InvestmentScreen} />
 
-    <Stack.Screen name="FundSelection" component={FundSelectionScreen} />
 
     <Stack.Screen
       name="SuitabilityAssesmentScreen"
