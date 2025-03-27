@@ -78,15 +78,15 @@ function WalletScreen({ props, route }) {
     }
 const grouped=groupSumbyId(payments);
 setGroupedPayment(grouped);
-console.log("Groupedin n Wallet Screen",groupedPayment);
-  //getSchedule("1");
+console.log("Groupedin n Wallet Screen",groupedPayment,grouped);
+  getSchedule("1");
   },[]);
 
   // request handler
-  const handleRequest = async() => {
+  const handleRequest = (item) => {
     // This function will be executed when the button is pressed.
-    console.log("Handle Request button pressed!");
-    await requestInvestment();
+    console.log("Handle Request button pressed!",item);
+   // await requestInvestment();
     // You can add your desired logic here, e.g., navigation, API calls, etc.
   };
  async  function  requestInvestment(){
@@ -117,7 +117,7 @@ console.log("Groupedin n Wallet Screen",groupedPayment);
           <AppText style={styles.transactionTitle}>{item.goalName}</AppText>
           <AppText style={styles.transactionTitle}>Amount due : {item.totalAmount}</AppText>
         </View>
-        <TouchableOpacity style={styles.button}onPress={handleRequest}>
+        <TouchableOpacity style={styles.button}onPress={() => handleRequest(item)}>
           <AppText>Pay View</AppText>
         </TouchableOpacity>
       </View>
