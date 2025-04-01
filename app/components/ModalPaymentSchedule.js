@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, FlatList } from 'react-native'
 //import Modal from 'react-native-modal';
 
 const RepaymentModal = ({ isVisible, onClose }) => {
+  if (!item) return null;
   const [amount, setAmount] = useState('0');
 
   const repaymentSchedule = [
@@ -13,7 +14,7 @@ const RepaymentModal = ({ isVisible, onClose }) => {
   ];
 
   return (
-    <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10, width: 300 }}>
+    <View style={{ backgroundColor: 'dark blue', padding: 20, borderRadius: 10, width: 300 }}>
     <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 10 }}>Repayment Schedule</Text>
     <FlatList
       data={repaymentSchedule}
@@ -40,7 +41,7 @@ const RepaymentModal = ({ isVisible, onClose }) => {
     />
     <TouchableOpacity
       style={{ backgroundColor: 'blue', padding: 15, borderRadius: 5, alignItems: 'center' }}
-      onPress={() => console.log(`Paying: $${amount}`)}
+      onPress={() =>onClose(amount) }
     >
       <Text style={{ color: 'white', fontWeight: 'bold' }}>Pay</Text>
     </TouchableOpacity>

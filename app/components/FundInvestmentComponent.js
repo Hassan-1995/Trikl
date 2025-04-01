@@ -97,7 +97,7 @@ function FundInvestmentComponent({ assets, tempValue }) {
             </TouchableOpacity>
             {selectedItem && (
               <>
-                <ModalFundSelectionScreenComponent item={selectedItem} tempValue={tempValue} />
+                <ModalFundSelectionScreenComponent item={selectedItem} tempValue={tempValue} setModal={setModalVisible} />
               </>
             )}
           </View>

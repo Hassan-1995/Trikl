@@ -21,9 +21,13 @@ function PaymentCard({item, assets, tempValue }) {
    const [selectedItem, setSelectedItem] = useState(null);
 
   const openModal = (item) => {
-    ;
+    
     setSelectedItem(item);
      setModalVisible(true);
+  };
+  const onClose = (item) => {
+    console.log("closing Payment Modal",item);
+        setModalVisible(false);
   };
 
   return (
@@ -83,7 +87,7 @@ function PaymentCard({item, assets, tempValue }) {
             </TouchableOpacity>
             {selectedItem && (
               <>
-                <RepaymentModal item={selectedItem} tempValue={tempValue} />
+                <RepaymentModal item={selectedItem} tempValue={tempValue} setModal={setModalVisible}onClose={onClose }/>
               </>
             )}
           </View>
