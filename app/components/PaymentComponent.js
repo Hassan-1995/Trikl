@@ -17,8 +17,8 @@ import ModalFundSelectionScreenComponent from "./ModalFundSelectionScreenCompone
 import Icon from "./Icon";
 
 function PaymentCard({item, assets, tempValue }) {
-  //  const [modalVisible, setModalVisible] = useState(false);
-  //  const [selectedItem, setSelectedItem] = useState(null);
+   const [modalVisible, setModalVisible] = useState(false);
+   const [selectedItem, setSelectedItem] = useState(null);
 
   const openModal = (item) => {
     console.log("Selected Fund in Modal",item);
@@ -60,70 +60,44 @@ function PaymentCard({item, assets, tempValue }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: colors.tertiary,
-    padding: 5,
-    alignItems: "center",
-    flexDirection: "row",
-    borderRadius: 20,
-    marginVertical: 5,
-    overflow: "hidden",
-    width: "100%",
-    height: 100,
-  },
-  title: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  status: {
-    backgroundColor: "pink",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+  card: {
+    backgroundColor: "white",
+    marginBottom: 10,
     borderRadius: 15,
-    textAlign: "center",
-  },
-  goalImageContainer: {
-    width: "30%",
-    height: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  image: {
-    width: 50,
-    height: 50,
-  },
-  goalReportContainer: {
-    width: "70%",
-    height: "100%",
-    justifyContent: "space-between",
-  },
-  overlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    // width: '90%',
-    backgroundColor: colors.primary,
-  },
-  goalInformation: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-  },
-  goalInformationNumeric: {
-    width: "80%",
-  },
-  goalInformationBar: {
-    backgroundColor: colors.secondary,
-    width: "80%",
-    height: 20,
-    borderRadius: 10,
-    overflow: "hidden",
+    padding: 15,
+    elevation: 3,
   },
   header: {
-    fontWeight: "900",
+    marginBottom: 5,
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 3,
+  },
+  label: {
+    color: "gray",
+  },
+  value: {
+    fontWeight: "500",
+  },
+  footer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 10,
+  },
+  price: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  button: {
+    backgroundColor: "#FBC6A4",
+    borderRadius: 20,
   },
 });
 

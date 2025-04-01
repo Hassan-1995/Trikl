@@ -222,8 +222,10 @@ console.log("Groupedin n Wallet Screen",groupedPayment,grouped);
           <FlatList
             data={groupedPayment}
             keyExtractor={(item) => item.payment_number}
-            renderItem={PaymentCard}
-          />
+                        renderItem={({ item }) => (
+              <PaymentCard assets={item} item={item} tempValue={route?.params} />
+            )}
+            />
         </View>
       </View>
     </Screen>
