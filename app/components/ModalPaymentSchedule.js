@@ -1,6 +1,7 @@
-import React from "react";
+import {useState,React} from "react";
 
-import { View, StyleSheet, Image, Dimensions } from "react-native";
+import { View, StyleSheet, Image, Dimensions, Text, TextInput, TouchableOpacity, Modal } from "react-native";
+import { DataTable, Provider as PaperProvider } from "react-native-paper";
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -10,7 +11,9 @@ import colors from "../config/colors";
 import AppButton from "./AppButton";
 const { width, height } = Dimensions.get("window");
 
-function ModalPaymentSchedule({ item, tempValue }) {
+function ModalPaymenSchedule({ item, tempValue,onClose }) {
+  console.log("Item in Payment Schedule Modal",item);
+  const [amount, setAmount] = useState("");
   const navigation = useNavigation();
 
   const radius = 50;
@@ -26,146 +29,90 @@ function ModalPaymentSchedule({ item, tempValue }) {
   };
 
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
-          width: width,
-          alignSelf: "center",
-        }}
-      >
-        <Svg height="150" width="150" viewBox="0 0 120 120">
-          <Circle
-            cx="60"
-            cy="60"
-            r={radius}
-            stroke="#ddd"
-            strokeWidth="15"
-            fill="none"
-          />
-          <Circle
-            cx="60"
-            cy="60"
-            r={radius}
-            stroke="#4caf50"
-            strokeWidth="15"
-            fill="none"
-            strokeDasharray={`${circumference}, ${circumference}`}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            transform="rotate(-90 60 60)"
-          />
-        </Svg>
+    <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <Text style={styles.title}>Payment Details</Text>
+          
+          <PaperProvider>
+            <DataTable>
+              <DataTable.Header>
+                <DataTable.Title>Transaction</DataTable.Title>
+                <DataTable.Title>Units</DataTable.Title>
+                <DataTable.Title>Price</DataTable.Title>
+                <DataTable.Title>Total</DataTable.Title>
+              </DataTable.Header>
 
-        <View
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: [{ translateX: -20 }, { translateY: -10 }], // Adjust for centering
-          }}
-        >
-          <AppText
-            style={{ textAlign: "center", fontSize: 16, fontWeight: "bold" }}
-          >
-            {((item.invested / item.goal) * 100).toFixed(1)}%
-          </AppText>
+              <DataTable.Row style={{ backgroundColor: '#E0E0E0' }}> 
+                <DataTable.Cell>0305 - 2000</DataTable.Cell>
+                <DataTable.Cell>1100</DataTable.Cell>
+                <DataTable.Cell>$1000</DataTable.Cell>
+                <DataTable.Cell>$330.00</DataTable.Cell>
+              </DataTable.Row>
+
+              <DataTable.Row>
+                <DataTable.Cell>0309 - 2000</DataTable.Cell>
+                <DataTable.Cell>177.0</DataTable.Cell>
+                <DataTable.Cell>$1000</DataTable.Cell>
+                <DataTable.Cell>$550.00</DataTable.Cell>
+              </DataTable.Row>
+            </DataTable>
+          </PaperProvider>
+          
+          <TextInput
+            style={styles.input}
+            placeholder="Pay Now ($)"
+            keyboardType="numeric"
+            value={amount}
+            onChangeText={setAmount}
+          />
+
+          <TouchableOpacity style={styles.button} onPress={onClose}>
+            <Text style={styles.buttonText}>Pay Now</Text>
+          </TouchableOpacity>
         </View>
       </View>
-
-      <View style={{ marginTop: 150 }}>
-        <AppText style={[styles.subHeading, { paddingHorizontal: 10 }]}>
-          I am currently {item?.status?.toLowerCase()} track to achieve my desired
-          goal.
-        </AppText>
-        <View style={styles.title}>
-          <AppText style={[styles.heading, { color: "white" }]}>
-            {item.title}
-          </AppText>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Target Value</AppText>
-            <AppText style={styles.description}>
-              I will due to pay date.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              Rs {item.goal?.toLocaleString()}
-            </AppText>
-          </View>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Invested Value</AppText>
-            <AppText style={styles.description}>
-              I paid this amount to date.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              {/* Rs {item.invested?.toLocaleString()} */}
-            </AppText>
-          </View>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Due Value</AppText>
-            <AppText style={styles.description}>
-              I have to pay remaing balance.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              {/* Rs {Math.abs(item.invested - item.goal).toLocaleString()} */}
-            </AppText>
-          </View>
-        </View>
-        <AppButton title={"Move Forward"} onPress={handlePress} />
-
-        {/* <Image source={item.image} style={styles.image} /> */}
-      </View>
-    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.5)",
+  },
+  modalContent: {
+    width: "90%",
+    backgroundColor: "#12203F",
+    padding: 20,
+    borderRadius: 10,
+  },
   title: {
-    backgroundColor: colors.secondary,
-    margin: 15,
-    padding: 15,
-    borderRadius: 15,
-    color: colors.white,
-  },
-  goal: {
-    flexDirection: "row", // Align items in a row
-    justifyContent: "space-between", // Space between elements
-    padding: 10, // Add padding for better spacing
-    marginHorizontal: 10, // Add margin to avoid stretching
-    borderBottomWidth: 2,
-    borderColor: colors.tertiary,
-  },
-  heading: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.primary,
-  },
-  subHeading: {
     fontSize: 18,
     fontWeight: "bold",
-    color: colors.secondary,
+    color: "white",
+    marginBottom: 10,
   },
-  description: {
-    fontSize: 14,
-    fontWeight: "400",
-    color: "#777",
-    textAlign: "justify",
-    lineHeight: 20,
+  input: {
+    borderWidth: 1,
+    borderColor: "gray",
+    borderRadius: 5,
+    padding: 10,
+    backgroundColor: "white",
+    marginTop: 10,
+  },
+  button: {
+    backgroundColor: "white",
+    padding: 15,
+    borderRadius: 5,
+    marginTop: 20,
+    alignItems: "center",
+  },
+  buttonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "black",
   },
 });
 
-export default ModalFundSelectionScreenComponent;
+export default ModalPaymenSchedule;

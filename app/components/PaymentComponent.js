@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 import AppText from "./AppText";
-import ModalFundSelectionScreenComponent from "./ModalFundSelectionScreenComponent";
+import ModalPaymenSchedule from "./ModalPaymentSchedule";
 import Icon from "./Icon";
 
 function PaymentCard({item, assets, tempValue }) {
@@ -21,7 +21,7 @@ function PaymentCard({item, assets, tempValue }) {
    const [selectedItem, setSelectedItem] = useState(null);
 
   const openModal = (item) => {
-    console.log("Selected Fund in Modal",item);
+    ;
     setSelectedItem(item);
      setModalVisible(true);
   };
@@ -83,7 +83,7 @@ function PaymentCard({item, assets, tempValue }) {
             </TouchableOpacity>
             {selectedItem && (
               <>
-                <ModalFundSelectionScreenComponent item={selectedItem} tempValue={tempValue} />
+                <ModalPaymenSchedule item={selectedItem} tempValue={tempValue} />
               </>
             )}
           </View>
