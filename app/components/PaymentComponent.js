@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 import AppText from "./AppText";
-import ModalPaymenSchedule from "./ModalPaymentSchedule";
+import RepaymentModal from "./ModalPaymentSchedule";
 import Icon from "./Icon";
 
 function PaymentCard({item, assets, tempValue }) {
@@ -83,7 +83,7 @@ function PaymentCard({item, assets, tempValue }) {
             </TouchableOpacity>
             {selectedItem && (
               <>
-                <ModalPaymenSchedule item={selectedItem} tempValue={tempValue} />
+                <RepaymentModal item={selectedItem} tempValue={tempValue} />
               </>
             )}
           </View>
