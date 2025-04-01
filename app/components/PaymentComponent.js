@@ -22,11 +22,12 @@ function PaymentCard({item, assets, tempValue }) {
 
   const openModal = (item) => {
     console.log("Selected Fund in Modal",item);
-    // setSelectedItem(item);
-  //   setModalVisible(true);
+    setSelectedItem(item);
+     setModalVisible(true);
   };
 
   return (
+    <>
     <Card style={styles.card}>
       <Card.Content>
         <View style={styles.header}>
@@ -35,7 +36,7 @@ function PaymentCard({item, assets, tempValue }) {
           </Text>
         </View>
         <View style={styles.row}>
-          <Text style={styles.label}>{item.label1}</Text>
+          <Text style={styles.label}>{item.goalName}</Text>
           <Text style={styles.value}>{item.value1}</Text>
         </View>
         {item.label2 && (
@@ -56,6 +57,41 @@ function PaymentCard({item, assets, tempValue }) {
         </View>
       </Card.Content>
     </Card>
+    <Modal
+        animationType="slide"
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity
+              style={{
+                // justifyContent: "center",
+                // flexGrow: 1,
+                alignItems: "flex-end",
+                // width: "100%",
+              }}
+              onPress={() => setModalVisible(false)}
+            >
+              <Icon
+                name={"close-box-outline"}
+                backgroundColor="transparent"
+                iconColor={colors.danger}
+                size={50}
+              />
+            </TouchableOpacity>
+            {selectedItem && (
+              <>
+                <ModalFundSelectionScreenComponent item={selectedItem} tempValue={tempValue} />
+              </>
+            )}
+          </View>
+        </View>
+      </Modal>
+    </>
+   
+
   );
 }
 
