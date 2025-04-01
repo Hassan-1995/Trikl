@@ -7,6 +7,7 @@ import {
   Image,
 } from "react-native";
 import Screen from "../components/Screen";
+import PaymentCard from "../components/PaymentComponent";
 import {StoreContext} from "../../GlobalState";
 import AppText from "../components/AppText";
 import colors from "../config/colors";
@@ -221,7 +222,7 @@ console.log("Groupedin n Wallet Screen",groupedPayment,grouped);
           <FlatList
             data={groupedPayment}
             keyExtractor={(item) => item.payment_number}
-            renderItem={renderTransaction}
+            renderItem={PaymentCard}
           />
         </View>
       </View>
