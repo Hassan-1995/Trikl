@@ -15,6 +15,7 @@ import colors from "../config/colors";
 import AppText from "./AppText";
 import RepaymentModal from "./ModalPaymentSchedule";
 import Icon from "./Icon";
+import ModalFundSelectionScreenComponent from "./ModalFundSelectionScreenComponent";
 
 function PaymentCard({item, assets, tempValue }) {
    const [modalVisible, setModalVisible] = useState(false);
@@ -87,7 +88,7 @@ function PaymentCard({item, assets, tempValue }) {
             </TouchableOpacity>
             {selectedItem && (
               <>
-                <RepaymentModal item={selectedItem} tempValue={tempValue} setModal={setModalVisible}onClose={onClose }/>
+                <RepaymentModal item={selectedItem} tempValue={tempValue} setModal={setModalVisible} />
               </>
             )}
           </View>
