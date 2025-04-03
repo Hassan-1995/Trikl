@@ -58,9 +58,9 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   header: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: "bold",
-    color: "#fff",
+    color: "#ffffff",
     textAlign: "center",
     marginBottom: 20,
   },
@@ -70,9 +70,10 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   headerText: {
-    fontSize: 28,
+    fontSize: 18,
     fontWeight: "bold",
-    color: "white",
+    text: "white", // White text color for header
+    backgroundColor: "orange", // Orange background color for header
   },
   rowLight: {
     backgroundColor: "#174EA6",
