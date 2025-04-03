@@ -1,206 +1,113 @@
-import {useState,React} from "react";
+import React, { useState } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { DataTable } from "react-native-paper";
 
-import { View,SafeAreaView,ScrollView, StyleSheet, Image, Dimensions,TextInput,TouchableOpacity } from "react-native";
-import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component'; // Import Table components
+const PaymentModal = ({ onClose }) => {
+  const [amount, setAmount] = useState("");
 
-import { useNavigation } from "@react-navigation/native";
-
-import { Svg, Circle } from "react-native-svg";
-import AppText from "./AppText";
-import colors from "../config/colors";
-import AppButton from "./AppButton";
-const { width, height } = Dimensions.get("window");
-
-const tableHead = ['Date', 'Amount'];
-const tableData = [
-    ['2024-07-28', '$100.00'],
-    ['2024-08-28', '$100.00'],
-    ['2024-09-28', '$100.00'],
-    ['2024-10-28', '$100.00'], //Added more data, so it scrolls.
-    ['2024-11-28', '$100.00'],
-    ['2024-12-28', '$100.00'],
-];
-
-function RepaymentModal({ item, tempValue,onClose }) {
-  const [amount, setAmount] = useState('300.00');
-  // const [fontsLoaded] = useFonts({
-  //     Nunito_600SemiBold,
-  //     Nunito_700Bold,
-  // });
-
-  // if (!fontsLoaded) {
-  //     return null; // Or a loading indicator
-  // }
-
-  const navigation = useNavigation();
-
-  const radius = 50;
-  const circumference = 2 * Math.PI * radius;
-  const goal = item.goal || 1;
-  const invested = item.invested || 0;
-  const investedPercentage = Math.min((invested / goal) * 100, 100);
-  const strokeDashoffset = (1 - investedPercentage / 100) * circumference;
-
-  const handlePress = () => {
-    console.log("Pay Pressed",tempValue);
-    navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
-  };
+  const paymentSchedule = [
+    { id: "1", date: "May 15", amount: "$100.00" },
+    { id: "2", date: "Jun 15", amount: "$100.00" },
+    { id: "3", date: "Jul 15", amount: "$100.00" },
+    { id: "4", date: "Aug 15", amount: "$50.00" },
+  ];
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-    <View style={styles.modalContainer}>
-        <View style={styles.modalContent}>
-            <View style={styles.modalHeader}>
-                <AppText style={styles.modalTitle}>Payment Details</AppText>
-                <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                    <AppText style={styles.closeButtonText}>&times;</AppText>
-                </TouchableOpacity>
-            </View>
+    <View style={styles.container}>
+      <Text style={styles.header}>Payment Schedule</Text>
 
-            <ScrollView style={styles.paymentScheduleContainer}>
-                <AppText style={styles.scheduleHeader}>Payment Schedule</AppText>
-                <Table borderStyle={styles.tableBorder}>
-                    <Row data={tableHead} style={styles.tableHead} textStyle={styles.tableHeadText} />
-                    <TableWrapper>
-                        <Rows data={tableData} textStyle={styles.tableDataText} />
-                    </TableWrapper>
-                </Table>
-            </ScrollView>
+      {/* Payment Schedule Table */}
+      <DataTable style={styles.table}>
+        <DataTable.Header>
+          <DataTable.Title style={styles.headerText}>Due Date</DataTable.Title>
+          <DataTable.Title style={styles.headerText}>Amount</DataTable.Title>
+        </DataTable.Header>
 
-            <View style={styles.inputGroup}>
-                <AppText style={styles.inputLabel}>Amount to Pay</AppText>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter amount"
-                    value={amount}
-                    onChangeText={setAmount}
-                    keyboardType="numeric"
-                />
-            </View>
+        {paymentSchedule.map((item, index) => (
+          <DataTable.Row key={item.id} style={[index % 2 === 0 ? styles.rowLight : styles.rowDark]}>
+            <DataTable.Cell style={styles.cell}>{item.date}</DataTable.Cell>
+            <DataTable.Cell style={styles.cell}>{item.amount}</DataTable.Cell>
+          </DataTable.Row>
+        ))}
+      </DataTable>
 
-            <TouchableOpacity style={styles.payButton} onPress={handlePress}>
-                <AppText style={styles.payButtonText}>Pay Now</AppText>
-            </TouchableOpacity>
-        </View>
+      {/* Amount Input */}
+      <Text style={styles.label}>Amount</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="$"
+        placeholderTextColor="#ccc"
+        keyboardType="numeric"
+        value={amount}
+        onChangeText={setAmount}
+      />
+
+      {/* Pay Button */}
+      <TouchableOpacity style={styles.button} onPress={() => alert("Payment Initiated")}>
+        <Text style={styles.buttonText}>Pay</Text>
+      </TouchableOpacity>
     </View>
-</SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  modalContainer: {
-      flex: 1,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
-      justifyContent: 'center',
-      alignItems: 'center',
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    padding: 20,
+    justifyContent: "center",
   },
-  modalContent: {
-      backgroundColor: '#f0f9ff', // Light blue
-      borderRadius: 16,
-      padding: 20,
-      width: '90%',
-      maxWidth: 400,
-      maxHeight: height * 0.8, // Limit height and enable scrolling
-      position: 'relative',
-      shadowColor: '#000',
-      shadowOffset: { width: 0, height: 2 },
-      shadowOpacity: 0.25,
-      shadowRadius: 4,
-      elevation: 5,
+  header: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#fff",
+    textAlign: "center",
+    marginBottom: 20,
   },
-  modalHeader: {
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      marginBottom: 20,
-      paddingBottom: 10,
-      borderBottomWidth: 1,
-      borderBottomColor: '#e0f2fe', // Lighter blue border
+  table: {
+    backgroundColor: "#174EA6",
+    borderRadius: 10,
+    padding: 10,
   },
-  modalTitle: {
-      fontSize: 20,
-      fontFamily: 'Nunito_700Bold',
-      color: '#0369a1', // Darker blue
-      margin: 0,
+  headerText: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "white",
   },
-  closeButton: {
-      position: 'relative',
-      padding: 0,
-      margin: 0,
+  rowLight: {
+    backgroundColor: "#174EA6",
   },
-  closeButtonText: {
-      color: '#4b5563',
-      fontSize: 24,
-      fontWeight: 'bold',
+  rowDark: {
+    backgroundColor: "#0E3C78",
   },
-  paymentScheduleContainer: {
-      marginBottom: 20,
-      maxHeight: height * 0.3, // Limit the height of the table
+  cell: {
+    fontSize: 16,
+    color: "#fff",
   },
-  scheduleHeader: {
-      fontSize: 16,
-      fontFamily: 'Nunito_600SemiBold',
-      color: '#0369a1', // Darker blue
-      marginBottom: 10,
-  },
-  tableBorder: {
-      borderWidth: 1,
-      borderColor: '#e0f2fe', // Lighter blue border
-      borderRadius: 8,
-      overflow: 'hidden', //Clip the border.
-  },
-  tableHead: {
-      backgroundColor: '#e0f7fa', // Very light blue
-      height: 40,
-  },
-  tableHeadText: {
-      fontSize: 14,
-      fontFamily: 'Nunito_600SemiBold',
-      color: '#0369a1', // Dark blue
-      textAlign: 'left',
-      paddingLeft: 5,
-  },
-  tableDataText: {
-      fontSize: 14,
-      color: '#1f2937',
-      paddingLeft: 5,
-  },
-  inputGroup: {
-      marginBottom: 20,
-  },
-  inputLabel: {
-      display: 'block',
-      marginBottom: 8,
-      fontSize: 16,
-      fontFamily: 'Nunito_600SemiBold',
-      color: '#0369a1', // Darker blue
+  label: {
+    fontSize: 18,
+    color: "#fff",
+    marginTop: 20,
   },
   input: {
-      width: '100%',
-      padding: 10,
-      borderWidth: 1,
-      borderColor: '#67e8f9', // Light blue border
-      borderRadius: 8,
-      fontSize: 16,
-      color: '#1f2937',
-      backgroundColor: '#fff',
+    backgroundColor: "#0E3C78",
+    color: "#fff",
+    padding: 10,
+    borderRadius: 5,
+    marginTop: 5,
   },
-  payButton: {
-      backgroundColor: '#3b82f6', // Tailwind's blue-500
-      color: 'white',
-      paddingVertical: 12,
-      borderRadius: 8,
-      fontSize: 18,
-      fontFamily: 'Nunito_600SemiBold',
-      cursor: 'pointer',
-      width: '100%',
-      alignItems: 'center',
+  button: {
+    backgroundColor: "#1E63EC",
+    padding: 15,
+    borderRadius: 5,
+    marginTop: 20,
+    alignItems: "center",
   },
-  payButtonText: {
-      color: 'white',
-      fontSize: 18,
-      fontFamily: 'Nunito_600SemiBold'
-  }
+  buttonText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "bold",
+  },
 });
 
-export default RepaymentModal;
+export default PaymentModal;

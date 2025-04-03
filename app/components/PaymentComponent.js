@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import colors from "../config/colors";
 import AppText from "./AppText";
-import RepaymentModal from "./ModalPaymentSchedule";
+import PaymentModal  from "./ModalPaymentSchedule";
 import Icon from "./Icon";
 import ModalFundSelectionScreenComponent from "./ModalFundSelectionScreenComponent";
 
@@ -88,7 +88,7 @@ function PaymentCard({item, assets, tempValue }) {
             </TouchableOpacity>
             {selectedItem && (
               <>
-                <RepaymentModal item={selectedItem} tempValue={tempValue} setModal={setModalVisible} />
+                <PaymentModal item={selectedItem} tempValue={tempValue} setModal={setModalVisible} />
               </>
             )}
           </View>
