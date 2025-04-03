@@ -1,10 +1,21 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import {useState,React} from "react";
+
+import { View, StyleSheet, Image, Dimensions } from "react-native";
+import { Text, TextInput, TouchableOpacity } from "react-native";
 import { DataTable } from "react-native-paper";
 
-const PaymentModal = ({ onClose }) => {
-  const [amount, setAmount] = useState("");
+import { useNavigation } from "@react-navigation/native";
 
+import { Svg, Circle } from "react-native-svg";
+import AppText from "./AppText";
+import colors from "../config/colors";
+import AppButton from "./AppButton";
+const { width, height } = Dimensions.get("window");
+
+function PaymentModal({ item,allPayments, onClose }){
+  console.log("in Payment Modal",item,allPayments)
+  const [amount, setAmount] = useState(item?.totalAmount);
+  const [schedule, setSchedule] = useState([]);
   const paymentSchedule = [
     { id: "1", date: "May 15", amount: "$100.00" },
     { id: "2", date: "Jun 15", amount: "$100.00" },
@@ -12,12 +23,25 @@ const PaymentModal = ({ onClose }) => {
     { id: "4", date: "Aug 15", amount: "$50.00" },
   ];
 
+
+
+
+
+const handePay=()=>{
+  console.log("In handle Pay",amount,item)
+}
+
+
+
+
+  const handlePress = () => {
+    console.log("Fund Selected",tempValue);
+   // navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Payment Schedule</Text>
-
-      {/* Payment Schedule Table */}
-      <DataTable style={styles.table}>
+ <DataTable style={styles.table}>
         <DataTable.Header>
           <DataTable.Title style={styles.headerText}>Due Date</DataTable.Title>
           <DataTable.Title style={styles.headerText}>Amount</DataTable.Title>
@@ -31,8 +55,11 @@ const PaymentModal = ({ onClose }) => {
         ))}
       </DataTable>
 
-      {/* Amount Input */}
-      <Text style={styles.label}>Amount</Text>
+       
+      
+      
+           {/* Amount Input */}
+           <Text style={styles.label}>Amount</Text>
       <TextInput
         style={styles.input}
         placeholder="$"
@@ -41,74 +68,50 @@ const PaymentModal = ({ onClose }) => {
         value={amount}
         onChangeText={setAmount}
       />
+   
+     
+        <AppButton title={"Move Forward"} onPress={handePay} />
 
-      {/* Pay Button */}
-      <TouchableOpacity style={styles.button} onPress={() => alert("Payment Initiated")}>
-        <Text style={styles.buttonText}>Pay</Text>
-      </TouchableOpacity>
-    </View>
+        {/* <Image source={item.image} style={styles.image} /> */}
+      </View>
+  
   );
-};
+}
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#FFFFFF",
-    padding: 20,
-    justifyContent: "center",
-  },
-  header: {
-    fontSize: 28,
-    fontWeight: "bold",
-    color: "#ffffff",
-    textAlign: "center",
-    marginBottom: 20,
-  },
-  table: {
-    backgroundColor: "#174EA6",
-    borderRadius: 10,
-    padding: 10,
-  },
-  headerText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    text: "white", // White text color for header
-    backgroundColor: "orange", // Orange background color for header
-  },
-  rowLight: {
-    backgroundColor: "#174EA6",
-  },
-  rowDark: {
-    backgroundColor: "#0E3C78",
-  },
-  cell: {
-    fontSize: 16,
-    color: "#fff",
-  },
-  label: {
-    fontSize: 18,
-    color: "#fff",
-    marginTop: 20,
-  },
-  input: {
-    backgroundColor: "#0E3C78",
-    color: "#fff",
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 5,
-  },
-  button: {
-    backgroundColor: "#1E63EC",
+  container: {},
+  title: {
+    backgroundColor: colors.secondary,
+    margin: 15,
     padding: 15,
-    borderRadius: 5,
-    marginTop: 20,
-    alignItems: "center",
+    borderRadius: 15,
+    color: colors.white,
   },
-  buttonText: {
-    fontSize: 18,
-    color: "#fff",
+  goal: {
+    flexDirection: "row", // Align items in a row
+    justifyContent: "space-between", // Space between elements
+    padding: 10, // Add padding for better spacing
+    marginHorizontal: 10, // Add margin to avoid stretching
+    borderBottomWidth: 2,
+    borderColor: colors.tertiary,
+  },
+  heading: {
+    fontSize: 20,
     fontWeight: "bold",
+    color: colors.primary,
+  },
+  subHeading: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: colors.secondary,
+  },
+  description: {
+    fontSize: 14,
+    fontWeight: "400",
+    color: "#777",
+    textAlign: "justify",
+    lineHeight: 20,
   },
 });
 
-export default PaymentModal;
+export default PaymentModal ;

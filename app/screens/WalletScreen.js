@@ -23,12 +23,12 @@ const transactions = [
 ];
 
 const payments = [
-  { paymenSchedule_id: 375, goal_id: 1, amount: 5000, goalName: "My vacation" },
-  { paymenSchedule_id: 376, goal_id: 1, amount: 2000, goalName: "My vacation" },
-  { paymenSchedule_id: 378, goal_id: 1, amount: 2000, goalName: "My vacation" },
-  { paymenSchedule_id: 380, goal_id: 1, amount: 2000, goalName: "My vacation" },
-  { paymenSchedule_id: 381, goal_id: 4, amount: 2000, goalName: "My vacation" },
-  { paymenSchedule_id: 383, goal_id: 6, amount: 2000, goalName: "My vacation" },
+  { paymenSchedule_id: 375, goal_id: 1, amount: 5000, goalName: "My vacation1" },
+  { paymenSchedule_id: 376, goal_id: 1, amount: 2000, goalName: "My vacation2" },
+  { paymenSchedule_id: 378, goal_id: 1, amount: 2000, goalName: "My vacation3" },
+  { paymenSchedule_id: 380, goal_id: 1, amount: 2000, goalName: "My vacation4" },
+  { paymenSchedule_id: 381, goal_id: 4, amount: 2000, goalName: "My vacation5" },
+  { paymenSchedule_id: 383, goal_id: 6, amount: 2000, goalName: "My vacation6" },
   { paymenSchedule_id: 384, goal_id: 1, amount: 2000, goalName: "My vacation" },
   { paymenSchedule_id: 386, goal_id: 6, amount: 2000, goalName: "My vacation" },
   { paymenSchedule_id: 387, goal_id: 1, amount: 2000, goalName: "My vacation" },
@@ -223,7 +223,7 @@ console.log("Groupedin n Wallet Screen",groupedPayment,grouped);
             data={groupedPayment}
             keyExtractor={(item) => item.key}
                         renderItem={({ item }) => (
-              <PaymentCard assets={item} item={item} tempValue={route?.params} />
+              <PaymentCard assets={item} item={item} tempValue={route?.params} allPayments={payments} />
             )}
             />
         </View>

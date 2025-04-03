@@ -17,7 +17,7 @@ import PaymentModal  from "./ModalPaymentSchedule";
 import Icon from "./Icon";
 import ModalFundSelectionScreenComponent from "./ModalFundSelectionScreenComponent";
 
-function PaymentCard({item, assets, tempValue }) {
+function PaymentCard({item, assets, tempValue,allPayments }) {
    const [modalVisible, setModalVisible] = useState(false);
    const [selectedItem, setSelectedItem] = useState(null);
 
@@ -88,7 +88,7 @@ function PaymentCard({item, assets, tempValue }) {
             </TouchableOpacity>
             {selectedItem && (
               <>
-                <PaymentModal item={selectedItem} tempValue={tempValue} setModal={setModalVisible} />
+                <PaymentModal item={selectedItem} tempValue={tempValue} setModal={setModalVisible} allPayments={allPayments} />
               </>
             )}
           </View>
