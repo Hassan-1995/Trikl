@@ -1,6 +1,7 @@
-import React from "react";
+import {useState,React} from "react";
 
-import { View, StyleSheet, Image, Dimensions } from "react-native";
+import { View,SafeAreaView,ScrollView, StyleSheet, Image, Dimensions,TextInput,TouchableOpacity } from "react-native";
+import { Table, TableWrapper, Row, Rows, Col } from 'react-native-table-component'; // Import Table components
 
 import { useNavigation } from "@react-navigation/native";
 
@@ -10,7 +11,27 @@ import colors from "../config/colors";
 import AppButton from "./AppButton";
 const { width, height } = Dimensions.get("window");
 
-function RepaymentModal({ item, tempValue }) {
+const tableHead = ['Date', 'Amount'];
+const tableData = [
+    ['2024-07-28', '$100.00'],
+    ['2024-08-28', '$100.00'],
+    ['2024-09-28', '$100.00'],
+    ['2024-10-28', '$100.00'], //Added more data, so it scrolls.
+    ['2024-11-28', '$100.00'],
+    ['2024-12-28', '$100.00'],
+];
+
+function RepaymentModal({ item, tempValue,onClose }) {
+  const [amount, setAmount] = useState('300.00');
+  // const [fontsLoaded] = useFonts({
+  //     Nunito_600SemiBold,
+  //     Nunito_700Bold,
+  // });
+
+  // if (!fontsLoaded) {
+  //     return null; // Or a loading indicator
+  // }
+
   const navigation = useNavigation();
 
   const radius = 50;
@@ -21,151 +42,165 @@ function RepaymentModal({ item, tempValue }) {
   const strokeDashoffset = (1 - investedPercentage / 100) * circumference;
 
   const handlePress = () => {
-    console.log("Fund Selected",tempValue);
+    console.log("Pay Pressed",tempValue);
     navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
   };
 
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
-          width: width,
-          alignSelf: "center",
-        }}
-      >
-        <Svg height="150" width="150" viewBox="0 0 120 120">
-          <Circle
-            cx="60"
-            cy="60"
-            r={radius}
-            stroke="#ddd"
-            strokeWidth="15"
-            fill="none"
-          />
-          <Circle
-            cx="60"
-            cy="60"
-            r={radius}
-            stroke="#4caf50"
-            strokeWidth="15"
-            fill="none"
-            strokeDasharray={`${circumference}, ${circumference}`}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            transform="rotate(-90 60 60)"
-          />
-        </Svg>
+    <SafeAreaView style={{ flex: 1 }}>
+    <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+                <AppText style={styles.modalTitle}>Payment Details</AppText>
+                <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+                    <AppText style={styles.closeButtonText}>&times;</AppText>
+                </TouchableOpacity>
+            </View>
 
-        <View
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: [{ translateX: -20 }, { translateY: -10 }], // Adjust for centering
-          }}
-        >
-          <AppText
-            style={{ textAlign: "center", fontSize: 16, fontWeight: "bold" }}
-          >
-            {((item.invested / item.goal) * 100).toFixed(1)}%
-          </AppText>
-        </View>
-      </View>
+            <ScrollView style={styles.paymentScheduleContainer}>
+                <AppText style={styles.scheduleHeader}>Payment Schedule</AppText>
+                <Table borderStyle={styles.tableBorder}>
+                    <Row data={tableHead} style={styles.tableHead} textStyle={styles.tableHeadText} />
+                    <TableWrapper>
+                        <Rows data={tableData} textStyle={styles.tableDataText} />
+                    </TableWrapper>
+                </Table>
+            </ScrollView>
 
-      <View style={{ marginTop: 150 }}>
-        <AppText style={[styles.subHeading, { paddingHorizontal: 10 }]}>
-          I am currently {item?.status?.toLowerCase()} track to achieve my desired
-          goal.
-        </AppText>
-        <View style={styles.title}>
-          <AppText style={[styles.heading, { color: "white" }]}>
-            {item.title}
-          </AppText>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Target Value</AppText>
-            <AppText style={styles.description}>
-              I will due to pay date.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              Rs {item.goal?.toLocaleString()}
-            </AppText>
-          </View>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Invested Value</AppText>
-            <AppText style={styles.description}>
-              I paid this amount to date.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              {/* Rs {item.invested?.toLocaleString()} */}
-            </AppText>
-          </View>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Due Value</AppText>
-            <AppText style={styles.description}>
-              I have to pay remaing balance.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              {/* Rs {Math.abs(item.invested - item.goal).toLocaleString()} */}
-            </AppText>
-          </View>
-        </View>
-        <AppButton title={"Move Forward"} onPress={handlePress} />
+            <View style={styles.inputGroup}>
+                <AppText style={styles.inputLabel}>Amount to Pay</AppText>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter amount"
+                    value={amount}
+                    onChangeText={setAmount}
+                    keyboardType="numeric"
+                />
+            </View>
 
-        {/* <Image source={item.image} style={styles.image} /> */}
-      </View>
+            <TouchableOpacity style={styles.payButton} onPress={handlePress}>
+                <AppText style={styles.payButtonText}>Pay Now</AppText>
+            </TouchableOpacity>
+        </View>
     </View>
+</SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
-  title: {
-    backgroundColor: colors.secondary,
-    margin: 15,
-    padding: 15,
-    borderRadius: 15,
-    color: colors.white,
+  modalContainer: {
+      flex: 1,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent background
+      justifyContent: 'center',
+      alignItems: 'center',
   },
-  goal: {
-    flexDirection: "row", // Align items in a row
-    justifyContent: "space-between", // Space between elements
-    padding: 10, // Add padding for better spacing
-    marginHorizontal: 10, // Add margin to avoid stretching
-    borderBottomWidth: 2,
-    borderColor: colors.tertiary,
+  modalContent: {
+      backgroundColor: '#f0f9ff', // Light blue
+      borderRadius: 16,
+      padding: 20,
+      width: '90%',
+      maxWidth: 400,
+      maxHeight: height * 0.8, // Limit height and enable scrolling
+      position: 'relative',
+      shadowColor: '#000',
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.25,
+      shadowRadius: 4,
+      elevation: 5,
   },
-  heading: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.primary,
+  modalHeader: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      marginBottom: 20,
+      paddingBottom: 10,
+      borderBottomWidth: 1,
+      borderBottomColor: '#e0f2fe', // Lighter blue border
   },
-  subHeading: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: colors.secondary,
+  modalTitle: {
+      fontSize: 20,
+      fontFamily: 'Nunito_700Bold',
+      color: '#0369a1', // Darker blue
+      margin: 0,
   },
-  description: {
-    fontSize: 14,
-    fontWeight: "400",
-    color: "#777",
-    textAlign: "justify",
-    lineHeight: 20,
+  closeButton: {
+      position: 'relative',
+      padding: 0,
+      margin: 0,
   },
+  closeButtonText: {
+      color: '#4b5563',
+      fontSize: 24,
+      fontWeight: 'bold',
+  },
+  paymentScheduleContainer: {
+      marginBottom: 20,
+      maxHeight: height * 0.3, // Limit the height of the table
+  },
+  scheduleHeader: {
+      fontSize: 16,
+      fontFamily: 'Nunito_600SemiBold',
+      color: '#0369a1', // Darker blue
+      marginBottom: 10,
+  },
+  tableBorder: {
+      borderWidth: 1,
+      borderColor: '#e0f2fe', // Lighter blue border
+      borderRadius: 8,
+      overflow: 'hidden', //Clip the border.
+  },
+  tableHead: {
+      backgroundColor: '#e0f7fa', // Very light blue
+      height: 40,
+  },
+  tableHeadText: {
+      fontSize: 14,
+      fontFamily: 'Nunito_600SemiBold',
+      color: '#0369a1', // Dark blue
+      textAlign: 'left',
+      paddingLeft: 5,
+  },
+  tableDataText: {
+      fontSize: 14,
+      color: '#1f2937',
+      paddingLeft: 5,
+  },
+  inputGroup: {
+      marginBottom: 20,
+  },
+  inputLabel: {
+      display: 'block',
+      marginBottom: 8,
+      fontSize: 16,
+      fontFamily: 'Nunito_600SemiBold',
+      color: '#0369a1', // Darker blue
+  },
+  input: {
+      width: '100%',
+      padding: 10,
+      borderWidth: 1,
+      borderColor: '#67e8f9', // Light blue border
+      borderRadius: 8,
+      fontSize: 16,
+      color: '#1f2937',
+      backgroundColor: '#fff',
+  },
+  payButton: {
+      backgroundColor: '#3b82f6', // Tailwind's blue-500
+      color: 'white',
+      paddingVertical: 12,
+      borderRadius: 8,
+      fontSize: 18,
+      fontFamily: 'Nunito_600SemiBold',
+      cursor: 'pointer',
+      width: '100%',
+      alignItems: 'center',
+  },
+  payButtonText: {
+      color: 'white',
+      fontSize: 18,
+      fontFamily: 'Nunito_600SemiBold'
+  }
 });
 
 export default RepaymentModal;
