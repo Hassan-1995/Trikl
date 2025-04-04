@@ -23,12 +23,12 @@ const transactions = [
 ];
 
 const payments = [
-  { paymenSchedule_id: 375, goal_id: 1, amount: 5000, goalName: "My vacation1" },
-  { paymenSchedule_id: 376, goal_id: 1, amount: 2000, goalName: "My vacation2" },
-  { paymenSchedule_id: 378, goal_id: 1, amount: 2000, goalName: "My vacation3" },
-  { paymenSchedule_id: 380, goal_id: 1, amount: 2000, goalName: "My vacation4" },
-  { paymenSchedule_id: 381, goal_id: 4, amount: 2000, goalName: "My vacation5" },
-  { paymenSchedule_id: 383, goal_id: 6, amount: 2000, goalName: "My vacation6" },
+  { paymenSchedule_id: 375, goal_id: 1, amount: 5000, goalName: "My vacation1",allocationId:3 },
+  { paymenSchedule_id: 376, goal_id: 1, amount: 2000, goalName: "My vacation2",allocationId:3 },
+  { paymenSchedule_id: 378, goal_id: 1, amount: 2000, goalName: "My vacation3",allocationId:3 },
+  { paymenSchedule_id: 380, goal_id: 1, amount: 2000, goalName: "My vacation4",allocationId:3 },
+  { paymenSchedule_id: 381, goal_id: 4, amount: 2000, goalName: "My vacation5",allocationId:3 },
+  { paymenSchedule_id: 383, goal_id: 6, amount: 2000, goalName: "My vacation6",allocationId:3 },
   { paymenSchedule_id: 384, goal_id: 1, amount: 2000, goalName: "My vacation" },
   { paymenSchedule_id: 386, goal_id: 6, amount: 2000, goalName: "My vacation" },
   { paymenSchedule_id: 387, goal_id: 1, amount: 2000, goalName: "My vacation" },
@@ -62,6 +62,7 @@ function WalletScreen({ props, route }) {
   const[schedule,setSchedule]= useState(ps);
   const[groupedPayment,setGroupedPayment]= useState([]);
 
+
 // first useeffect for sql query
   useEffect(() => {
     console.log("Context in  Wallet Sceen",contextData);
@@ -70,7 +71,7 @@ function WalletScreen({ props, route }) {
 
     async function  getSchedule(userId){
      // sql="SELECT * FROM `PaymentSchedule` WHERE goal_id="+userId.toString();
-     const  sql="SELECT ps.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE ps.due_date < CURDATE()AND ug.UserId ="+userId.toString();
+     const  sql="SELECT ps.*,ug.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE ps.due_date < CURDATE()AND ug.UserId ="+userId.toString();
 
       const response= await sqlquery(sql,setSchedule);
       console.log("SQL response in Wallet Screen",response,schedule);
@@ -84,18 +85,20 @@ console.log("Groupedin n Wallet Screen",groupedPayment,grouped);
   },[]);
 
   // request handler
-  const handleRequest = (item) => {
+  const handleInvestmentRequest = async(item,amount) => {
     // This function will be executed when the button is pressed.
-    console.log("Handle Request button pressed!",item);
-   // await requestInvestment();
+    console.log("Handle Request button pressed!",item,amount);
+    const resp=await requestInvestment(item,amount);
+  
     // You can add your desired logic here, e.g., navigation, API calls, etc.
   };
- async  function  requestInvestment(){
-  let goalId= 1;
-  let allocationId=1;
+ async  function  requestInvestment(item,reqamount){
+  let goalId= item.goal_id;
+  let allocationId=item.allocationId;
   let requestType="Invest";
-  let amount=1000;
-  const response= await addRequest(goalId,requestType,allocationId,amount);
+  let amount=reqamount;
+  let userId= contextData.user.user_Id
+  const response= await addRequest(userId,goalId,requestType,allocationId,amount);
   console.log("Response after request",response);
 
   }
@@ -223,7 +226,7 @@ console.log("Groupedin n Wallet Screen",groupedPayment,grouped);
             data={groupedPayment}
             keyExtractor={(item) => item.key}
                         renderItem={({ item }) => (
-              <PaymentCard assets={item} item={item} tempValue={route?.params} allPayments={payments} />
+              <PaymentCard assets={item} item={item} tempValue={route?.params} handleInvestmentRequest={handleInvestmentRequest} allPayments={payments} />
             )}
             />
         </View>

@@ -12,7 +12,7 @@ import colors from "../config/colors";
 import AppButton from "./AppButton";
 const { width, height } = Dimensions.get("window");
 
-function PaymentModal({ item,allPayments, onClose }){
+function PaymentModal({ item,allPayments, onClose,handleInvestmentRequest }){
   console.log("in Payment Modal",item,allPayments)
   const [amount, setAmount] = useState(item?.totalAmount);
   const [schedule, setSchedule] = useState([]);
@@ -29,6 +29,7 @@ function PaymentModal({ item,allPayments, onClose }){
 
 const handePay=()=>{
   console.log("In handle Pay",amount,item)
+  handleInvestmentRequest(item,amount);
 }
 
 

@@ -99,10 +99,11 @@ const apiUrl= baseUrl+"user/adduser"
                         }
                       }
 // add request API call
-export const addRequest= async(goalId, requestType,allocationId, amount)=>{
+export const addRequest= async(userId,goalId, requestType,allocationId, amount)=>{
   const apiUrl= baseUrl+"portfolio/addRequest";
-  console.log("Arguments",goalId, requestType,allocationId, amount);
+  console.log("Argumentsin Add request",userId,goalId, requestType,allocationId, amount);
   const payload={
+    userId:userId,
     goalId:goalId,
     request_type:requestType, 
     allocation_id:allocationId,
@@ -122,9 +123,11 @@ export const addRequest= async(goalId, requestType,allocationId, amount)=>{
               'Content-Type': 'application/json'
             }
           });
-          console.log('User Request successfully:', response.data);
+          alert("request submitted");
+          console.log('User Request Submitted successfully:', response.data);
         } catch (error) {
           console.error('Error adding request:', error.response ? error.response.data : error.message);
+          alert("request error");
         }
       }
     export const sqlquery= async(sql,dispatch)=>{
