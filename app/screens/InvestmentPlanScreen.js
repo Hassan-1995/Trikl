@@ -10,7 +10,7 @@ import AppText from "../components/AppText";
 
 const items = [
   {
-    title: "Education",
+   
     subTitle: "What is your target for this goal?",
     description:
       "You are setting up the total amount which you would like to achieve.",
@@ -49,9 +49,9 @@ function InvestmentPlanScreen({ navigation, route }) {
     recurringAmount:0,
   });
 
-  //const contextData = useContext(StoreContext);
+  const contextData = useContext(StoreContext);
   console.log("InvestmentPlanScreen", route.params);
-  //console.log("Context in InvestmentPlanScreen", contextData);
+  console.log("Context in InvestmentPlanScreen", contextData);
 
   useEffect(() => {
     if (amount.length == 3) {
@@ -88,39 +88,69 @@ console.log("Compiled TVM in Investment Planner",tvm);
       );
     }
   }, [amount]);
+  //useeffect for tvm
+  useEffect(() => {
+    let tvm={
+      target:target,
+      initial:initial,
+      recurring:recurring,
+      frequency:frequency,
+
+    }
+    console.log("TVM in Use effect",tvm)
+    
+  }, [target,initial,recurring,frequency]);
 
   const handlePress = (keyId) => {
-    setActiveComponent(items[keyId]);
-
-    //filtvm(keyId);
+    console.log("IN continue", keyId, items[keyId]);
+  
     setAmount([...amount, number]);
     setNumber(0);
-    if (keyId == 3) {
-      setActiveComponent(items[0]);
-    }
-    //console.log("TVM Values ",keyId,target,initial,recurroong,frequency);
-   // console.log("Button from investmentPlanScreen ",keyId,amount, button.value);
-  };
-  function filtvm(keyId){
-    console.log("before TVM Values ",keyId,target,initial,recurroong,frequency);
-    switch(keyId) {
-      case 1:
-        setTarget(number);
-        break;
-      case 2:
-       setInitial(number);
-       break;
-       case 3:
-        setRecurring(number);
-         break;
   
-      default:
-      break;
+    if (keyId == 3) {
+      console.log("last question answered, moving to Risk Profiling", keyId);
+      console.log("Input Values", amount, button);
+    } else {
+      setActiveComponent(items[keyId]);
     }
-    setNumber(0);
+  
+    // Call filltvm and pass number and button directly
+    filltvm(keyId, number, button);
+  };
 
-return;
+ function filltvm(keyId, value, buttonVal) {
+  let updatedTarget = target;
+  let updatedInitial = initial;
+  let updatedRecurring = recurring;
+  let updatedFrequency = frequency;
+
+  switch (keyId) {
+    case 1:
+      setTarget(value);
+      updatedTarget = value;
+      break;
+    case 2:
+      setInitial(value);
+      updatedInitial = value;
+      break;
+    case 3:
+      setRecurring(value);
+      setFrequency(buttonVal.value);
+      updatedRecurring = value;
+      updatedFrequency = buttonVal.value;
+      break;
+    default:
+      break;
   }
+
+  console.log("✅ Updated TVM Values", {
+    keyId,
+    target: updatedTarget,
+    initial: updatedInitial,
+    recurring: updatedRecurring,
+    frequency: updatedFrequency,
+  });
+}
 
   const handleAmount = (value) => {
 

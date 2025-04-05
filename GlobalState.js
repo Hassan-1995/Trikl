@@ -8,9 +8,18 @@ export const StoreProvider = ({ children }) => {
     user_name: "Guest",
     user_email: "guest@finomics.com.pk",
   });
+  const [goal, setGoal] = useState({
+    goalName:"Dummy",
+    templateId:"",
+    target:0,
+    initialContribution:0,
+    recurring:0,
+    timeHorizon:0,
+  });
+  const [riskProfile, setRiskProfile] = useState({ });
 
   return (
-    <StoreContext.Provider value={{ user, setUser }}>
+    <StoreContext.Provider value={{ user, setUser,goal,setGoal,riskProfile,setRiskProfile }}>
       {children}
     </StoreContext.Provider>
   );

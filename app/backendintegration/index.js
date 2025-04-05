@@ -37,7 +37,7 @@ const apiUrl= baseUrl+"user/adduser"
               return
             }
           }
-          export const addGoal= async(goaltemplate, target,initialInv,frequency, recurring,duration)=>{
+          export const addGoal= async(goaltemplate, target,initialInv,frequency, recurring,duration,)=>{
             const apiUrl= baseUrl+"goal/addgoal";
             console.log("Arguments",goaltemplate, target,initialInv,frequency, recurring,duration)
             const payload={

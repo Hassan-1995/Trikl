@@ -38,7 +38,7 @@ function InvestmentScreen({ navigation, route }) {
 
      const contextData = useContext(StoreContext);
 
-     console.log("Context in InvestmentPlanScreen", contextData);
+   //  console.log("Context in InvestmentPlanScreen", contextData);
   console.log("goal", option);
 
   const handlePress = (item) => {
