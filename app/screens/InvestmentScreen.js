@@ -34,6 +34,7 @@ const items = [
 ];
 
 function InvestmentScreen({ navigation, route }) {
+ 
   const [option, setOption] = useState(route.params);
 
      const contextData = useContext(StoreContext);
@@ -43,18 +44,28 @@ function InvestmentScreen({ navigation, route }) {
 
   const handlePress = (item) => {
     const temp = items.find((data) => data.value === item);
-    setOption({
-      goalName: temp.goalName,
-      goalID: temp.value,
-    });
+    console.log("Goal TemplateId",item,temp);
+    setOption(temp);
+    const goal={
+      goalName:temp?.goalName,
+      templateId:item}
+    
     console.log("Selected option:", option);
+ 
   };
-
+  const handleContinue = () => {
+    const goal={
+      goalName:option?.goalName,
+      templateId:option.value}
+      contextData.setGoal(goal);
+      navigation.navigate("InvestmentPlanScreen", option);
+  }
   return (
     <Screen style={styles.container}>
       <AppText style={styles.title}>What are you investing for?</AppText>
       <View style={styles.headers}>
         <AppText style={styles.title}>{option.goalName}</AppText>
+        {/* TODO app a text input here */}
       </View>
       <ScrollView horizontal={false} contentContainerStyle={styles.scrollView}>
         <GoalCardPicker
@@ -73,9 +84,7 @@ function InvestmentScreen({ navigation, route }) {
 
       <AppButton
         title={"Continue"}
-        onPress={() => {
-          console.log("items:", option);
-          navigation.navigate("InvestmentPlanScreen", option);
+        onPress={() => {handleContinue();      
         }}
       />
     </Screen>

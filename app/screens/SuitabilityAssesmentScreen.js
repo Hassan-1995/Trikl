@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 
 import { View, StyleSheet, ScrollView, Modal } from "react-native";
 import Screen from "../components/Screen";
+import {StoreContext} from "../../GlobalState";
 import {findRiskProfile} from "../backendintegration/helperFunctions";
 import {submitRiskProfiling} from "../backendintegration/index";
 import MultipleChoiceQuestions from "../components/MultipleChoiceQuestions";
@@ -134,6 +135,8 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
 
   const activeComponent = questionnaire[currentIndex];
 
+    const contextData = useContext(StoreContext);
+    console.log("context in Suitability",contextData);
   const handlePress = (value) => {
     console.log("CurrentQuestion",questionnaire[currentIndex]);
     const riskRespnse={questionId:questionnaire[currentIndex],selectedanswer:questionnaire[currentIndex].answers[value-1]}

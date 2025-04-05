@@ -53,41 +53,41 @@ function InvestmentPlanScreen({ navigation, route }) {
   console.log("InvestmentPlanScreen", route.params);
   console.log("Context in InvestmentPlanScreen", contextData);
 
-  useEffect(() => {
-    if (amount.length == 3) {
-      // navigation.navigate('PlanSummary', amount)
-      setAmount([]);
-      const handletvm=()=>{
-        const tvm={
-          goal:usergoal,
-          target:amount[0],
-          initial:amount[1],
-          pmt:amount[2],
-          frequency:button
-        };
-console.log("Compiled TVM in Investment Planner",tvm);
-  navigation.navigate("SuitabilityAssesmentScreen",tvm);
+//   useEffect(() => {
+//     if (amount.length == 3) {
+//       // navigation.navigate('PlanSummary', amount)
+//       setAmount([]);
+//       const handletvm=()=>{
+//         const tvm={
+//           goal:usergoal,
+//           target:amount[0],
+//           initial:amount[1],
+//           pmt:amount[2],
+//           frequency:button
+//         };
+// console.log("Compiled TVM in Investment Planner",tvm);
+//   navigation.navigate("SuitabilityAssesmentScreen",tvm);
 
-      }
-      Alert.alert(
-        "Prompt message by SavvySave",
-        "We need to asses your investment suitability.\nPlease answer some questions.",
-        [
-          {
-            text: "OK",
-            // onPress: () => console.log("OK Pressed")
-            onPress: () => {
-              handletvm();
-              // navigation.navigate("SuitabilityAssesmentScreen", {
-              //   amount,
-              //   button,
-              // });
-            },
-          },
-        ]
-      );
-    }
-  }, [amount]);
+//       }
+//       Alert.alert(
+//         "Prompt message by SavvySave",
+//         "We need to asses your investment suitability.\nPlease answer some questions.",
+//         [
+//           {
+//             text: "OK",
+//             // onPress: () => console.log("OK Pressed")
+//             onPress: () => {
+//               handletvm();
+//               // navigation.navigate("SuitabilityAssesmentScreen", {
+//               //   amount,
+//               //   button,
+//               // });
+//             },
+//           },
+//         ]
+//       );
+//     }
+//   }, [amount]);
   //useeffect for tvm
   useEffect(() => {
     let tvm={
@@ -98,6 +98,7 @@ console.log("Compiled TVM in Investment Planner",tvm);
 
     }
     console.log("TVM in Use effect",tvm)
+    contextData.settvm(tvm)
     
   }, [target,initial,recurring,frequency]);
 
@@ -110,12 +111,15 @@ console.log("Compiled TVM in Investment Planner",tvm);
     if (keyId == 3) {
       console.log("last question answered, moving to Risk Profiling", keyId);
       console.log("Input Values", amount, button);
+      navigation.navigate("SuitabilityAssesmentScreen",route.param);
     } else {
       setActiveComponent(items[keyId]);
     }
   
     // Call filltvm and pass number and button directly
     filltvm(keyId, number, button);
+  
+   
   };
 
  function filltvm(keyId, value, buttonVal) {
