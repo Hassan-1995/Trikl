@@ -10,7 +10,7 @@ import colors from "../config/colors";
 import AppButton from "./AppButton";
 const { width, height } = Dimensions.get("window");
 
-function ModalFundSelectionScreenComponent({ item, tempValue }) {
+function ModalFundSelectionScreenComponent({ setModal,item, tempValue,handleFundSelect }) {
   const navigation = useNavigation();
 
   const radius = 50;
@@ -21,7 +21,11 @@ function ModalFundSelectionScreenComponent({ item, tempValue }) {
   const strokeDashoffset = (1 - investedPercentage / 100) * circumference;
 
   const handlePress = () => {
-    console.log("Fund Selected",tempValue);
+    setModal(false);
+    handleFundSelect(item);
+
+    
+   // console.log("Fund Selected",tempValue);
     navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
   };
 
@@ -124,7 +128,7 @@ function ModalFundSelectionScreenComponent({ item, tempValue }) {
             </AppText>
           </View>
         </View>
-        <AppButton title={"Move Forward"} onPress={handlePress} />
+        <AppButton title={"Move Forward"} onPress={()=>handlePress()} />
 
         {/* <Image source={item.image} style={styles.image} /> */}
       </View>

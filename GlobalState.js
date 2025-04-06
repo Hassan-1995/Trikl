@@ -9,15 +9,17 @@ export const StoreProvider = ({ children }) => {
     user_email: "guest@finomics.com.pk",
   });
   const [goal, setGoal] = useState({
-      // target:0,
+    
+    //   target:0,
     // initialContribution:0,
     // recurring:0,
     // timeHorizon:0,
   });
   const [riskProfile, setRiskProfile] = useState({ });
+  const [fund, setFund] = useState({});
   const [tvm, settvm] = useState({});
   return (
-    <StoreContext.Provider value={{ user, setUser,goal,setGoal,riskProfile,setRiskProfile,tvm,settvm }}>
+    <StoreContext.Provider value={{ user, setUser,goal,setGoal,riskProfile,setRiskProfile,tvm,settvm,fund,setFund }}>
       {children}
     </StoreContext.Provider>
   );

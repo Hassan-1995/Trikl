@@ -37,12 +37,13 @@ const apiUrl= baseUrl+"user/adduser"
               return
             }
           }
-          export const addGoal= async(goaltemplate, target,initialInv,frequency, recurring,duration,)=>{
+          export const addGoal= async(goaltemplate, target,initialInv,frequency, recurring,duration,allocationId)=>{
             const apiUrl= baseUrl+"goal/addgoal";
-            console.log("Arguments",goaltemplate, target,initialInv,frequency, recurring,duration)
+            console.log("Arguments",goaltemplate, target,initialInv,frequency, recurring,duration,allocationId)
             const payload={
               goalName: goaltemplate.goalName,
               templateId: goaltemplate.goalID, 
+              allocationId:allocationId,
               goalTarget:target,
               goalDuration: duration, 
               total_payments: "0",

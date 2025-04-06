@@ -1,6 +1,7 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect,useState,useContext } from "react";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import Screen from "../components/Screen";
+import {StoreContext} from "../../GlobalState";
 import {addGoal,qlquery, sqlquery} from "../backendintegration/index";
 import FundInvestmentComponent from "../components/FundInvestmentComponent";
 import colors from "../config/colors";
@@ -90,6 +91,9 @@ const items = [
 ];
 
 function FundSelectionScreen({ navigation, route }) {
+    const contextData = useContext(StoreContext);
+
+    console.log("Context in funds Selection", contextData);
   console.log("Values From Suitability in funds Selection ", route?.params);
   const[riskProfile,setRiskProfile]=useState(route?.params?.riskProfile);
   const[tvm,setTvm]=useState(route?.params?.tvm);
@@ -106,18 +110,25 @@ function FundSelectionScreen({ navigation, route }) {
       console.log("SQL response in Fund selection",response,portfolios)
   
     }
-  getfunds("1");
+  getfunds("6");
   },[]);
- 
-  const handlePress = (id, value) => {
-    console.log("ID number " + id + " is pressed which has value of ", value);
-    // if (value == 4) {
-    navigation.navigate("InvestmentScreen", {
-      goalID: id,
-      goalName: value,
-    });
-    // }
+  const handleFundSelect = (item) => {
+    console.log("Selected Fund in Fund Selection Screen", item);
+    contextData.setFund(item);
+     navigation.navigate("PlanSummary",{route:route?.params,fund:item});
+  // navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
+
   };
+
+  // const handlePress = (id, value) => {
+  //   console.log("ID number " + id + " is pressed which has value of ", value);
+  //   // if (value == 4) {
+  //   navigation.navigate("InvestmentScreen", {
+  //     goalID: id,
+  //     goalName: value,
+  //   });
+  //   // }
+  // };
   return (
     <Screen>
       <AppText style={styles.header}>Your Funds</AppText>
@@ -127,7 +138,7 @@ function FundSelectionScreen({ navigation, route }) {
             data={portfolios}
             keyExtractor={(item) => item?.TemplateName?.toString()}
             renderItem={({ item }) => (
-              <FundInvestmentComponent assets={item} tempValue={route?.params} />
+              <FundInvestmentComponent assets={item} tempValue={route?.params} handleFundSelect={handleFundSelect} />
             )}
           />
         </ScrollView>

@@ -10,10 +10,13 @@ import {  Button,
 } from "react-native";
 import colors from "../config/colors";
 import AppText from "./AppText";
+import {StoreContext} from "../../GlobalState";
 import ModalFundSelectionScreenComponent from "./ModalFundSelectionScreenComponent";
 import Icon from "./Icon";
 
-function FundInvestmentComponent({ assets, tempValue }) {
+function FundInvestmentComponent({ assets, tempValue,handleFundSelect }) {
+    //  const contextData = useContext(StoreContext);
+      //  console.log("Context in funds Modal", contextData);
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
 
@@ -97,7 +100,7 @@ function FundInvestmentComponent({ assets, tempValue }) {
             </TouchableOpacity>
             {selectedItem && (
               <>
-                <ModalFundSelectionScreenComponent item={selectedItem} tempValue={tempValue} setModal={setModalVisible} />
+                <ModalFundSelectionScreenComponent item={selectedItem} tempValue={tempValue} setModal={setModalVisible} handleFundSelect={handleFundSelect} />
               </>
             )}
           </View>

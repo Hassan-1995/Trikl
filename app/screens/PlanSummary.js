@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
 
 import { ScrollView, StyleSheet, View } from "react-native";
 
@@ -8,19 +8,24 @@ import CustomSlider from "../components/CustomSlider";
 import PreferenceInvestmentOptionComponent from "../components/PreferenceInvestmentOptionComponent";
 import {timeToTargetFutureValue} from "../backendintegration/helperFunctions";
 import {addGoal} from "../backendintegration/index";
+import {StoreContext} from "../../GlobalState";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
 
 function PlanSummary({ navigation, route }) {
+    const contextData = useContext(StoreContext);
 
+    console.log("Context in Plan Summary", contextData);
+    //--
   const values =[1000,200,30] //route?.params?.amount.map((str) => parseInt(str, 10));
   const frequency ={id:2,value:'monthly'}; //route?.params?.button;
-  const [goal, setGoal] = useState({goalD:0,goalName:"Dummy Goal"});
+  const [goal, setGoal] = useState(contextData.goal);
   const [target, setTarget] = useState(values[0]);
   const [initialInvestment, setInitialInvestment] = useState(values[1]);
   const [recurringInvestment, setRecurringInvestment] = useState(values[2]);
   const [time, setTime] = useState(0);
-  const [rate,setRate ] = useState(10);
+  const [fund,setFund] = useState(contextData.fund);
+  const [rate,setRate ] = useState(contextData.fund?.MeanReturn);
   const [result, setResult] = useState("Result appears  here");
   console.log("PLanner:", route?.params);
 
@@ -43,7 +48,7 @@ useEffect(() => {
 
   function savegoal(plannedInvestmentValues){
     try{
-  const resp= addGoal(goal,target,initialInvestment,frequency.value,recurringInvestment,time);
+  const resp= addGoal(goal,target,initialInvestment,frequency.value,recurringInvestment,time, fund.TemplateID);
    console.log("Response after adding Goal",resp);
 }catch(error){
   console.log("Error  after adding Goal",error);
@@ -62,6 +67,7 @@ useEffect(() => {
       initialInvestment: initialInvestment,
       recurringInvestment: recurringInvestment,
       recurringType: { button },
+      allocatedFund:fund
     };
     savegoal(plannedInvestmentValues);
     console.log({ target, initialInvestment, recurringInvestment, button });
