@@ -227,13 +227,10 @@ riskscore =feedback[i].selectedanswer.riskScore
 
         <Modal animationType="slide" transparent={false} visible={modalVisible}>
           <AlertBox
-          onPress={() => {handleriskFinalize();
-            // setModalVisible(!modalVisible);
-            // console.log(route.params);
-            // // navigation.navigate("PlanSummary", route.params);
-            // navigation.navigate("FundSelection", route.params);
-            
-          }}
+          onPress={() => {handleriskFinalize();   }
+         
+        }
+        riskProfile={riskProfile}
           />
         </Modal>
       </ScrollView>

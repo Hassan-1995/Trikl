@@ -61,14 +61,14 @@ const handePay=()=>{
       
            {/* Amount Input */}
            <Text style={styles.label}>Amount</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="$"
-        placeholderTextColor="#ccc"
-        keyboardType="numeric"
-        value={amount}
-        onChangeText={setAmount}
-      />
+<TextInput
+  style={styles.input}
+  placeholder="$ Enter amount"
+  placeholderTextColor="#888"
+  keyboardType="numeric"
+  value={amount}
+  onChangeText={setAmount}
+/>
    
      
         <AppButton title={"Move Forward"} onPress={handePay} />
@@ -89,10 +89,10 @@ const styles = StyleSheet.create({
     color: colors.white,
   },
   goal: {
-    flexDirection: "row", // Align items in a row
-    justifyContent: "space-between", // Space between elements
-    padding: 10, // Add padding for better spacing
-    marginHorizontal: 10, // Add margin to avoid stretching
+    flexDirection: "row",
+    justifyContent: "space-between",
+    padding: 10,
+    marginHorizontal: 10,
     borderBottomWidth: 2,
     borderColor: colors.tertiary,
   },
@@ -112,6 +112,36 @@ const styles = StyleSheet.create({
     color: "#777",
     textAlign: "justify",
     lineHeight: 20,
+  },
+  label: {
+    fontSize: 16,
+    fontWeight: "600",
+    marginTop: 20,
+    marginBottom: 8,
+    color: colors.primary,
+  },
+  input: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    fontSize: 16,
+    backgroundColor: "#f9f9f9",
+    color: "#000",
+    marginBottom: 20,
+  },
+  rowLight: {
+    backgroundColor: "#f2f2f2", // Light grey for alternate rows
+  },
+  rowDark: {
+    backgroundColor: "#ffffff", // White for alternate rows
+  },
+  headerText: {
+    fontWeight: "bold",
+  },
+  cell: {
+    justifyContent: "flex-start",
   },
 });
 

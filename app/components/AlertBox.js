@@ -1,17 +1,21 @@
-import React from 'react';
+import {React,useContext} from 'react';
 
 import { View, StyleSheet, ScrollView } from 'react-native';
+
 import LogoContainer from './LogoContainer';
+import {StoreContext} from "../../GlobalState";
 import AppText from './AppText';
 import colors from '../config/colors';
 import AppButton from './AppButton';
 
-function AlertBox({onPress}) {
+function AlertBox({onPress, riskProfile}) {
+      const contextData = useContext(StoreContext);
+        console.log("context in Alert Box",contextData,riskProfile);
     return (
         <View style={styles.container}>
             <LogoContainer/>
             <AppText style={styles.title}>Based on the information you provided.</AppText>
-            <AppText style={styles.subTitle}>You are <AppText style={styles.underline}>Moderate Investor</AppText> </AppText>
+            <AppText style={styles.subTitle}>You are <AppText style={styles.underline}>{riskProfile?.RiskProfileName}</AppText> </AppText>
             <ScrollView>
             <AppText style={styles.description}>
                 A moderate investor seeks a balance between risk and return. 
