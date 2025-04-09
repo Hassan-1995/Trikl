@@ -20,9 +20,9 @@ import ModalFundSelectionScreenComponent from "./ModalFundSelectionScreenCompone
 function PaymentCard({item, assets, tempValue,allPayments,handleInvestmentRequest }) {
    const [modalVisible, setModalVisible] = useState(false);
    const [selectedItem, setSelectedItem] = useState(null);
-
-  const openModal = (item) => {
-    
+console.log("Item in Payment  Card",item);
+  const openModal = (selecteditem) => {
+    console.log("Item in Open Modal",selecteditem);
     setSelectedItem(item);
      setModalVisible(true);
   };
@@ -33,35 +33,16 @@ function PaymentCard({item, assets, tempValue,allPayments,handleInvestmentReques
 
   return (
     <>
-    <Card style={styles.card}>
-      <Card.Content>
-        <View style={styles.header}>
-          <Text style={styles.title}>
-            {item.title}
-          </Text>
-        </View>
-        <View style={styles.row}>
-          <Text style={styles.label}>{item.goalName}</Text>
-          <Text style={styles.value}>{item.value1}</Text>
-        </View>
-        {item.label2 && (
-          <View style={styles.row}>
-            <Text style={styles.label}>{item.label2}</Text>
-            <Text style={styles.value}>{item.value2}</Text>
-          </View>
-        )}
-        <View style={styles.footer}>
-          <Text style={styles.price}>{item.price}</Text>
-          <Button
-            mode="contained"
-            style={styles.button}
-            onPress={() => openModal(item)}
-          >
-            {item.buttonText}
-          </Button>
-        </View>
-      </Card.Content>
-    </Card>
+     <View style={styles.card}>
+    <View style={styles.textContainer}>
+      <Text style={styles.title}>{item.goalName}</Text>
+      <Text style={styles.label}>Amount Due</Text>
+      <Text style={styles.amount}>{item?.totalAmount}</Text>
+    </View>
+    <TouchableOpacity style={styles.button}onPress={()=>openModal(item)}>
+      <Text style={styles.buttonText}>Pay Now</Text>
+    </TouchableOpacity>
+  </View>
     <Modal
         animationType="slide"
         transparent={false}
@@ -101,44 +82,53 @@ function PaymentCard({item, assets, tempValue,allPayments,handleInvestmentReques
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#f2f2f2',
+  },
+  list: {
+    padding: 16,
+  },
   card: {
-    backgroundColor: "white",
-    marginBottom: 10,
-    borderRadius: 15,
-    padding: 15,
+    backgroundColor: '#ffffff',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
     elevation: 3,
   },
-  header: {
-    marginBottom: 5,
+  textContainer: {
+    flexShrink: 1,
   },
   title: {
-    fontSize: 16,
-    fontWeight: "bold",
-  },
-  row: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    marginVertical: 3,
+    fontSize: 18,
+    fontWeight: '700',
+    marginBottom: 6,
   },
   label: {
-    color: "gray",
+    fontSize: 14,
+    color: '#6e6e6e',
+    marginBottom: 2,
   },
-  value: {
-    fontWeight: "500",
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginTop: 10,
-  },
-  price: {
-    fontSize: 16,
-    fontWeight: "bold",
+  amount: {
+    fontSize: 22,
+    fontWeight: '600',
   },
   button: {
-    backgroundColor: "#FBC6A4",
-    borderRadius: 20,
+    backgroundColor: '#24406b',
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 12,
+  },
+  buttonText: {
+    color: '#ffffff',
+    fontWeight: '600',
+    fontSize: 16,
   },
 });
 
