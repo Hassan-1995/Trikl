@@ -1,7 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-//import { Svg, Path, G, Text as SVGText } from 'react-native-svg'; // Removed react-native-svg
-import Svg, { Path, G, Text as SVGText } from 'react-native-svg'; //import like this
+import Svg, { Path, G, Text as SVGText } from 'react-native-svg';
 
 const ModalFundSelectionScreenComponent = () => {
   // Sample data for the pie chart
@@ -18,36 +17,36 @@ const ModalFundSelectionScreenComponent = () => {
   const innerRadius = 60;
 
   // Function to calculate the SVG path for a pie slice
-    const getPath = (value, radius, innerRadius, startAngle) => {
-        const endAngle = startAngle + (value / total) * 360;
-        const largeArcFlag = value / total > 0.5 ? 1 : 0;
+  const getPath = (value, radius, innerRadius, startAngle) => {
+    const endAngle = startAngle + (value / total) * 360;
+    const largeArcFlag = value / total > 0.5 ? 1 : 0;
 
-        const startX1 = radius * Math.cos((startAngle * Math.PI) / 180);
-        const startY1 = radius * Math.sin((startAngle * Math.PI) / 180);
-        const endX1 = radius * Math.cos((endAngle * Math.PI) / 180);
-        const endY1 = radius * Math.sin((endAngle * Math.PI) / 180);
+    const startX1 = radius * Math.cos((startAngle * Math.PI) / 180);
+    const startY1 = radius * Math.sin((startAngle * Math.PI) / 180);
+    const endX1 = radius * Math.cos((endAngle * Math.PI) / 180);
+    const endY1 = radius * Math.sin((endAngle * Math.PI) / 180);
 
-        const startX2 = innerRadius * Math.cos((startAngle * Math.PI) / 180);
-        const startY2 = innerRadius * Math.sin((startAngle * Math.PI) / 180);
-        const endX2 = innerRadius * Math.cos((endAngle * Math.PI) / 180);
-        const endY2 = innerRadius * Math.sin((endAngle * Math.PI) / 180);
+    const startX2 = innerRadius * Math.cos((startAngle * Math.PI) / 180);
+    const startY2 = innerRadius * Math.sin((startAngle * Math.PI) / 180);
+    const endX2 = innerRadius * Math.cos((endAngle * Math.PI) / 180);
+    const endY2 = innerRadius * Math.sin((endAngle * Math.PI) / 180);
 
-        const path = `
+    const path = `
       M ${startX1} ${startY1}
       A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX1} ${endY1}
       L ${endX2} ${endY2}
       A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${startX2} ${startY2}
       Z
     `;
-        return { path, endAngle };
-    };
+    return { path, endAngle };
+  };
 
-  // const getLabelPosition = (radius, angle) => {
-  //   const labelRadius = radius * 1.2;
-  //   const x = labelRadius * Math.cos((angle * Math.PI) / 180);
-  //   const y = labelRadius * Math.sin((angle * Math.PI) / 180);
-  //   return { x, y };
-  // };
+  const getLabelPosition = (radius, innerRadius, angle) => {
+    const midRadius = (radius + innerRadius) / 2;
+    const x = midRadius * Math.cos((angle * Math.PI) / 180);
+    const y = midRadius * Math.sin((angle * Math.PI) / 180);
+    return { x, y };
+  };
 
   return (
     <View style={styles.container}>
@@ -57,24 +56,37 @@ const ModalFundSelectionScreenComponent = () => {
           <G transform={`translate(100, 100)`}>
             {pieData.map((item, index) => {
               const { path, endAngle } = getPath(item.value, radius, innerRadius, startAngle);
+              const midAngle = startAngle + (item.value / total) * 180;
+              const { x, y } = getLabelPosition(radius, innerRadius, midAngle);
               startAngle = endAngle;
+              const percentage = ((item.value / total) * 100).toFixed(1); // Calculate percentage
               return (
                 <G key={index}>
                   <Path d={path} fill={item.color} />
+                  <SVGText
+                    x={x}
+                    y={y}
+                    fontSize="10"
+                    fill="#000"
+                    textAnchor={x > 0 ? 'start' : 'end'}
+                    alignmentBaseline="middle"
+                  >
+                    {percentage}%
+                  </SVGText>
                 </G>
               );
             })}
           </G>
         </Svg>
         <View style={styles.legend}>
-            {pieData.map((item, index) => (
-              <View key={index} style={styles.legendItem}>
-                <View style={[styles.legendColor, { backgroundColor: item.color }]} />
-                <Text style={styles.legendLabel}>{item.label}</Text>
-              </View>
-            ))}
-          </View>
+          {pieData.map((item, index) => (
+            <View key={index} style={styles.legendItem}>
+              <View style={[styles.legendColor, { backgroundColor: item.color, width: 10, height: 10, borderRadius: 5 }]} />
+              <Text style={[styles.legendLabel, { fontSize: 12 }]}>{item.label}</Text>
+            </View>
+          ))}
         </View>
+      </View>
       <Text style={styles.description}>
         {`Lisinyou alle fropaard buttesd writh
         nofesrs wou thalliration.`}
@@ -126,21 +138,21 @@ const styles = StyleSheet.create({
     marginVertical: 20,
   },
   legend: {
-    marginLeft: 20,
+    marginLeft: 10,
   },
   legendItem: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 4,
+    marginVertical: 2,
   },
   legendColor: {
-    width: 16,
-    height: 16,
-    borderRadius: 8,
-    marginRight: 8,
+    width: 10, // Even smaller
+    height: 10, // Even smaller
+    borderRadius: 5, // Even smaller
+    marginRight: 5,
   },
   legendLabel: {
-    fontSize: 14,
+    fontSize: 12,
     color: '#333',
   },
 });
