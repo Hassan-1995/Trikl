@@ -1,174 +1,147 @@
-import React from "react";
+import React from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+//import { Svg, Path, G, Text as SVGText } from 'react-native-svg'; // Removed react-native-svg
+import Svg, { Path, G, Text as SVGText } from 'react-native-svg'; //import like this
 
-import { View, StyleSheet, Image, Dimensions } from "react-native";
+const ModalFundSelectionScreenComponent = () => {
+  // Sample data for the pie chart
+  const pieData = [
+    { value: 40, color: '#F44336', label: 'Fund A' },
+    { value: 20, color: '#9C27B0', label: 'Fund B' },
+    { value: 30, color: '#FFC107', label: 'Fund C' },
+    { value: 10, color: '#3F51B5', label: 'Fund D' },
+  ];
 
-import { useNavigation } from "@react-navigation/native";
+  const total = pieData.reduce((acc, curr) => acc + curr.value, 0);
+  let startAngle = 0;
+  const radius = 80;
+  const innerRadius = 60;
 
-import { Svg, Circle } from "react-native-svg";
-import AppText from "./AppText";
-import colors from "../config/colors";
-import AppButton from "./AppButton";
-const { width, height } = Dimensions.get("window");
+  // Function to calculate the SVG path for a pie slice
+    const getPath = (value, radius, innerRadius, startAngle) => {
+        const endAngle = startAngle + (value / total) * 360;
+        const largeArcFlag = value / total > 0.5 ? 1 : 0;
 
-function ModalFundSelectionScreenComponent({ setModal,item, tempValue,handleFundSelect }) {
-  const navigation = useNavigation();
+        const startX1 = radius * Math.cos((startAngle * Math.PI) / 180);
+        const startY1 = radius * Math.sin((startAngle * Math.PI) / 180);
+        const endX1 = radius * Math.cos((endAngle * Math.PI) / 180);
+        const endY1 = radius * Math.sin((endAngle * Math.PI) / 180);
 
-  const radius = 50;
-  const circumference = 2 * Math.PI * radius;
-  const goal = item.goal || 1;
-  const invested = item.invested || 0;
-  const investedPercentage = Math.min((invested / goal) * 100, 100);
-  const strokeDashoffset = (1 - investedPercentage / 100) * circumference;
+        const startX2 = innerRadius * Math.cos((startAngle * Math.PI) / 180);
+        const startY2 = innerRadius * Math.sin((startAngle * Math.PI) / 180);
+        const endX2 = innerRadius * Math.cos((endAngle * Math.PI) / 180);
+        const endY2 = innerRadius * Math.sin((endAngle * Math.PI) / 180);
 
-  const handlePress = () => {
-    setModal(false);
-    handleFundSelect(item);
+        const path = `
+      M ${startX1} ${startY1}
+      A ${radius} ${radius} 0 ${largeArcFlag} 1 ${endX1} ${endY1}
+      L ${endX2} ${endY2}
+      A ${innerRadius} ${innerRadius} 0 ${largeArcFlag} 0 ${startX2} ${startY2}
+      Z
+    `;
+        return { path, endAngle };
+    };
 
-    
-   // console.log("Fund Selected",tempValue);
-    navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
-  };
+  // const getLabelPosition = (radius, angle) => {
+  //   const labelRadius = radius * 1.2;
+  //   const x = labelRadius * Math.cos((angle * Math.PI) / 180);
+  //   const y = labelRadius * Math.sin((angle * Math.PI) / 180);
+  //   return { x, y };
+  // };
 
   return (
     <View style={styles.container}>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
-          width: width,
-          alignSelf: "center",
-        }}
-      >
-        <Svg height="150" width="150" viewBox="0 0 120 120">
-          <Circle
-            cx="60"
-            cy="60"
-            r={radius}
-            stroke="#ddd"
-            strokeWidth="15"
-            fill="none"
-          />
-          <Circle
-            cx="60"
-            cy="60"
-            r={radius}
-            stroke="#4caf50"
-            strokeWidth="15"
-            fill="none"
-            strokeDasharray={`${circumference}, ${circumference}`}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            transform="rotate(-90 60 60)"
-          />
+      <Text style={styles.title}>Portfolio Allocation</Text>
+      <View style={styles.chartAndLegend}>
+        <Svg width={200} height={200}>
+          <G transform={`translate(100, 100)`}>
+            {pieData.map((item, index) => {
+              const { path, endAngle } = getPath(item.value, radius, innerRadius, startAngle);
+              startAngle = endAngle;
+              return (
+                <G key={index}>
+                  <Path d={path} fill={item.color} />
+                </G>
+              );
+            })}
+          </G>
         </Svg>
-
-        <View
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: [{ translateX: -20 }, { translateY: -10 }], // Adjust for centering
-          }}
-        >
-          <AppText
-            style={{ textAlign: "center", fontSize: 16, fontWeight: "bold" }}
-          >
-            {((item.invested / item.goal) * 100).toFixed(1)}%
-          </AppText>
-        </View>
-      </View>
-
-      <View style={{ marginTop: 150 }}>
-        <AppText style={[styles.subHeading, { paddingHorizontal: 10 }]}>
-          I am currently {item?.status?.toLowerCase()} track to achieve my desired
-          goal.
-        </AppText>
-        <View style={styles.title}>
-          <AppText style={[styles.heading, { color: "white" }]}>
-            {item.title}
-          </AppText>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Target Value</AppText>
-            <AppText style={styles.description}>
-              I will due to pay date.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              Rs {item.goal?.toLocaleString()}
-            </AppText>
+        <View style={styles.legend}>
+            {pieData.map((item, index) => (
+              <View key={index} style={styles.legendItem}>
+                <View style={[styles.legendColor, { backgroundColor: item.color }]} />
+                <Text style={styles.legendLabel}>{item.label}</Text>
+              </View>
+            ))}
           </View>
         </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Invested Value</AppText>
-            <AppText style={styles.description}>
-              I paid this amount to date.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              {/* Rs {item.invested?.toLocaleString()} */}
-            </AppText>
-          </View>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Due Value</AppText>
-            <AppText style={styles.description}>
-              I have to pay remaing balance.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              {/* Rs {Math.abs(item.invested - item.goal).toLocaleString()} */}
-            </AppText>
-          </View>
-        </View>
-        <AppButton title={"Move Forward"} onPress={()=>handlePress()} />
-
-        {/* <Image source={item.image} style={styles.image} /> */}
-      </View>
+      <Text style={styles.description}>
+        {`Lisinyou alle fropaard buttesd writh
+        nofesrs wou thalliration.`}
+      </Text>
+      <TouchableOpacity style={styles.selectButton}>
+        <Text style={styles.selectButtonText}>Select of</Text>
+      </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    backgroundColor: 'white',
+    borderRadius: 8,
+    padding: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   title: {
-    backgroundColor: colors.secondary,
-    margin: 15,
-    padding: 15,
-    borderRadius: 15,
-    color: colors.white,
-  },
-  goal: {
-    flexDirection: "row", // Align items in a row
-    justifyContent: "space-between", // Space between elements
-    padding: 10, // Add padding for better spacing
-    marginHorizontal: 10, // Add margin to avoid stretching
-    borderBottomWidth: 2,
-    borderColor: colors.tertiary,
-  },
-  heading: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: colors.primary,
-  },
-  subHeading: {
     fontSize: 18,
-    fontWeight: "bold",
-    color: colors.secondary,
+    fontWeight: 'bold',
+    color: '#333',
+    marginBottom: 16,
+    textAlign: 'center',
   },
   description: {
     fontSize: 14,
-    fontWeight: "400",
-    color: "#777",
-    textAlign: "justify",
-    lineHeight: 20,
+    color: '#666',
+    marginBottom: 24,
+    textAlign: 'center',
+    paddingHorizontal: 10,
+  },
+  selectButton: {
+    backgroundColor: '#FF9800',
+    paddingVertical: 12,
+    paddingHorizontal: 32,
+    borderRadius: 8,
+    alignSelf: 'center',
+  },
+  selectButtonText: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  chartAndLegend: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 20,
+  },
+  legend: {
+    marginLeft: 20,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 4,
+  },
+  legendColor: {
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    marginRight: 8,
+  },
+  legendLabel: {
+    fontSize: 14,
+    color: '#333',
   },
 });
 
