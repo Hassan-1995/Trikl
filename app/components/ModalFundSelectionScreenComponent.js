@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Svg, { Path, G, Text as SVGText } from 'react-native-svg';
 
+const ModalFundSelectionScreenComponent = () => {
   // Sample data for the pie chart
   const pieData = [
     { value: 40, color: '#F44336', label: 'Fund A' },
@@ -45,15 +46,6 @@ import Svg, { Path, G, Text as SVGText } from 'react-native-svg';
     const x = midRadius * Math.cos((angle * Math.PI) / 180);
     const y = midRadius * Math.sin((angle * Math.PI) / 180);
     return { x, y };
-  };
-  
-  const handlePress = () => {
-    setModal(false);
-    handleFundSelect(item);
-
-    
-   console.log("Fund Selected",tempValue);
-    //navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
   };
 
   return (
@@ -99,8 +91,8 @@ import Svg, { Path, G, Text as SVGText } from 'react-native-svg';
         {`Lisinyou alle fropaard buttesd writh
         nofesrs wou thalliration.`}
       </Text>
-      <TouchableOpacity style={styles.selectButton}onPress={()=>handlePress()}>
-        <Text style={styles.selectButtonText}>Select </Text>
+      <TouchableOpacity style={styles.selectButton}>
+        <Text style={styles.selectButtonText}>Select of</Text>
       </TouchableOpacity>
     </View>
   );

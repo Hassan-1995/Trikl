@@ -116,7 +116,7 @@ function FundSelectionScreen({ navigation, route }) {
     console.log("Selected Fund in Fund Selection Screen", item);
     contextData.setFund(item);
      navigation.navigate("PlanSummary",{route:route?.params,fund:item});
-   navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
+  // navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
 
   };
 
