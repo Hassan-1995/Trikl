@@ -47,6 +47,14 @@ const ModalFundSelectionScreenComponent = ({handleFundSelect,item,tempValue,setM
     const y = midRadius * Math.sin((angle * Math.PI) / 180);
     return { x, y };
   };
+  const handlePress = () => {
+    setModal(false);
+    handleFundSelect(item);
+
+    
+    console.log("Fund Selected",tempValue);
+   // navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
+  };
 
   return (
     <View style={styles.container}>
@@ -91,8 +99,8 @@ const ModalFundSelectionScreenComponent = ({handleFundSelect,item,tempValue,setM
         {`Lisinyou alle fropaard buttesd writh
         nofesrs wou thalliration.`}
       </Text>
-      <TouchableOpacity style={styles.selectButton}>
-        <Text style={styles.selectButtonText}>Select of</Text>
+      <TouchableOpacity style={styles.selectButton}onPress={()=>handlePress()}>
+        <Text style={styles.selectButtonText}>Select</Text>
       </TouchableOpacity>
     </View>
   );
