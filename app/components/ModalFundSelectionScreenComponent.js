@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Svg, { Path, G, Text as SVGText } from 'react-native-svg';
 
-const ModalFundSelectionScreenComponent = () => {
+const ModalFundSelectionScreenComponent = ({handleFundSelect,item,tempValue,setModal}) => {
   // Sample data for the pie chart
   const pieData = [
     { value: 40, color: '#F44336', label: 'Fund A' },
