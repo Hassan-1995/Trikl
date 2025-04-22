@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-
-import {  Button,
+import {
+  Button,
   Image,
   Modal,
   StyleSheet,
@@ -10,18 +10,23 @@ import {  Button,
 } from "react-native";
 import colors from "../config/colors";
 import AppText from "./AppText";
-import {StoreContext} from "../../GlobalState";
+import { StoreContext } from "../../GlobalState";
 import ModalFundSelectionScreenComponent from "./ModalFundSelectionScreenComponent";
 import Icon from "./Icon";
 
-function FundInvestmentComponent({ assets, tempValue,handleFundSelect }) {
-    //  const contextData = useContext(StoreContext);
-      //  console.log("Context in funds Modal", contextData);
+function FundInvestmentComponent({ assets, tempValue, handleFundSelect }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [fund,setFund]=useState({
+    id: '2',
+    name: 'Stable Income Fund',
+    oneYearReturn: '7.8%',
+    fiveYearReturn: '38.2%',
+    inceptionReturn: '95.1%',
+    riskProfile: 'Moderate Risk',
+  });
 
   const openModal = (item) => {
-    console.log("Selected Fund in Modal",item);
     setSelectedItem(item);
     setModalVisible(true);
   };
@@ -32,45 +37,31 @@ function FundInvestmentComponent({ assets, tempValue,handleFundSelect }) {
         style={styles.container}
         onPress={() => openModal(assets)}
       >
-        <View style={styles.goalImageContainer}>
+        <View style={styles.imageContainer}>
           <Image source={assets.image} style={styles.image} />
         </View>
-        <View style={styles.goalReportContainer}>
-          <View style={styles.title}>
-            <AppText style={styles.header}>{assets?.TemplateName}</AppText>
+        <View style={styles.infoContainer}>
+          <View style={styles.headerRow}>
+            <AppText style={styles.fundName}>{assets.TemplateName}</AppText>
             <View
               style={[
                 styles.status,
-                assets.status == "On"
+                assets.status === "On"
                   ? { backgroundColor: colors.safe }
                   : { backgroundColor: colors.danger },
               ]}
             >
-              <Text style={{ color: "white" }}>{assets.status} Track</Text>
+              <Text style={styles.statusText}>{assets.status} Track</Text>
             </View>
           </View>
 
-          <View style={styles.goalInformation}>
-            <View style={styles.goalInformationNumeric}>
-              <AppText numberOfLines={1} ellipsizeMode="tail">
-                ${assets.invested} of ${assets.goal}
-              </AppText>
-              <View style={styles.goalInformationBar}>
-                <View
-                  style={[
-                    styles.overlay,
-                    { width: `${(assets.invested / assets.goal) * 100}%` },
-                  ]}
-                />
-              </View>
-            </View>
-            <View>
-              {/* <AppText style={styles.header}>{((assets.invested/assets.goal)*100).toFixed(2)}%</AppText> */}
-              <AppText style={styles.header}>
-                {((assets.invested / assets.goal) * 100).toFixed(1)}%
-              </AppText>
-            </View>
+          <View style={styles.metricsRow}>
+            <AppText>1Y: <Text style={styles.value}>{fund.oneYearReturn}</Text></AppText>
+            <AppText>5Y: <Text style={styles.value}>{fund.fiveYearReturn}</Text></AppText>
+            <AppText>Since Inception: <Text style={styles.value}>{fund.inceptionReturn}</Text></AppText>
           </View>
+
+          <Text style={styles.riskProfile}>{fund.riskProfile}</Text>
         </View>
       </TouchableOpacity>
 
@@ -83,12 +74,7 @@ function FundInvestmentComponent({ assets, tempValue,handleFundSelect }) {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <TouchableOpacity
-              style={{
-                // justifyContent: "center",
-                // flexGrow: 1,
-                alignItems: "flex-end",
-                // width: "100%",
-              }}
+              style={{ alignItems: "flex-end" }}
               onPress={() => setModalVisible(false)}
             >
               <Icon
@@ -99,9 +85,12 @@ function FundInvestmentComponent({ assets, tempValue,handleFundSelect }) {
               />
             </TouchableOpacity>
             {selectedItem && (
-              <>
-                <ModalFundSelectionScreenComponent item={selectedItem} tempValue={tempValue} setModal={setModalVisible} handleFundSelect={handleFundSelect} />
-              </>
+              <ModalFundSelectionScreenComponent
+                item={selectedItem}
+                tempValue={tempValue}
+                setModal={setModalVisible}
+                handleFundSelect={handleFundSelect}
+              />
             )}
           </View>
         </View>
@@ -113,68 +102,66 @@ function FundInvestmentComponent({ assets, tempValue,handleFundSelect }) {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.tertiary,
-    padding: 5,
-    alignItems: "center",
-    flexDirection: "row",
-    borderRadius: 20,
-    marginVertical: 5,
-    overflow: "hidden",
-    width: "100%",
-    height: 100,
-  },
-  title: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-  },
-  status: {
-    backgroundColor: "pink",
-    paddingHorizontal: 10,
-    paddingVertical: 5,
+    padding: 10,
     borderRadius: 15,
-    textAlign: "center",
-  },
-  goalImageContainer: {
-    width: "30%",
-    height: "100%",
-    justifyContent: "center",
+    marginVertical: 8,
+    flexDirection: "row",
     alignItems: "center",
+  },
+  imageContainer: {
+    width: 60,
+    height: 60,
+    marginRight: 15,
+    alignItems: "center",
+    justifyContent: "center",
   },
   image: {
     width: 50,
     height: 50,
+    resizeMode: "contain",
   },
-  goalReportContainer: {
-    width: "70%",
-    height: "100%",
-    justifyContent: "space-between",
+  infoContainer: {
+    flex: 1,
   },
-  overlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    // width: '90%',
-    backgroundColor: colors.primary,
-  },
-  goalInformation: {
+  headerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
   },
-  goalInformationNumeric: {
-    width: "80%",
+  fundName: {
+    fontSize: 16,
+    fontWeight: "bold",
   },
-  goalInformationBar: {
-    backgroundColor: colors.secondary,
-    width: "80%",
-    height: 20,
-    borderRadius: 10,
-    overflow: "hidden",
+  status: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
   },
-  header: {
-    fontWeight: "900",
+  statusText: {
+    color: "#fff",
+    fontSize: 12,
+  },
+  metricsRow: {
+    flexDirection: "column",
+    marginTop: 6,
+  },
+  value: {
+    color: "green",
+    fontWeight: "bold",
+  },
+  riskProfile: {
+    marginTop: 4,
+    color: "#A0522D",
+    fontStyle: "italic",
+    fontSize: 13,
+  },
+  modalContainer: {
+    flex: 1,
+    padding: 16,
+    backgroundColor: "#fff",
+  },
+  modalContent: {
+    flex: 1,
   },
 });
 
