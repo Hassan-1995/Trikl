@@ -1,17 +1,17 @@
-import React, { useState,useContext } from "react";
+import React, { useState,useContext,useEffect } from "react";
 
 import { View, StyleSheet, ScrollView, Modal } from "react-native";
 import Screen from "../components/Screen";
 import {StoreContext} from "../../GlobalState";
-import {findRiskProfile} from "../backendintegration/helperFunctions";
-import {submitRiskProfiling} from "../backendintegration/index";
+import {findRiskProfile,modifyRiskQuestionaire} from "../backendintegration/helperFunctions";
+import {submitRiskProfiling,sqlquery} from "../backendintegration/index";
 import MultipleChoiceQuestions from "../components/MultipleChoiceQuestions";
 import AppButton from "../components/AppButton";
 import LogoContainer from "../components/LogoContainer";
 import BankPayment from "../components/BankPayment";
 import AlertBox from "../components/AlertBox";
 
-const questionnaire = [
+const questions = [
   {
     "question": "What is your age group?",
     "keyId": 1,
@@ -123,23 +123,39 @@ const questionnaire = [
     ]
   }
 ];
-
+//SELECT rq.keyId, rq.question, rq.category, JSON_ARRAYAGG(JSON_OBJECT('key', a.answerId - (rq.keyId * 100), 'option', a.label, 'riskScore', a.riskScore)) AS answers FROM RiskQuestionaire rq JOIN Answers a ON rq.keyId = a.questionId GROUP BY rq.keyId, rq.question, rq.category;
 function SuitabilityAssesmentScreen({ navigation, route }) {
   console.log("Values from TVM in Suitability",route.params);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedBox, setSelectedBox] = useState(null);
+  const [riskquitionaire, setriskQuestionaires] = useState(questions);
   const [feedback, setFeedback] = useState([]);
   const [riskProfile, setRiskProfile] = useState([]);
 
   const [modalVisible, setModalVisible] = useState(false);
 
-  const activeComponent = questionnaire[currentIndex];
+  const activeComponent = riskquitionaire[currentIndex];
 
     const contextData = useContext(StoreContext);
     console.log("context in Suitability",contextData);
+
+    // first useeffect for sql query
+      useEffect(() => {
+        //console.log("RISK Profile and TVM in FundSelection",riskProfile,tvm);
+        console.log("ROUTES  in FundSelection",route?.params);
+    
+        async function  getRiskQuest(){
+          sql="SELECT rq.keyId, rq.question, rq.category, JSON_ARRAYAGG(JSON_OBJECT('key', a.answerId - (rq.keyId * 100), 'option', a.label, 'riskScore', a.riskScore)) AS answers FROM RiskQuestionaire rq JOIN Answers a ON rq.keyId = a.questionId GROUP BY rq.keyId, rq.question, rq.category;";
+          const response= await sqlquery(sql,setriskQuestionaires);
+          console.log("SQL response in Suitability",response,riskquitionaire)
+      
+        }
+      getRiskQuest();
+      },[]);
+
   const handlePress = (value) => {
-    console.log("CurrentQuestion",questionnaire[currentIndex]);
-    const riskRespnse={questionId:questionnaire[currentIndex],selectedanswer:questionnaire[currentIndex].answers[value-1]}
+    console.log("CurrentQuestion",riskquitionaire[currentIndex]);
+    const riskRespnse={questionId:riskquitionaire[currentIndex],selectedanswer:riskquitionaire[currentIndex].answers[value-1]}
     console.log("Value in handlePress",riskRespnse)
     const tempArray = [...feedback];
     tempArray[currentIndex] = riskRespnse;
@@ -148,7 +164,7 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
   };
 
   const handleForwardPress = () => {
-    if (currentIndex < questionnaire.length - 1) {
+    if (currentIndex < riskquitionaire.length - 1) {
       setCurrentIndex(currentIndex + 1);
       setSelectedBox(currentIndex + 1);
     } else {
@@ -165,7 +181,7 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     } else {
-      setCurrentIndex(questionnaire.length - 1);
+      setCurrentIndex(riskquitionaire.length - 1);
     }
   };
   function handleriskCalculation(){
@@ -205,7 +221,7 @@ riskscore =feedback[i].selectedanswer.riskScore
             questionNumber={currentIndex + 1}
             question={activeComponent.question}
             answer={activeComponent.answers}
-            numberOfQuestions={questionnaire.length}
+            numberOfQuestions={riskquitionaire.length}
             selectedBox={selectedBox}
             setSelectedBox={setSelectedBox}
             onPress={handlePress}

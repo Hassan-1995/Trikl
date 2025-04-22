@@ -44,6 +44,14 @@ responses:modifiedResponse
     console.log("Modified responses".returnedResponse);
     return returnedResponse;
   };
+// modify RiskQuestionaire
+const modifyRiskQuestionaire=(data)=>{
+  const modifiedData = data.map(item => ({
+    ...item,
+    answers: JSON.parse(item.answers)
+  }));
+  return modifiedData;
+}
 
  /// tvm function
 
