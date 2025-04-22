@@ -1,5 +1,11 @@
 import React from "react";
-import { StyleSheet, TouchableWithoutFeedback } from "react-native";
+import {
+  StyleSheet,
+  TouchableWithoutFeedback,
+  TouchableOpacity,
+  Image,
+  View,
+} from "react-native";
 import * as Yup from "yup";
 
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
@@ -9,15 +15,17 @@ import AppText from "../components/AppText";
 import HomeScreenCopy from "./HomeScreenCopy";
 import AccountOnBoardingScreen from "./AccountOnBoardingScreen";
 
+// 📌 Import the Explore icon image
+const exploreIcon = require("../assets/explore.png"); // Adjust path as needed
+
 const validationSchema = Yup.object().shape({
-  name: Yup.string().label("Name"), // temporary: name needs to be required
-  password: Yup.string().min(4).label("Password"), // temporary: password needs to be required
+  name: Yup.string().label("Name"),
+  password: Yup.string().min(4).label("Password"),
 });
 
 function LoginScreen({ navigation }) {
   const handleSubmit = (values) => {
     console.log(values);
-    // navigation.navigate("HomeScreenCopy");
     navigation.navigate("AccountOnBoardingScreen");
   };
 
@@ -26,16 +34,13 @@ function LoginScreen({ navigation }) {
       <LogoContainer />
       <AppForm
         initialValues={{ name: "", password: "" }}
-        onSubmit={(values) => {
-          handleSubmit(values);
-        }}
+        onSubmit={handleSubmit}
         validationSchema={validationSchema}
       >
         <AppFormField
           autoCapitalise="none"
           autoCorrect={false}
           icon={"account"}
-          // keyboardType="email-address"
           name={"name"}
           placeholder="Name"
         />
@@ -49,12 +54,20 @@ function LoginScreen({ navigation }) {
           textContentType="emailAddress"
         />
         <SubmitButton title={"Login"} />
+
+        {/* 📍 Pressable Explore Icon */}
+        <View style={styles.iconContainer}>
+          <TouchableOpacity onPress={() => navigation.navigate("HomeScreenCopy")}>
+            <Image source={exploreIcon} style={styles.exploreIcon} />
+          </TouchableOpacity>
+        </View>
       </AppForm>
-      <TouchableWithoutFeedback
+
+      {/* <TouchableWithoutFeedback
         onPress={() => navigation.navigate("HomeScreenCopy")}
       >
         <AppText>Explore the app.</AppText>
-      </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback> */}
     </Screen>
   );
 }
@@ -63,12 +76,14 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
   },
-  logo: {
-    width: 80,
-    height: 80,
-    alignSelf: "center",
-    marginTop: 50,
-    marginBottom: 20,
+  iconContainer: {
+    alignItems: "center",
+    marginTop: 20,
+  },
+  exploreIcon: {
+    width: 100,
+    height: 100,
+    resizeMode: "contain",
   },
 });
 
