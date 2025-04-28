@@ -5,6 +5,26 @@ import {modifyRiskResponse} from "./helperFunctions";
 
 export const baseUrl="https://savvy-cdn-api.finomics.com.pk/api/"
 
+export const register= async(payload)=>{
+  const apiUrl= baseUrl+"auth/register"
+  const data={
+    user_name:payload.name,
+    user_email:payload.email,
+    password:payload.password,
+  }
+      try {
+          const response = await axios.post(apiUrl, data, {
+            headers: {
+              'Content-Type': 'application/json'
+            }
+          });
+          console.log('User Registered successfully:', response.data);
+        } catch (error) {
+          console.error('Error in User Registration:', error.response ? error.response.data : error.message);
+        }
+      }
+
+
 export const useronboarding= async(payload)=>{
 const apiUrl= baseUrl+"user/adduser"
     try {
@@ -155,7 +175,7 @@ export const uploadFile = async (selectedFile, setFileLink) => {
   const api = baseUrl + "user/upload";
 
   if (!selectedFile) { // Check if selectedFile exists (more robust)
-    Alert.alert("Error", "No file selected");
+    alert("Error", "No file selected");
     return;
   }
 
@@ -163,7 +183,7 @@ export const uploadFile = async (selectedFile, setFileLink) => {
     // 1. Improved File Handling (Crucial):
     const fileInfo = await FileSystem.getInfoAsync(selectedFile.uri); // Get more info
     if (!fileInfo.exists) {
-      Alert.alert("Error", "File not found");
+    alert("Error", "File not found");
       return;
     }
 
@@ -176,7 +196,7 @@ export const uploadFile = async (selectedFile, setFileLink) => {
       type: selectedFile.mimeType || 'application/octet-stream', // Provide a default if mimeType is missing
     });
 
-    console.log("FormData:", formData); // Keep this for debugging
+    console.log("FormData in Upload file:", formData); // Keep this for debugging
 
     // 2. Axios Request (No changes needed, but keep the Content-Type header):
     const response = await axios.post(api, formData, {
