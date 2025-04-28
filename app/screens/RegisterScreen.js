@@ -17,7 +17,7 @@ const validationSchema = Yup.object().shape({
     .label('Confirm Password'),
 });
 
-function RegisterScreen(props) {
+function RegisterScreen({ navigation }) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
@@ -25,6 +25,11 @@ function RegisterScreen(props) {
     console.log("FormValues",values);
     const resp=await register(values);
     console.log(resp);
+    if(resp.status.toString()=='201'){
+        console.log("Navigateto Login",navigation);
+        navigation.navigate("Login Screen");
+
+    }
 
 
   }

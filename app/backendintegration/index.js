@@ -18,7 +18,8 @@ export const register= async(payload)=>{
               'Content-Type': 'application/json'
             }
           });
-          console.log('User Registered successfully:', response.data);
+          console.log('User Registered successfully:', response);
+          return response;
         } catch (error) {
           console.error('Error in User Registration:', error.response ? error.response.data : error.message);
         }

@@ -19,7 +19,7 @@ const Stack = createNativeStackNavigator();
 const HomeNavigator = () => (
   <Stack.Navigator mode="modal" screenOptions={{ headerShown: true }}>
 
-<Stack.Screen name="egister Screen" component={RegisterScreen} />
+<Stack.Screen name="Register Screen" component={RegisterScreen} />
 
     <Stack.Screen
       name="AccountOnBoardingScreen"
