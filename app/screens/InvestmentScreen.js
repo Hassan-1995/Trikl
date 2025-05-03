@@ -101,6 +101,7 @@ function InvestmentScreen({ navigation, route }) {
       goalName:option?.goalName,
       templateId:option.value}
       contextData.setGoal(goal);
+      
       navigation.navigate("InvestmentPlanScreen", option);
   }
   return (

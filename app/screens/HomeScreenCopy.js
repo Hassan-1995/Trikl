@@ -100,16 +100,20 @@ function HomeScreenCopy({ navigation }) {
    const contextData = useContext(StoreContext);
       console.log("context in Home ",contextData);
   const[usergoals,setuserGoals]=useState(items);
+  const[draftGoals,setDraftGoals]=useState(items);
   // useeffect for usergoals
   useEffect(async() => {
     const storedGoals = await AsyncStorage.getItem('localgoals');
-    console.log("stored goals",storedGoals);
+    let existingList = storedGoals ? JSON.parse(storedGoals) : [];
+    console.log("stored goals",existingList,draftGoals);
+setDraftGoals(items.slice(1,5));
+   
 async function getUserGoals(){
     const sql="SELECT ug.*, tg.*, (SELECT SUM(amount) FROM PaymentSchedule WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) AS total_amount_due FROM UserGoal ug LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;"
 const resp=await sqlquery(sql,setuserGoals);
 console.log("UserGoals",resp,usergoals);
 }
-getUserGoals();
+//getUserGoals();
   }, []);
 
   const handlePress = (id, value) => {
@@ -147,7 +151,7 @@ getUserGoals();
       <View style={styles.container}>
         <ScrollView>
           <GoalCardPicker
-            assets={items}
+            assets={draftGoals}
             label={"Start a New Plan or Resume Drafts"}
             onPress={handlePress}
           />
