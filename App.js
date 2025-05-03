@@ -1,4 +1,5 @@
-import { useState,createContext } from "react";
+import { useState,createContext,useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 
@@ -47,6 +48,14 @@ export default function App() {
     "user_email":"guest@finomics.com.pk",
     "user_password":"$2a$10$nJw/VAS5C17H3BZGevLxj.sALm34IhYYZns6fvRFE.0V5WH.lp7eK"
  });
+
+ useEffect(() => {
+  AsyncStorage.getItem('contextData').then(data => {
+    if (data) {
+      console.log("Loaded contextData from storage:", JSON.parse(data));
+    }
+  });
+}, []);
 
  //const StoreContext = createContext();
 

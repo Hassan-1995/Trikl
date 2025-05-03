@@ -1,6 +1,7 @@
 import React, { useState,useContext } from "react";
 
-import { ScrollView, StyleSheet, View } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScrollView, StyleSheet, View, Alert } from "react-native";
 import {StoreContext} from "../../GlobalState";
 import AppButton from "../components/AppButton";
 import AppText from "../components/AppText";
@@ -44,15 +45,57 @@ function InvestmentScreen({ navigation, route }) {
 
   const handlePress = (item) => {
     const temp = items.find((data) => data.value === item);
-    console.log("Goal TemplateId",item,temp);
+    if (!temp) return;
+  
+    const goal = {
+      goalName: temp.goalName,
+      templateId: item,
+    };
+  
     setOption(temp);
-    const goal={
-      goalName:temp?.goalName,
-      templateId:item}
-    
-    console.log("Selected option:", option);
- 
+    console.log("Selected option:", temp);
+  
+    addLocalGoal(goal);
   };
+  async function addLocalGoal(goal) {
+    
+    try {
+      const storedGoals = await AsyncStorage.getItem('localgoals');
+       let existingList = storedGoals ? JSON.parse(storedGoals) : [];
+  console.log("retreive existing list",existingList);
+      const index = existingList.findIndex(item => item.goalName === goal.goalName);
+  
+      if (index !== -1) {
+        alert(" Goal already exist");
+        // Prompt user for overwrite confirmation
+        // Alert.alert(
+        //   'Goal Already Exists',
+        //   'This goal already exists. Do you want to overwrite it?',
+        //   [
+        //     {
+        //       text: 'Cancel',
+        //       style: 'cancel',
+        //     },
+        //     {
+        //       text: 'Overwrite',
+        //       onPress: async () => {
+        //         existingList[index] = goal;
+        //         await AsyncStorage.setItem('localgoals', JSON.stringify(existingList));
+        //         console.log('Goal overwritten:', goal);
+        //       },
+        //     },
+        //   ]
+        // );
+      } else {
+        existingList.push(goal);
+        await AsyncStorage.setItem('localgoals', JSON.stringify(existingList));
+        console.log('NewGoal addedin local list :',existingList, goal);
+      }
+    } catch (error) {
+      console.error('Error handling goal in AsyncStorage:', error);
+    }
+  }
+  
   const handleContinue = () => {
     const goal={
       goalName:option?.goalName,

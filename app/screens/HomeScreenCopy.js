@@ -1,10 +1,12 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect,useContext } from "react";
+
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import{sqlquery} from "../backendintegration/index";
 import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import Screen from "../components/Screen";
 import SummaryCard from "../components/SummaryCard";
-
+import {StoreContext} from "../../GlobalState";
 import GoalCardPicker from "../components/GoalCardPicker";
 
 import ActiveInvestmentComponent from "../components/ActiveInvestmentComponent";
@@ -17,7 +19,7 @@ const items = [
     status: "On",
     goal: 24000,
     invested: 5000,
-    value: 4,
+    value: 1,
     image: require("../assets/others.png"),
   },
   {
@@ -25,7 +27,7 @@ const items = [
     status: "Off",
     goal: 15000,
     invested: 8000,
-    value: 1,
+    value: 2,
     image: require("../assets/travel.png"),
   },
   {
@@ -49,7 +51,7 @@ const items = [
     status: "On",
     goal: 25000,
     invested: 15000,
-    value: 5,
+    value: 4,
     image: require("../assets/car.png"),
   },
   {
@@ -57,7 +59,7 @@ const items = [
     status: "Off",
     goal: 22000,
     invested: 11000,
-    value: 6,
+    value: 5,
     image: require("../assets/furniture.png"),
   },
   {
@@ -65,7 +67,7 @@ const items = [
     status: "On",
     goal: 30000,
     invested: 20000,
-    value: 7,
+    value: 6,
     image: require("../assets/wedding.png"),
   },
   {
@@ -73,7 +75,7 @@ const items = [
     status: "On",
     goal: 18000,
     invested: 10000,
-    value: 8,
+    value: 7,
     image: require("../assets/music.png"),
   },
   {
@@ -81,7 +83,7 @@ const items = [
     status: "On",
     goal: 35000,
     invested: 18000,
-    value: 9,
+    value: 8,
     image: require("../assets/jewelry.png"),
   },
   {
@@ -89,32 +91,47 @@ const items = [
     status: "Off",
     goal: 20000,
     invested: 9000,
-    value: 10,
+    value: 9,
     image: require("../assets/fitness.png"),
   },
 ];
 
 function HomeScreenCopy({ navigation }) {
+   const contextData = useContext(StoreContext);
+      console.log("context in Home ",contextData);
   const[usergoals,setuserGoals]=useState(items);
   // useeffect for usergoals
   useEffect(async() => {
+    const storedGoals = await AsyncStorage.getItem('localgoals');
+    console.log("stored goals",storedGoals);
 async function getUserGoals(){
     const sql="SELECT ug.*, tg.*, (SELECT SUM(amount) FROM PaymentSchedule WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) AS total_amount_due FROM UserGoal ug LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;"
 const resp=await sqlquery(sql,setuserGoals);
 console.log("UserGoals",resp,usergoals);
 }
-//getUserGoals();
+getUserGoals();
   }, []);
 
   const handlePress = (id, value) => {
+    console.log("Draft goal pressed ",id,value,contextData);
+    const user=contextData.user;
+    const riskProfile=contextData.riskProfile;
+
     console.log("ID number " + id + " is pressed which has value of ", value);
-    // if (value == 4) {
-    navigation.navigate("InvestmentScreen", {
-      goalID: id,
-      goalName: value,
-    });
-    // }
+     if (user.status == "guest") {
+     navigation.navigate("InvestmentScreen", {goalID: id,
+       goalName: value,
+     });
+     }else if (user.status == "prospect") {
+      navigation.navigate("SuitabilityAssesmentScreen", {goalID: id,
+        goalName: value,
+      });
+    }else if (user.status == "registered") {
+      navigation.navigate("PlanSummary", {goalID: id,
+        goalName: value,
+      });
   };
+}
   return (
     <Screen>
       <LinearGradient

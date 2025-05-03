@@ -1,5 +1,6 @@
 import React, { useState,useContext,useEffect } from "react";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, StyleSheet, ScrollView, Modal } from "react-native";
 import Screen from "../components/Screen";
 import {StoreContext} from "../../GlobalState";
@@ -150,7 +151,7 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
           console.log("SQL response in Suitability",response,riskquitionaire)
       
         }
-      getRiskQuest();
+    //  getRiskQuest();
       },[]);
 
   const handlePress = (value) => {
@@ -196,6 +197,10 @@ riskscore =feedback[i].selectedanswer.riskScore
     setRiskProfile(profile);
   };
   const handleriskFinalize=async() => {
+     // Save contextData to AsyncStorage
+     await AsyncStorage.setItem('contextData', JSON.stringify(contextData));
+     console.log("Context data saved to local storage.");
+
     try{
     const resp= await submitRiskProfiling(feedback);
     setModalVisible(!modalVisible);

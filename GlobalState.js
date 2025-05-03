@@ -7,6 +7,7 @@ export const StoreProvider = ({ children }) => {
     user_Id: 0,
     user_name: "Guest",
     user_email: "guest@finomics.com.pk",
+    status:"guest"
   });
   const [goal, setGoal] = useState({
     
@@ -15,7 +16,9 @@ export const StoreProvider = ({ children }) => {
     // recurring:0,
     // timeHorizon:0,
   });
-  const [riskProfile, setRiskProfile] = useState({ });
+  const [riskProfile, setRiskProfile] = useState({
+    score:"Medium"
+   });
   const [fund, setFund] = useState({});
   const [tvm, settvm] = useState({});
   return (
