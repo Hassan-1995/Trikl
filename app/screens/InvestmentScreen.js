@@ -33,8 +33,8 @@ const items = [
 ];
 
 function InvestmentScreen({ navigation, route }) {
- 
-  const [option, setOption] = useState(route.params);
+ console.log("Routes in investment Screen",route);
+  const [option, setOption] = useState(route.params.option);
 
      const contextData = useContext(StoreContext);
 
@@ -98,7 +98,7 @@ function InvestmentScreen({ navigation, route }) {
     const goal={
       goalName:option?.goalName,
       templateId:option.value}
-      contextData.setGoal(goal);
+      contextData.setGoal(option);
       
       navigation.navigate("InvestmentPlanScreen", option);
   }

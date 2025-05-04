@@ -14,7 +14,7 @@ import ChartComponent from "../components/ChartComponent";
 import colors from "../config/colors";
 
 const draftGoalItems = [
-  { goalName: "New", value: 0,  image: require("../assets/others.png") },
+  { goalName: "Create New", value: 0,  image: require("../assets/others.png") },
   {goalName: "Education", value: 2,
     image: require("../assets/education.png"),
   },
@@ -123,14 +123,14 @@ function HomeScreenCopy({ navigation }) {
    const contextData = useContext(StoreContext);
       console.log("context in Home ",contextData);
   const[usergoals,setuserGoals]=useState(items);
-  const[draftGoals,setDraftGoals]=useState(draftGoalItems);
+  const[draftGoals,setDraftGoals]=useState(draftGoalItems.slice(0,1));
   // useeffect for usergoals
   useEffect(async() => {
    // await AsyncStorage.setItem('localgoals', JSON.stringify([]));
     const storedGoals = await AsyncStorage.getItem('localgoals');
     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
     console.log("stored goals",existingList,draftGoals);
-setDraftGoals(existingList);
+setDraftGoals(draftGoals.concat(existingList));
    
 async function getUserGoals(){
     const sql="SELECT ug.*, tg.*, (SELECT SUM(amount) FROM PaymentSchedule WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) AS total_amount_due FROM UserGoal ug LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;"
@@ -140,25 +140,27 @@ console.log("UserGoals",resp,usergoals);
 //getUserGoals();
   }, []);
 
-  const handlePress = (id, value) => {
-    console.log("Draft goal pressed ",id,value,contextData);
+  const handlePress = (asset) => {
+    console.log("Draft goal pressed ",asset,asset.value,contextData);
     const user=contextData.user;
     const riskProfile=contextData.riskProfile;
 
-    console.log("ID number " + id + " is pressed which has value of ", value);
+    console.log("ID number " + asset.id + " is pressed which has value of ", asset);
      if (user.status == "guest") {
-     navigation.navigate("InvestmentScreen", {goalID: id,
-       goalName: value,
-     });
+    guestUser(asset);
      }else if (user.status == "prospect") {
-      navigation.navigate("SuitabilityAssesmentScreen", {goalID: id,
+      navigation.navigate("SuitabilityAssesmentScreen", {goalID: asset.id,
         goalName: value,
       });
     }else if (user.status == "registered") {
-      navigation.navigate("PlanSummary", {goalID: id,
+      navigation.navigate("PlanSummary", {goalID: asset.id,
         goalName: value,
       });
   };
+}
+function guestUser(asset){
+  navigation.navigate("InvestmentScreen", {option:asset
+  });
 }
   return (
     <Screen>

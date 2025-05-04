@@ -14,7 +14,7 @@ function GoalCard({ assets, selectedBox, setSelectedBox, onPress }) {
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity onPress={() => handlePress(assets.value, assets.title)}>
+      <TouchableOpacity onPress={() => handlePress(assets)}>
         <LinearGradient
           colors={[colors.secondary, colors.light]}
           style={[

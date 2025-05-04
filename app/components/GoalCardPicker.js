@@ -14,8 +14,8 @@ function GoalCardPicker({
 }) {
   const [selectedBox, setSelectedBox] = useState(null);
 
-  const handlePress = (id, value) => {
-    onPress(id, value);
+  const handlePress=(asset) => {
+    onPress(asset);
   };
 
   return (

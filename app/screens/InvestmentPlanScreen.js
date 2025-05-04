@@ -1,5 +1,5 @@
 import React, { useEffect, useState,useContext } from "react";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { View, StyleSheet, Alert } from "react-native";
 import AmountInput from "../components/AmountInput";
 import {StoreContext} from "../../GlobalState";
@@ -31,6 +31,8 @@ const items = [
 ];
 
 function InvestmentPlanScreen({ navigation, route }) {
+  
+    const contextData = useContext(StoreContext);
   const [activeComponent, setActiveComponent] = useState(items[0]);
   const [number, setNumber] = useState(0);
   const [target, setTarget] = useState(0);
@@ -39,17 +41,8 @@ function InvestmentPlanScreen({ navigation, route }) {
   const [frequency, setFrequency] = useState("");
   const [button, setButton] = useState({ value: "_____", id: 1 });
   const [amount, setAmount] = useState([]);
-  const [usergoal, setUserGoal] = useState({goalName:route?.paams?.goalName,
-    templateId:route?.paams?.goalName,
-    goalTarget:0,
-    goalDuration: 0, 
-    total_payments: 0,
-   savingFrequency: "",
-    initialContribution: 0,
-    recurringAmount:0,
-  });
-
-  const contextData = useContext(StoreContext);
+  const [usergoal, setUserGoal] = useState(contextData.goal);
+ 
   console.log("InvestmentPlanScreen", route.params);
   console.log("Context in InvestmentPlanScreen", contextData);
 
@@ -88,16 +81,24 @@ function InvestmentPlanScreen({ navigation, route }) {
 //       );
 //     }
 //   }, [amount]);
+
   //useeffect for tvm
   useEffect(() => {
+    let goal=usergoal;
     let tvm={
       target:target,
       initial:initial,
       recurring:recurring,
       frequency:frequency,
+      
 
     }
+    goal.target=target,
+    goal.initial=initial,
+    goal.recurringrecurring,
+    goal.frequency=frequency,
     console.log("TVM in Use effect",tvm)
+    contextData.setGoal(goal)
     contextData.settvm(tvm)
     
   }, [target,initial,recurring,frequency]);
@@ -107,10 +108,12 @@ function InvestmentPlanScreen({ navigation, route }) {
   
     setAmount([...amount, number]);
     setNumber(0);
-  
+    
     if (keyId == 3) {
+     
       console.log("last question answered, moving to Risk Profiling", keyId);
       console.log("Input Values", amount, button);
+      updateLocalGoal(contextData.goal);
       navigation.navigate("SuitabilityAssesmentScreen",route.param);
     } else {
       setActiveComponent(items[keyId]);
@@ -118,11 +121,11 @@ function InvestmentPlanScreen({ navigation, route }) {
   
     // Call filltvm and pass number and button directly
     filltvm(keyId, number, button);
-  
    
   };
 
  function filltvm(keyId, value, buttonVal) {
+  console.log("filling tvm",keyId, value, buttonVal);
   let updatedTarget = target;
   let updatedInitial = initial;
   let updatedRecurring = recurring;
@@ -147,6 +150,7 @@ function InvestmentPlanScreen({ navigation, route }) {
       break;
   }
 
+
   console.log("✅ Updated TVM Values", {
     keyId,
     target: updatedTarget,
@@ -155,7 +159,26 @@ function InvestmentPlanScreen({ navigation, route }) {
     frequency: updatedFrequency,
   });
 }
+async function updateLocalGoal(goal) {
+    
+  try {
+    const storedGoals = await AsyncStorage.getItem('localgoals');
+     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
+console.log("retreive existing list",existingList);
+    const index = existingList.findIndex(item => item.goalName === goal.goalName);
 
+    if (index !== -1) {
+      existingList[index]=goal;
+      await AsyncStorage.setItem('localgoals', JSON.stringify(existingList));
+      alert(" Goal updated successfully");
+
+    } else {
+alert("Goal Not found");
+    }
+  } catch (error) {
+    console.error('Error handling goal in AsyncStorage:', error);
+  }
+}
   const handleAmount = (value) => {
 
 
