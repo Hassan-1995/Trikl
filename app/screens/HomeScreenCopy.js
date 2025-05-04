@@ -13,6 +13,29 @@ import ActiveInvestmentComponent from "../components/ActiveInvestmentComponent";
 import ChartComponent from "../components/ChartComponent";
 import colors from "../config/colors";
 
+const draftGoalItems = [
+  { goalName: "New", value: 0,  image: require("../assets/others.png") },
+  {goalName: "Education", value: 2,
+    image: require("../assets/education.png"),
+  },
+  {
+    goalName: "Electronics",
+    value: 3,
+    image: require("../assets/electronics.png"),
+  },
+  { goalName: "Car", value: 5, image: require("../assets/car.png") },
+  {
+    goalName: "Furniture",
+    value: 6,
+    image: require("../assets/furniture.png"),
+  },
+  { goalName: "Wedding", value: 7, image: require("../assets/wedding.png") },
+  { goalName: "Music", value: 8, image: require("../assets/music.png") },
+  { goalName: "Jewelry", value: 9, image: require("../assets/jewelry.png") },
+  { goalName: "Fitness", value: 10, image: require("../assets/fitness.png") },
+  { goalName: "Others", value: 4, image: require("../assets/travel.png") },
+];
+
 const items = [
   {
     title: "Create New",
@@ -100,13 +123,14 @@ function HomeScreenCopy({ navigation }) {
    const contextData = useContext(StoreContext);
       console.log("context in Home ",contextData);
   const[usergoals,setuserGoals]=useState(items);
-  const[draftGoals,setDraftGoals]=useState(items);
+  const[draftGoals,setDraftGoals]=useState(draftGoalItems);
   // useeffect for usergoals
   useEffect(async() => {
+   // await AsyncStorage.setItem('localgoals', JSON.stringify([]));
     const storedGoals = await AsyncStorage.getItem('localgoals');
     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
     console.log("stored goals",existingList,draftGoals);
-setDraftGoals(items.slice(1,5));
+setDraftGoals(existingList);
    
 async function getUserGoals(){
     const sql="SELECT ug.*, tg.*, (SELECT SUM(amount) FROM PaymentSchedule WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) AS total_amount_due FROM UserGoal ug LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;"

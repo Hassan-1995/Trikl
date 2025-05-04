@@ -11,9 +11,7 @@ import colors from "../config/colors";
 
 const items = [
   { goalName: "Travel", value: 1, image: require("../assets/travel.png") },
-  {
-    goalName: "Education",
-    value: 2,
+  {goalName: "Education", value: 2,
     image: require("../assets/education.png"),
   },
   {
@@ -55,7 +53,7 @@ function InvestmentScreen({ navigation, route }) {
     setOption(temp);
     console.log("Selected option:", temp);
   
-    addLocalGoal(goal);
+    addLocalGoal(temp);
   };
   async function addLocalGoal(goal) {
     
