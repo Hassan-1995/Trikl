@@ -42,9 +42,12 @@ function InvestmentScreen({ navigation, route }) {
   console.log("goal", option);
 
   const handlePress = (item) => {
-    const temp = items.find((data) => data.value === item);
-    if (!temp) return;
-  
+    console.log("selected option in Investment Screen",item);
+    const temp = items.find((data) => data.goalName === item.goalName);
+    if (!temp) {
+      console.log("selected option not found in Investment Screen",item);
+    return;
+    }
     const goal = {
       goalName: temp.goalName,
       templateId: item,
@@ -88,6 +91,7 @@ function InvestmentScreen({ navigation, route }) {
         existingList.push(goal);
         await AsyncStorage.setItem('localgoals', JSON.stringify(existingList));
         console.log('NewGoal addedin local list :',existingList, goal);
+        alert("New goal added Temporary")
       }
     } catch (error) {
       console.error('Error handling goal in AsyncStorage:', error);

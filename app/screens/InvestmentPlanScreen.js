@@ -95,7 +95,7 @@ function InvestmentPlanScreen({ navigation, route }) {
     }
     goal.target=target,
     goal.initial=initial,
-    goal.recurringrecurring,
+    goal.recurring=recurring,
     goal.frequency=frequency,
     console.log("TVM in Use effect",tvm)
     contextData.setGoal(goal)
@@ -105,25 +105,41 @@ function InvestmentPlanScreen({ navigation, route }) {
 
   const handlePress = (keyId) => {
     console.log("IN continue", keyId, items[keyId]);
-  
+    
     setAmount([...amount, number]);
-    setNumber(0);
+    filltvm(keyId, number, button);
     
     if (keyId == 3) {
-     
+      
       console.log("last question answered, moving to Risk Profiling", keyId);
       console.log("Input Values", amount, button);
-      updateLocalGoal(contextData.goal);
-      navigation.navigate("SuitabilityAssesmentScreen",route.param);
+// handle as per user
+if (contextData.user?.status== "guest") {
+  guestUser(contextData.goal);
+   }else if (contextData.user?.status == "prospect") {
+    prospectUser(contextData.goal);
+    navigation.navigate("SuitabilityAssesmentScreen", {goalID: asset.id,
+      goalName: value,
+    });
+  }else if (contextData.user?.status == "registered") {
+    navigation.navigate("PlanSummary", {goalID: asset.id,
+      goalName: value,
+    });
+};
+
+      // updateLocalGoal(contextData.goal);
+      // navigation.navigate("SuitabilityAssesmentScreen",route.param);
     } else {
       setActiveComponent(items[keyId]);
     }
-  
+    
     // Call filltvm and pass number and button directly
-    filltvm(keyId, number, button);
+    setNumber(0);
    
   };
+{
 
+}
  function filltvm(keyId, value, buttonVal) {
   console.log("filling tvm",keyId, value, buttonVal);
   let updatedTarget = target;
@@ -158,6 +174,16 @@ function InvestmentPlanScreen({ navigation, route }) {
     recurring: updatedRecurring,
     frequency: updatedFrequency,
   });
+}
+async function guestUser(goal){
+  alert("Updating your provided details as guest user");
+  updateLocalGoal(goal);
+  navigation.navigate("Register Screen",route.param);
+}
+async function prospectUser(goal){
+  alert("Updating your provided details as prospect user");
+  updateLocalGoal(goal);
+  navigation.navigate("SuitabilityAssesmentScreen",route.param);
 }
 async function updateLocalGoal(goal) {
     

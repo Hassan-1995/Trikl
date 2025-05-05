@@ -159,8 +159,13 @@ console.log("UserGoals",resp,usergoals);
   };
 }
 function guestUser(asset){
-  navigation.navigate("InvestmentScreen", {option:asset
-  });
+  console.log("selected Draft Goal", asset);
+  if(!asset.recurring){
+  navigation.navigate("InvestmentScreen", {option:asset  });
+}else{
+  alert(" Complete Registration before proceeding");
+  navigation.navigate("Register Screen", {option:asset  });
+}
 }
   return (
     <Screen>
