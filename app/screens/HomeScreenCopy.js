@@ -145,26 +145,55 @@ console.log("UserGoals",resp,usergoals);
     const user=contextData.user;
     const riskProfile=contextData.riskProfile;
 
-    console.log("ID number " + asset.id + " is pressed which has value of ", asset);
+    console.log("ID number " + asset.id + " is pressed which has value of ", asset,"for User",user);
+    // route to investment screen irrespevtive of user status.
+  if(asset.goalName=="Create New"){
+    navigation.navigate("InvestmentScreen", {option:asset  });
+  return;
+  }
      if (user.status == "guest") {
-    guestUser(asset);
-     }else if (user.status == "prospect") {
-      navigation.navigate("SuitabilityAssesmentScreen", {goalID: asset.id,
-        goalName: value,
-      });
+    guestUser(asset,user);
+     }else if (user.status =="prospect") {
+      prospectUser(asset,user);
+      
     }else if (user.status == "registered") {
-      navigation.navigate("PlanSummary", {goalID: asset.id,
-        goalName: value,
-      });
-  };
+      registeredUser(asset,user);
+  }
 }
-function guestUser(asset){
+function guestUser(asset,user){
   console.log("selected Draft Goal", asset);
   if(!asset.recurring){
   navigation.navigate("InvestmentScreen", {option:asset  });
 }else{
   alert(" Complete Registration before proceeding");
   navigation.navigate("Register Screen", {option:asset  });
+}
+}
+function prospectUser(asset,user){
+  console.log("selected Draft for prospect", asset);
+  if(!user.riskScore){
+  navigation.navigate("AccountOnBoardingScreen", {option:asset  });
+  }else if(!asset.recurring){
+    navigation.navigate("InvestmentScreen", {option:asset  });
+  
+}else if(!asset.initial){
+  navigation.navigate("InvestmentScreen", {option:asset  });
+}
+else{
+  alert(" PleaseComplete your suitability Assessment" );
+  navigation.navigate("SuitabilityAssesmentScreen", {option:asset  });
+}
+}
+function registeredUser(asset,user){
+  console.log("selected Draft for registered user", asset);
+  if(!user.riskScore){
+  navigation.navigate("FundSelection", {option:asset  });
+}else if(!asset.recurring){
+  navigation.navigate("InvestmentScreen", {option:asset  });
+
+}else{
+  alert(" PleaseComplete your suitability Assessment" );
+  navigation.navigate("SuitabilityAssesmentScreen", {option:asset  });
 }
 }
   return (

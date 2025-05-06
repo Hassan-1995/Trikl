@@ -7,7 +7,8 @@ export const StoreProvider = ({ children }) => {
     user_Id: 0,
     user_name: "Guest",
     user_email: "guest@finomics.com.pk",
-    status:"guest"
+    status:"registered",
+    riskSxore:"40"
   });
   const [goal, setGoal] = useState({
     
