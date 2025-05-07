@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import * as Yup from "yup";
 
+import {login} from '../backendintegration/index';
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import LogoContainer from "../components/LogoContainer";
 import Screen from "../components/Screen";
@@ -25,7 +26,9 @@ const validationSchema = Yup.object().shape({
 
 function LoginScreen({ navigation }) {
   const handleSubmit = (values) => {
-    console.log(values);
+    
+    console.log("in login  handle submit",values);
+    const resp= await login(value)
     navigation.navigate("AccountOnBoardingScreen");
   };
 

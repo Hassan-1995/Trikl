@@ -24,7 +24,26 @@ export const register= async(payload)=>{
           console.error('Error in User Registration:', error.response ? error.response.data : error.message);
         }
       }
-
+      //login
+      export const login= async(payload,dispatched)=>{
+        const apiUrl= baseUrl+"auth/login"
+        const data={
+                  user_email:payload.email,
+          password:payload.password,
+        }
+            try {
+                const response = await axios.post(apiUrl, data, {
+                  headers: {
+                    'Content-Type': 'application/json'
+                  }
+                });
+                console.log('User login  successfully:', response);
+                dispatch(response)
+                return response;
+              } catch (error) {
+                console.error('Error in User Registration:', error.response ? error.response.data : error.message);
+              }
+            }
 
 export const useronboarding= async(payload)=>{
 const apiUrl= baseUrl+"user/adduser"
