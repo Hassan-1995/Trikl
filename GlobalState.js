@@ -11,11 +11,18 @@ export const StoreProvider = ({ children }) => {
     riskSxore:"40"
   });
   const [goal, setGoal] = useState({
-    
-    //   target:0,
-    // initialContribution:0,
-    // recurring:0,
-    // timeHorizon:0,
+    goalName: "Dummy",
+    "value": 10,
+    "image": {
+        uri: "/assets/?unstable_path=.%2Fapp%2Fassets/fitness.png",
+        width: 512,
+        height: 512
+    },
+    target:100,
+    initial: 200,
+    recurring: 30,
+    frequency: "Semi-Annual",
+    status:"Draft"
   });
   const [riskProfile, setRiskProfile] = useState({
     score:"Medium"
@@ -28,3 +35,5 @@ export const StoreProvider = ({ children }) => {
     </StoreContext.Provider>
   );
 };
+
+

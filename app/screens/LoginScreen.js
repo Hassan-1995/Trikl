@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState,useEffect,useContext } from "react";
 import {
   StyleSheet,
   TouchableWithoutFeedback,
@@ -9,6 +9,7 @@ import {
 import * as Yup from "yup";
 
 import {login} from '../backendintegration/index';
+import {StoreContext} from "../../GlobalState";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import LogoContainer from "../components/LogoContainer";
 import Screen from "../components/Screen";
@@ -16,7 +17,7 @@ import AppText from "../components/AppText";
 import HomeScreenCopy from "./HomeScreenCopy";
 import AccountOnBoardingScreen from "./AccountOnBoardingScreen";
 
-// 📌 Import the Explore icon image
+//  Import the Explore icon image
 const exploreIcon = require("../assets/explore.png"); // Adjust path as needed
 
 const validationSchema = Yup.object().shape({
@@ -25,11 +26,12 @@ const validationSchema = Yup.object().shape({
 });
 
 function LoginScreen({ navigation }) {
-  const handleSubmit = (values) => {
+     const contextData = useContext(StoreContext);
+  const handleSubmit = async(values) => {
     
-    console.log("in login  handle submit",values);
-    const resp= await login(value)
-    navigation.navigate("AccountOnBoardingScreen");
+    const resp= await login(values,contextData.setUser);
+    console.log("in login  handle submit",values,contextData);
+    navigation.navigate("HomeScreenCopy");
   };
 
   return (

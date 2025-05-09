@@ -25,10 +25,10 @@ export const register= async(payload)=>{
         }
       }
       //login
-      export const login= async(payload,dispatched)=>{
+      export const login= async(payload,didispatch)=>{
         const apiUrl= baseUrl+"auth/login"
         const data={
-                  user_email:payload.email,
+                  user_email:payload.name,
           password:payload.password,
         }
             try {
@@ -38,7 +38,11 @@ export const register= async(payload)=>{
                   }
                 });
                 console.log('User login  successfully:', response);
-                dispatch(response)
+                if(response?.data?.return.toLowerCase()=="success"){
+                dispatch(response.data.user);
+                }else{
+                  alert("Login failed");
+                }
                 return response;
               } catch (error) {
                 console.error('Error in User Registration:', error.response ? error.response.data : error.message);

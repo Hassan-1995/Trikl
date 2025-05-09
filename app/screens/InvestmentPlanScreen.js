@@ -97,7 +97,7 @@ function InvestmentPlanScreen({ navigation, route }) {
     goal.initial=initial,
     goal.recurring=recurring,
     goal.frequency=frequency,
-    console.log("TVM in Use effect",tvm)
+    console.log("Goal in Investment PlanUse effect",goal)
     contextData.setGoal(goal)
     contextData.settvm(tvm)
     
