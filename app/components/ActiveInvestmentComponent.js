@@ -35,7 +35,7 @@ function ActiveInvestmentComponent({ assets }) {
         </View>
         <View style={styles.goalReportContainer}>
           <View style={styles.title}>
-            <AppText style={styles.header}>{assets.title}</AppText>
+            <AppText style={styles.header}>{assets.goalName}</AppText>
             <View
               style={[
                 styles.status,
@@ -57,7 +57,7 @@ function ActiveInvestmentComponent({ assets }) {
                 <View
                   style={[
                     styles.overlay,
-                    { width: `${(assets.invested / assets.goal) * 100}%` },
+                    { width: `${(assets.invested / assets.goalTarget) * 100}%` },
                   ]}
                 />
               </View>
@@ -65,7 +65,7 @@ function ActiveInvestmentComponent({ assets }) {
             <View>
               {/* <AppText style={styles.header}>{((assets.invested/assets.goal)*100).toFixed(2)}%</AppText> */}
               <AppText style={styles.header}>
-                {((assets.invested / assets.goal) * 100).toFixed(1)}%
+                {((assets.invested / assets.goalTarget) * 100).toFixed(1)}%
               </AppText>
             </View>
           </View>

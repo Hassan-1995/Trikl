@@ -1,157 +1,147 @@
 import React from "react";
-
-import { View, StyleSheet, Image, Dimensions } from "react-native";
-import { Svg, Circle } from "react-native-svg";
+import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
+import { Svg, Path } from "react-native-svg";
 import AppText from "./AppText";
 import colors from "../config/colors";
-const { width, height } = Dimensions.get("window");
+
+const { width } = Dimensions.get("window");
 
 function ModalHomeScreenComponent({ item }) {
-  const radius = 50;
-  const circumference = 2 * Math.PI * radius;
-  const goal = item.goal || 1;
-  const invested = item.invested || 0;
-  const investedPercentage = Math.min((invested / goal) * 100, 100);
-  const strokeDashoffset = (1 - investedPercentage / 100) * circumference;
+  // Sample Pie Chart Values (use actual asset allocations if available)
+  const segments = [
+    { percentage: 0.3, color: "#00796B" },
+    { percentage: 0.2, color: "#43A047" },
+    { percentage: 0.2, color: "#FBC02D" },
+    { percentage: 0.3, color: "#1E88E5" },
+  ];
+
+  const renderPieChart = () => {
+    const radius = 50;
+    let angle = 0;
+    const paths = segments.map((seg, index) => {
+      const startAngle = angle;
+      const sweepAngle = seg.percentage * 360;
+      angle += sweepAngle;
+
+      const largeArc = sweepAngle > 180 ? 1 : 0;
+      const x1 = radius + radius * Math.cos((Math.PI * startAngle) / 180);
+      const y1 = radius + radius * Math.sin((Math.PI * startAngle) / 180);
+      const x2 = radius + radius * Math.cos((Math.PI * angle) / 180);
+      const y2 = radius + radius * Math.sin((Math.PI * angle) / 180);
+
+      return (
+        <Path
+          key={index}
+          d={`M${radius},${radius} L${x1},${y1} A${radius},${radius} 0 ${largeArc} 1 ${x2},${y2} Z`}
+          fill={seg.color}
+        />
+      );
+    });
+
+    return (
+      <Svg height={120} width={120}>
+        {paths}
+      </Svg>
+    );
+  };
+
   return (
-    <View style={styles.container}>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          position: "absolute",
-          width: width,
-          alignSelf: "center",
-        }}
-      >
-        <Svg height="150" width="150" viewBox="0 0 120 120">
-          <Circle
-            cx="60"
-            cy="60"
-            r={radius}
-            stroke="#ddd"
-            strokeWidth="15"
-            fill="none"
-          />
-          <Circle
-            cx="60"
-            cy="60"
-            r={radius}
-            stroke="#4caf50"
-            strokeWidth="15"
-            fill="none"
-            strokeDasharray={`${circumference}, ${circumference}`}
-            strokeDashoffset={strokeDashoffset}
-            strokeLinecap="round"
-            transform="rotate(-90 60 60)"
-          />
-        </Svg>
+    <View style={styles.modal}>
+      <AppText style={styles.title}>{item.goalName}</AppText>
+      <View style={styles.chartContainer}>{renderPieChart()}</View>
+      <AppText style={styles.planName}>Investment Plan</AppText>
 
-        <View
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: [{ translateX: -20 }, { translateY: -10 }], // Adjust for centering
-          }}
-        >
-          <AppText
-            style={{ textAlign: "center", fontSize: 16, fontWeight: "bold" }}
-          >
-            {((item.invested / item.goal) * 100).toFixed(1)}%
-          </AppText>
-        </View>
+      <View style={styles.row}>
+        <AppText style={styles.label}>Target Value</AppText>
+        <AppText style={styles.value}>${item.goalTarget.toLocaleString()}</AppText>
+      </View>
+      <View style={styles.row}>
+        <AppText style={styles.label}>Actual Portfolio</AppText>
+        <AppText style={styles.value}>${item?.invested?.toLocaleString()}</AppText>
+      </View>
+      <View style={styles.row}>
+        <AppText style={styles.label}>Initial Investment</AppText>
+        <AppText style={styles.value}>${item?.initialContribution?.toLocaleString()}</AppText>
+      </View>
+      <View style={styles.row}>
+        <AppText style={styles.label}>Recurring Amount</AppText>
+        <AppText style={styles.value}>${item?.recurringAmount?.toLocaleString()}</AppText>
       </View>
 
-      <View style={{ marginTop: 150 }}>
-        <AppText style={[styles.subHeading, { paddingHorizontal: 10 }]}>
-          I am currently {item.status.toLowerCase()} track to achieve my desired
-          goal.
-        </AppText>
-        <View style={styles.title}>
-          <AppText style={[styles.heading, { color: "white" }]}>
-            {item.title}
-          </AppText>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Target Value</AppText>
-            <AppText style={styles.description}>
-              I will due to pay date.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              Rs {item.goal.toLocaleString()}
-            </AppText>
-          </View>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Invested Value</AppText>
-            <AppText style={styles.description}>
-              I paid this amount to date.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              Rs {item.invested.toLocaleString()}
-            </AppText>
-          </View>
-        </View>
-        <View style={styles.goal}>
-          <View>
-            <AppText style={styles.heading}>Due Value</AppText>
-            <AppText style={styles.description}>
-              I have to pay remaing balance.
-            </AppText>
-          </View>
-          <View>
-            <AppText style={styles.subHeading}>
-              Rs {Math.abs(item.invested - item.goal).toLocaleString()}
-            </AppText>
-          </View>
-        </View>
-
-        {/* <Image source={item.image} style={styles.image} /> */}
+      <View style={styles.statusBox}>
+        <AppText style={styles.statusText}>✅ You're on track</AppText>
       </View>
+
+      <TouchableOpacity style={styles.okButton}>
+        <AppText style={styles.okText}>OK</AppText>
+      </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {},
+  modal: {
+    backgroundColor: "#fff",
+    padding: 20,
+    borderRadius: 20,
+    width: width * 0.9,
+    alignSelf: "center",
+    elevation: 10,
+  },
   title: {
-    backgroundColor: colors.secondary,
-    margin: 15,
-    padding: 15,
-    borderRadius: 15,
-    color: colors.white,
-  },
-  goal: {
-    flexDirection: "row", // Align items in a row
-    justifyContent: "space-between", // Space between elements
-    padding: 10, // Add padding for better spacing
-    marginHorizontal: 10, // Add margin to avoid stretching
-    borderBottomWidth: 2,
-    borderColor: colors.tertiary,
-  },
-  heading: {
     fontSize: 20,
     fontWeight: "bold",
-    color: colors.primary,
+    textAlign: "center",
+    marginBottom: 10,
+    color: "#000",
   },
-  subHeading: {
+  chartContainer: {
+    alignSelf: "center",
+    marginBottom: 10,
+  },
+  planName: {
     fontSize: 18,
     fontWeight: "bold",
-    color: colors.secondary,
+    textAlign: "center",
+    marginVertical: 10,
   },
-  description: {
-    fontSize: 14,
-    fontWeight: "400",
-    color: "#777",
-    textAlign: "justify",
-    lineHeight: 20,
+  row: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginVertical: 0,
+  },
+  label: {
+    fontSize: 16,
+    color: "#444",
+  },
+  value: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  statusBox: {
+    backgroundColor: "#E6F4EA",
+    padding: 10,
+    borderRadius: 8,
+    marginTop: 15,
+    flexDirection: "row",
+    justifyContent: "center",
+  },
+  statusText: {
+    color: "#2E7D32",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  okButton: {
+    backgroundColor: "#F2F2F2",
+    borderRadius: 20,
+    marginTop: 20,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  okText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#000",
   },
 });
 

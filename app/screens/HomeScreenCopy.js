@@ -41,6 +41,8 @@ const items = [
     title: "Create New",
     status: "On",
     goal: 24000,
+    initial:1000,
+    recurring:222,
     invested: 5000,
     value: 1,
     image: require("../assets/others.png"),
@@ -49,6 +51,8 @@ const items = [
     title: "Travel",
     status: "Off",
     goal: 15000,
+    initial:1000,
+    recurring:222,
     invested: 8000,
     value: 2,
     image: require("../assets/travel.png"),
@@ -57,6 +61,8 @@ const items = [
     title: "Education",
     status: "On",
     goal: 18000,
+    initial:1000,
+    recurring:222,
     invested: 10000,
     value: 2,
     image: require("../assets/education.png"),
@@ -65,6 +71,8 @@ const items = [
     title: "Electronics",
     status: "On",
     goal: 20000,
+    initial:1000,
+    recurring:222,
     invested: 12000,
     value: 3,
     image: require("../assets/electronics.png"),
@@ -118,11 +126,94 @@ const items = [
     image: require("../assets/fitness.png"),
   },
 ];
+// active goals list
+const goalsList=[
+    {
+        "userId": 0,
+        "goalId": 20,
+        "goalName": "Furniture",
+        "templateId": null,
+        "allocationId": 10,
+        "goalTarget": 1000,
+        "goalDuration": -1473,
+        "total_payments": 0,
+        "savingFrequency": "monthly",
+        "initialContribution": 4093,
+        "recurringAmount": 249,
+        "status": "Draft",
+        "fundingStatus": "inprogress",
+        "goal_id": null,
+        "Template_Goal_name": null,
+        "goal_icon": null,
+        "Goal_description": null,
+        "prompt_target": null,
+        "prompt_initialContribution": null,
+        "prompt_savingFrequency": null,
+        "prompt_regularContribution": null,
+        "goal_type": null,
+        "goal_status": null,
+        "total_amount_due": null
+    },
+    {
+        "userId": 0,
+        "goalId": 21,
+        "goalName": "Electronics",
+        "templateId": null,
+        "allocationId": 5,
+        "goalTarget": 63077,
+        "goalDuration": 6746,
+        "total_payments": 0,
+        "savingFrequency": "monthly",
+        "initialContribution": 3975,
+        "recurringAmount": 30,
+        "status": "Draft",
+        "fundingStatus": "inprogress",
+        "goal_id": null,
+        "Template_Goal_name": null,
+        "goal_icon": null,
+        "Goal_description": null,
+        "prompt_target": null,
+        "prompt_initialContribution": null,
+        "prompt_savingFrequency": null,
+        "prompt_regularContribution": null,
+        "goal_type": null,
+        "goal_status": null,
+        "total_amount_due": null
+    },
+    {
+        "userId": 0,
+        "goalId": 22,
+        "goalName": "Create New",
+        "templateId": null,
+        "allocationId": 10,
+        "goalTarget": 49195,
+        "goalDuration": 4929,
+        "total_payments": 0,
+        "savingFrequency": "monthly",
+        "initialContribution": 5679,
+        "recurringAmount": 342,
+        "status": "Draft",
+        "fundingStatus": "inprogress",
+        "goal_id": null,
+        "Template_Goal_name": null,
+        "goal_icon": null,
+        "Goal_description": null,
+        "prompt_target": null,
+        "prompt_initialContribution": null,
+        "prompt_savingFrequency": null,
+        "prompt_regularContribution": null,
+        "goal_type": null,
+        "goal_status": null,
+        "total_amount_due": null
+    }
+];
+
+//- acive goals end
 
 function HomeScreenCopy({ navigation }) {
    const contextData = useContext(StoreContext);
       console.log("context in Home ",contextData);
-  const[usergoals,setuserGoals]=useState(items);
+  const[usergoals,setuserGoals]=useState(goalsList);
   const[draftGoals,setDraftGoals]=useState(draftGoalItems.slice(0,1));
   // useeffect for usergoals
   useEffect(async() => {
@@ -137,7 +228,7 @@ async function getUserGoals(){
 const resp=await sqlquery(sql,setuserGoals);
 console.log("UserGoals",resp,usergoals);
 }
-//getUserGoals();
+getUserGoals();
   }, []);
 
   const handlePress = (asset) => {
@@ -218,7 +309,7 @@ function registeredUser(asset,user){
           <ChartComponent assets={items} />
           <FlatList
             data={usergoals}
-            keyExtractor={(item) => item?.value?.toString()}
+            keyExtractor={(item) => item?.goalId?.toString()}
             renderItem={({ item }) => (
               <ActiveInvestmentComponent assets={item} />
             )}
