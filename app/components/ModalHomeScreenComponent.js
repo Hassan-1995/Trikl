@@ -7,7 +7,6 @@ import colors from "../config/colors";
 const { width } = Dimensions.get("window");
 
 function ModalHomeScreenComponent({ item }) {
-  // Sample Pie Chart Values (use actual asset allocations if available)
   const segments = [
     { percentage: 0.3, color: "#00796B" },
     { percentage: 0.2, color: "#43A047" },
@@ -51,7 +50,8 @@ function ModalHomeScreenComponent({ item }) {
       <View style={styles.chartContainer}>{renderPieChart()}</View>
       <AppText style={styles.planName}>Investment Plan</AppText>
 
-      <View style={styles.row}>
+      {/* Table Rows */}
+      <View style={[styles.row, styles.shadedRow]}>
         <AppText style={styles.label}>Target Value</AppText>
         <AppText style={styles.value}>${item.goalTarget.toLocaleString()}</AppText>
       </View>
@@ -59,7 +59,7 @@ function ModalHomeScreenComponent({ item }) {
         <AppText style={styles.label}>Actual Portfolio</AppText>
         <AppText style={styles.value}>${item?.invested?.toLocaleString()}</AppText>
       </View>
-      <View style={styles.row}>
+      <View style={[styles.row, styles.shadedRow]}>
         <AppText style={styles.label}>Initial Investment</AppText>
         <AppText style={styles.value}>${item?.initialContribution?.toLocaleString()}</AppText>
       </View>
@@ -72,9 +72,15 @@ function ModalHomeScreenComponent({ item }) {
         <AppText style={styles.statusText}>✅ You're on track</AppText>
       </View>
 
-      <TouchableOpacity style={styles.okButton}>
-        <AppText style={styles.okText}>OK</AppText>
-      </TouchableOpacity>
+      {item.status === "Draft" ? (
+        <TouchableOpacity style={styles.activateButton}>
+          <AppText style={styles.activateText}>Activate</AppText>
+        </TouchableOpacity>
+      ) : (
+        <TouchableOpacity style={styles.okButton}>
+          <AppText style={styles.okText}>OK</AppText>
+        </TouchableOpacity>
+      )}
     </View>
   );
 }
@@ -108,7 +114,12 @@ const styles = StyleSheet.create({
   row: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginVertical: 0,
+    paddingVertical: 8,
+    paddingHorizontal: 4,
+  },
+  shadedRow: {
+    backgroundColor: "#F5F5F5",
+    borderRadius: 4,
   },
   label: {
     fontSize: 16,
@@ -142,6 +153,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     color: "#000",
+  },
+  activateButton: {
+    backgroundColor: "#1E88E5",
+    borderRadius: 20,
+    marginTop: 20,
+    paddingVertical: 12,
+    alignItems: "center",
+  },
+  activateText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fff",
   },
 });
 
