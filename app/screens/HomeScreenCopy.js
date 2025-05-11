@@ -213,8 +213,9 @@ const goalsList=[
 function HomeScreenCopy({ navigation }) {
    const contextData = useContext(StoreContext);
       console.log("context in Home ",contextData);
-  const[usergoals,setuserGoals]=useState(goalsList);
+  const[usergoals,setuserGoals]=useState([]);
   const[draftGoals,setDraftGoals]=useState(draftGoalItems.slice(0,1));
+
   // useeffect for usergoals
   useEffect(async() => {
    // await AsyncStorage.setItem('localgoals', JSON.stringify([]));
@@ -230,6 +231,8 @@ console.log("UserGoals",resp,usergoals);
 }
 getUserGoals();
   }, []);
+
+
 
   const handlePress = (asset) => {
     console.log("Draft goal pressed ",asset,asset.value,contextData);

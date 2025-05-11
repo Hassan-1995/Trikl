@@ -2,6 +2,7 @@ import React from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import AppText from "./AppText";
+import{activateGoal} from "../backendintegration/index";
 import colors from "../config/colors";
 
 const { width } = Dimensions.get("window");
@@ -14,6 +15,16 @@ function ModalHomeScreenComponent({ item }) {
     { percentage: 0.3, color: "#1E88E5" },
   ];
 
+    // active button
+    const handleActive = async() => {
+    console.log("DActive Button is pressd pressed ",item);
+const resp= await activateGoal(item.goalId);
+}
+   // active button
+    const handleOk = () => {
+    console.log("OK Button is pressd pressed",item);
+
+}
   const renderPieChart = () => {
     const radius = 50;
     let angle = 0;
@@ -73,11 +84,11 @@ function ModalHomeScreenComponent({ item }) {
       </View>
 
       {item.status === "Draft" ? (
-        <TouchableOpacity style={styles.activateButton}>
+        <TouchableOpacity style={styles.activateButton} onPress={() => handleActive()}>
           <AppText style={styles.activateText}>Activate</AppText>
         </TouchableOpacity>
       ) : (
-        <TouchableOpacity style={styles.okButton}>
+        <TouchableOpacity style={styles.okButton} onPress={() => handleOk()}>
           <AppText style={styles.okText}>OK</AppText>
         </TouchableOpacity>
       )}

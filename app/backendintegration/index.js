@@ -113,21 +113,13 @@ const apiUrl= baseUrl+"user/adduser"
                   }
                 }
 // Payment Schedule API call
-                export const generatePaymentSchedule= async(goaltemgoalIdplate, target,initialInv,frequency, recurring,duration)=>{
+                export const activateGoal= async(goalId)=>{
                   const apiUrl= baseUrl+"goal/addPaymentSchedule";
-                  console.log("Arguments",goaltemplate, target,initialInv,frequency, recurring,duration)
+                  console.log("Arguments",goalId);
                   const payload={
-                    goalName: goaltemplate.goalName,
-                    templateId: goaltemplate.goalID, 
-                    goalTarget:target,
-                    goalDuration: duration, 
-                    total_payments: "0",
-                    savingFrequency: frequency,
-                    initialContribution:initialInv,
-                    recurringAmount: recurring,
-                    status: "Draft" 
-                  }
-                  console.log("Payload in add goals",payload);
+                    goalId: goalId
+                   }
+                  console.log("Payload in activate goals",payload);
       
                   { 
                    
@@ -138,9 +130,9 @@ const apiUrl= baseUrl+"user/adduser"
                               'Content-Type': 'application/json'
                             }
                           });
-                          console.log('User goal successfully added:', response.data);
+                          console.log('User goal successfully activated:', response.data);
                         } catch (error) {
-                          console.error('Error adding goal:', error.response ? error.response.data : error.message);
+                          console.error('Error activating goal:', error.response ? error.response.data : error.message);
                         }
                       }
 // add request API call
