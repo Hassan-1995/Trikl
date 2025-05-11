@@ -214,6 +214,7 @@ function HomeScreenCopy({ navigation }) {
    const contextData = useContext(StoreContext);
       console.log("context in Home ",contextData);
   const[usergoals,setuserGoals]=useState([]);
+  
   const[draftGoals,setDraftGoals]=useState(draftGoalItems.slice(0,1));
 
   // useeffect for usergoals
@@ -230,7 +231,9 @@ const resp=await sqlquery(sql,setuserGoals);
 console.log("UserGoals",resp,usergoals);
 }
 getUserGoals();
-  }, []);
+  }, [contextData.reload]);
+
+
 
 
 

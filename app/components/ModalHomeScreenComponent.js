@@ -1,13 +1,18 @@
-import React from "react";
+import {React,useContext} from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import AppText from "./AppText";
+import {StoreContext} from "../../GlobalState";
+
 import{activateGoal} from "../backendintegration/index";
 import colors from "../config/colors";
 
+
 const { width } = Dimensions.get("window");
 
-function ModalHomeScreenComponent({ item }) {
+function ModalHomeScreenComponent({ item,setModalVisible }) {
+     const contextData = useContext(StoreContext);
+        console.log("context in Home Modal ",contextData);
   const segments = [
     { percentage: 0.3, color: "#00796B" },
     { percentage: 0.2, color: "#43A047" },
@@ -19,6 +24,8 @@ function ModalHomeScreenComponent({ item }) {
     const handleActive = async() => {
     console.log("DActive Button is pressd pressed ",item);
 const resp= await activateGoal(item.goalId);
+contextData.setreload(prev=>!prev);
+setModalVisible(false);
 }
    // active button
     const handleOk = () => {

@@ -3,6 +3,7 @@ import React, { createContext, useState } from "react";
 export const StoreContext = createContext();
 
 export const StoreProvider = ({ children }) => {
+ const[ reload,setreload]=useState(false);
   const [user, setUser] = useState({
     user_Id: 0,
     user_name: "Guest",
@@ -30,7 +31,7 @@ export const StoreProvider = ({ children }) => {
   const [fund, setFund] = useState({});
   const [tvm, settvm] = useState({});
   return (
-    <StoreContext.Provider value={{ user, setUser,goal,setGoal,riskProfile,setRiskProfile,tvm,settvm,fund,setFund }}>
+    <StoreContext.Provider value={{ user, setUser,goal,setGoal,riskProfile,setRiskProfile,tvm,settvm,fund,reload,setreload }}>
       {children}
     </StoreContext.Provider>
   );

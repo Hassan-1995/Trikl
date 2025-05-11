@@ -98,7 +98,7 @@ function ActiveInvestmentComponent({ assets }) {
             </TouchableOpacity>
             {selectedItem && (
               <>
-                <ModalHomeScreenComponent item={selectedItem} />
+                <ModalHomeScreenComponent item={selectedItem} setModalVisible={setModalVisible}/>
               </>
             )}
           </View>
