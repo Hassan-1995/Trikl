@@ -74,12 +74,14 @@ function WalletScreen({ props, route }) {
      const  sql="SELECT ps.*,ug.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE ug.UserId ="+userId.toString();
 
      const response= await sqlquery(sql,setSchedule);
+     if(response){
      setSchedule(response);
+     }
      console.log("SQL response in Wallet Screen",response);
      
      const grouped=groupSumbyId(response);
      setGroupedPayment(grouped);
-     console.log("Groupedin n Wallet Screen",schedule,groupedPayment,grouped);
+     console.log("Groupedin n Wallet Screen",schedule,grouped);
     }
     getSchedule("0");
   },[]);
@@ -217,7 +219,7 @@ function WalletScreen({ props, route }) {
 
         <View style={styles.transactionHistory}>
           <AppText style={styles.sectionTitle}>
-            Transaction History{" "}
+            Outstanding Payments{" "}
             <AppText style={styles.sectionSubTitle}>
               (For last seven days)
             </AppText>
@@ -226,7 +228,7 @@ function WalletScreen({ props, route }) {
             data={groupedPayment}
             keyExtractor={(item) => item.key}
                         renderItem={({ item }) => (
-              <PaymentCard assets={item} item={item} tempValue={route?.params} handleInvestmentRequest={handleInvestmentRequest} allPayments={payments} />
+              <PaymentCard assets={item} item={item} tempValue={route?.params} handleInvestmentRequest={handleInvestmentRequest} allPayments={schedule} />
             )}
             />
         </View>

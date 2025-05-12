@@ -1,4 +1,4 @@
-import {useState,React} from "react";
+import {useState,React,useEffect} from "react";
 
 import { View, StyleSheet, Image, Dimensions } from "react-native";
 import { Text, TextInput, TouchableOpacity } from "react-native";
@@ -12,16 +12,26 @@ import colors from "../config/colors";
 import AppButton from "./AppButton";
 const { width, height } = Dimensions.get("window");
 
-function PaymentModal({ item,allPayments, onClose,handleInvestmentRequest }){
-  console.log("in Payment Modal",item,allPayments)
-  const [amount, setAmount] = useState(item?.totalAmount);
-  const [schedule, setSchedule] = useState([]);
+
   const paymentSchedule = [
     { id: "1", date: "May 15", amount: "$100.00" },
     { id: "2", date: "Jun 15", amount: "$100.00" },
     { id: "3", date: "Jul 15", amount: "$100.00" },
     { id: "4", date: "Aug 15", amount: "$50.00" },
   ];
+
+function PaymentModal({ item,allPayments, onClose,handleInvestmentRequest }){
+  console.log("in Payment Modal",item,allPayments)
+  const [amount, setAmount] = useState(item?.totalAmount);
+  const [schedule, setSchedule] = useState(paymentSchedule);
+  
+  // first useeffect for Payment Modal
+    useEffect(() => {
+    const resp=  filterschedule(item,allPayments);
+    console.log("filtered in useeffect",resp);
+    setSchedule(resp);
+      },[]);
+
 
 
 
@@ -48,7 +58,7 @@ const handePay=()=>{
           <DataTable.Title style={styles.headerText}>Amount</DataTable.Title>
         </DataTable.Header>
 
-        {paymentSchedule.map((item, index) => (
+        {schedule.map((item, index) => (
           <DataTable.Row key={item.id} style={[index % 2 === 0 ? styles.rowLight : styles.rowDark]}>
             <DataTable.Cell style={styles.cell}>{item.date}</DataTable.Cell>
             <DataTable.Cell style={styles.cell}>{item.amount}</DataTable.Cell>
@@ -75,8 +85,13 @@ const handePay=()=>{
 
         {/* <Image source={item.image} style={styles.image} /> */}
       </View>
-  
+
   );
+}
+const filterschedule=(grouped,allPayments)=>{
+ const  pmtschedule= allPayments.filter(pmt=>pmt.goal_id==grouped.goal_id);
+console.log("filteredSchedule",grouped,pmtschedule);
+return pmtschedule;
 }
 
 const styles = StyleSheet.create({
