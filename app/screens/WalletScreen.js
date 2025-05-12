@@ -61,7 +61,7 @@ function WalletScreen({ props, route }) {
    const contextData = useContext(StoreContext);
   const[schedule,setSchedule]= useState([]);
   const[groupedPayment,setGroupedPayment]= useState([]);
-
+  const[user,setUser]= useState(contextData.user);
 
 // first useeffect for sql query
   useEffect(() => {
@@ -83,7 +83,7 @@ function WalletScreen({ props, route }) {
      setGroupedPayment(grouped);
      console.log("Groupedin n Wallet Screen",schedule,grouped);
     }
-    getSchedule("0");
+    getSchedule(user.user_Id);
   },[]);
 
   // request handler

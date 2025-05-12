@@ -34,7 +34,7 @@ function PaymentModal({ item, allPayments, onClose, handleInvestmentRequest }) {
   }, []);
 
   const handePay = () => {
-    console.log("In handle Pay", amount, item);
+    console.log("In hayandle P", amount, item);
     handleInvestmentRequest(item, amount);
   };
 
@@ -72,7 +72,7 @@ function PaymentModal({ item, allPayments, onClose, handleInvestmentRequest }) {
         onChangeText={setAmount}
       />
 
-      <AppButton title={"Move Forward"} onPress={handePay} />
+      <AppButton title={"Submit Request"} onPress={handePay} />
     </View>
   );
 }
