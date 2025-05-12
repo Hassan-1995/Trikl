@@ -225,7 +225,7 @@ function HomeScreenCopy({ navigation }) {
     console.log("stored goals",existingList,draftGoals);
 setDraftGoals(draftGoals.concat(existingList));
  }, []);
- 
+
   // useeffect for usergoals
 useEffect(() => {
   let isMounted = true;
@@ -243,7 +243,7 @@ useEffect(() => {
 
       const resp = await sqlquery(sql);
 
-      if (isMounted && resp) {
+      if (resp) {
         setuserGoals(resp);
       }
     } catch (err) {

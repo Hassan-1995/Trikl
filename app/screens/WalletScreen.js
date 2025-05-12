@@ -59,7 +59,7 @@ const ps=[
 function WalletScreen({ props, route }) {
   // console.log("WALLET SCREEN: ", route.params);
    const contextData = useContext(StoreContext);
-  const[schedule,setSchedule]= useState(ps);
+  const[schedule,setSchedule]= useState([]);
   const[groupedPayment,setGroupedPayment]= useState([]);
 
 
@@ -70,18 +70,18 @@ function WalletScreen({ props, route }) {
     console.log("ROUTES  in Wallet Screen",route?.params);
 
     async function  getSchedule(userId){
-     // sql="SELECT * FROM `PaymentSchedule` WHERE goal_id="+userId.toString();
-     const  sql="SELECT ps.*,ug.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE ps.due_date < CURDATE()AND ug.UserId ="+userId.toString();
+     //const  sql="SELECT ps.*,ug.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE ps.due_date < CURDATE()AND ug.UserId ="+userId.toString();
+     const  sql="SELECT ps.*,ug.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE ug.UserId ="+userId.toString();
 
-      const response= await sqlquery(sql,setSchedule);
-      console.log("SQL response in Wallet Screen",response,schedule);
-   
-  
+     const response= await sqlquery(sql,setSchedule);
+     setSchedule(response);
+     console.log("SQL response in Wallet Screen",response);
+     
+     const grouped=groupSumbyId(response);
+     setGroupedPayment(grouped);
+     console.log("Groupedin n Wallet Screen",schedule,groupedPayment,grouped);
     }
-const grouped=groupSumbyId(payments);
-setGroupedPayment(grouped);
-console.log("Groupedin n Wallet Screen",groupedPayment,grouped);
-  getSchedule("1");
+    getSchedule("0");
   },[]);
 
   // request handler
