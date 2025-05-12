@@ -141,7 +141,7 @@ export const addRequest= async(userId,goalId, requestType,allocationId, amount)=
   console.log("Argumentsin Add request",userId,goalId, requestType,allocationId, amount);
   const payload={
     userId:userId,
-    goalId:goalId,
+    goal_id:goalId,
     request_type:requestType, 
     allocation_id:allocationId,
     amount: amount
