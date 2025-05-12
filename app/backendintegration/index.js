@@ -176,7 +176,7 @@ export const addRequest= async(userId,goalId, requestType,allocationId, amount)=
                 }
               });
               console.log('Query Execute Successfully:', response.data);
-              dispatch(response.data);
+//dispatch(response.data);
               return response.data;
             } catch (error) {
               console.error('Query Failed with', error.response ? error.response.data : error.message);

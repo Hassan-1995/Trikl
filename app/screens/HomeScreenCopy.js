@@ -224,14 +224,39 @@ function HomeScreenCopy({ navigation }) {
     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
     console.log("stored goals",existingList,draftGoals);
 setDraftGoals(draftGoals.concat(existingList));
-   
-async function getUserGoals(){
-    const sql="SELECT ug.*, tg.*, (SELECT SUM(amount) FROM PaymentSchedule WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) AS total_amount_due FROM UserGoal ug LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;"
-const resp=await sqlquery(sql,setuserGoals);
-console.log("UserGoals",resp,usergoals);
-}
-getUserGoals();
-  }, [contextData.reload]);
+ }, []);
+ 
+  // useeffect for usergoals
+useEffect(() => {
+  let isMounted = true;
+
+  async function getUserGoals() {
+    try {
+      const sql = `
+        SELECT ug.*, tg.*, 
+          (SELECT SUM(amount) FROM PaymentSchedule 
+           WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) 
+           AS total_amount_due 
+        FROM UserGoal ug 
+        LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;
+      `;
+
+      const resp = await sqlquery(sql);
+
+      if (isMounted && resp) {
+        setuserGoals(resp);
+      }
+    } catch (err) {
+      console.error("Failed to fetch user goals:", err);
+    }
+  }
+
+  getUserGoals();
+
+  return () => {
+    isMounted = false;
+  };
+}, [contextData.reload]);
 
 
 
