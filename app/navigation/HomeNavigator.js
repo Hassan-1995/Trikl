@@ -20,6 +20,8 @@ const HomeNavigator = () => (
   <Stack.Navigator mode="modal" screenOptions={{ headerShown: true }}>
 
     <Stack.Screen name="HomeScreenCopy" component={HomeScreenCopy} />
+    <Stack.Screen name="FundSelection" component={FundSelectionScreen} />
+    <Stack.Screen name="PlanSummary" component={PlanSummary} />
     <Stack.Screen name="Login Screen" component={LoginScreen} />
 
 <Stack.Screen
@@ -33,13 +35,11 @@ const HomeNavigator = () => (
       component={AccountOnBoardingScreen}
     />
     {/* Temporary Solution: that's not how login screen works */}
-    <Stack.Screen name="FundSelection" component={FundSelectionScreen} />
     <Stack.Screen
       name="InvestmentPlanScreen"
       component={InvestmentPlanScreen}
     />
     <Stack.Screen name="AttachmentsScreen" component={AttachmentsScreen} />
-    <Stack.Screen name="PlanSummary" component={PlanSummary} />
 
 
     {/*  */}

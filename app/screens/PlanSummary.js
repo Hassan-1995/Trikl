@@ -7,7 +7,7 @@ import AppText from "../components/AppText";
 import CustomSlider from "../components/CustomSlider";
 import PreferenceInvestmentOptionComponent from "../components/PreferenceInvestmentOptionComponent";
 import {timeToTargetFutureValue} from "../backendintegration/helperFunctions";
-import {addGoal} from "../backendintegration/index";
+import {addGoal,sqlquery} from "../backendintegration/index";
 import {StoreContext} from "../../GlobalState";
 import Screen from "../components/Screen";
 import colors from "../config/colors";
@@ -43,6 +43,24 @@ useEffect(() => {
   console.log("Total Days",duration);
   setResult(duration.label);
   setTime(duration.days)
+}, [target,initialInvestment,recurringInvestment,frequency]);
+
+//useeffect for loading fund
+useEffect(() => {
+  console.log("PlanSummary Useeffect for fund",contextData);
+   async function  getfund(allocationId){
+        sql="SELECT * FROM `Template_Portfolios`WHERE TemplateID="+allocationId;
+        const response= await sqlquery(sql,setFund);
+        contextData.setFund(response);
+
+        console.log("SQL response in Fund selection",response,)
+    
+      }
+
+if(goal?.allocationId &&!contextData.fund){
+
+}
+  
 
 }, [target,initialInvestment,recurringInvestment,frequency]);
 

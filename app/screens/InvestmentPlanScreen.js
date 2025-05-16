@@ -118,16 +118,15 @@ if (contextData.user?.status== "guest") {
   guestUser(contextData.goal);
    }else if (contextData.user?.status == "prospect") {
     prospectUser(contextData.goal);
-    navigation.navigate("SuitabilityAssesmentScreen", {goalID: asset.id,
-      goalName: value,
+    navigation.navigate("SuitabilityAssesmentScreen", {goal: usergoal,
+     
     });
-  }else if (contextData.user?.status == "registered") {
-    navigation.navigate("PlanSummary", {goalID: asset.id,
-      goalName: value,
-    });
-};
 
-      // updateLocalGoal(contextData.goal);
+  }else if (contextData.user?.status == "registered"){
+ 
+     registeredUser(contextData.goal,contextData.user);
+    };
+      // updateLoc(alGoal(contextData.goal);
       // navigation.navigate("SuitabilityAssesmentScreen",route.param);
     } else {
       setActiveComponent(items[keyId]);
@@ -185,6 +184,30 @@ async function prospectUser(goal){
   updateLocalGoal(goal);
   navigation.navigate("SuitabilityAssesmentScreen",route.param);
 }
+async function registeredUser(goal,user){
+  // logic for registered User
+  console.log("In investment Plan as Registered User",goal,user);
+  alert("Updating your provided details as registered  user");
+
+  updateLocalGoal(goal);
+  if(!user.riskScore){
+    // user has no risk score assigned
+    navigation.navigate("SuitabilityAssesmentScreen",route.params);
+
+  }else if(user.riskScore &&goal.allocationId){
+        // user has risk score assigned as well as goal as allocation Id assigned
+    navigation.navigate("SuitabilityAssesmentScreen",route.params);
+
+
+    }else if(user.riskScore &&!goal.allocationId){
+        // user has risk score assigned but  allocation Id assigned
+    navigation.navigate("FundSelection",route.params);
+
+
+  }
+
+}
+
 async function updateLocalGoal(goal) {
     
   try {

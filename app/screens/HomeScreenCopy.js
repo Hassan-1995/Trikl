@@ -219,7 +219,7 @@ function HomeScreenCopy({ navigation }) {
 
   // useeffect for usergoals
   useEffect(async() => {
-   // await AsyncStorage.setItem('localgoals', JSON.stringify([]));
+ //  await AsyncStorage.setItem('localgoals', JSON.stringify([]));
     const storedGoals = await AsyncStorage.getItem('localgoals');
     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
     console.log("stored goals",existingList,draftGoals);
@@ -307,15 +307,18 @@ else{
 }
 }
 function registeredUser(asset,user){
-  console.log("selected Draft for registered user", asset);
-  if(!user.riskScore){
+  console.log("selected Draft for registered user", asset,user);
+  if(user.riskScore&&asset.recurring){
   navigation.navigate("FundSelection", {option:asset  });
 }else if(!asset.recurring){
   navigation.navigate("InvestmentScreen", {option:asset  });
 
-}else{
+}else if(!user.riskScore){
   alert(" PleaseComplete your suitability Assessment" );
   navigation.navigate("SuitabilityAssesmentScreen", {option:asset  });
+}else{
+  console.log("dont know where to go");
+  alert("Dont know where to go.");
 }
 }
   return (

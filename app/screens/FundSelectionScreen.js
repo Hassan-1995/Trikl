@@ -104,13 +104,21 @@ function FundSelectionScreen({ navigation, route }) {
     console.log("RISK Profile and TVM in FundSelection",riskProfile,tvm);
     console.log("ROUTES  in FundSelection",route?.params);
 
-    async function  getfunds(riskprofile){
-      sql="SELECT * FROM `Template_Portfolios`WHERE RiskProfileID ="+riskprofile;
+    async function  getfunds(score){
+
+   const sql = `
+  SELECT tp.*
+  FROM Template_Portfolios tp
+  JOIN Risk_Profiles rp ON tp.RiskProfileID = rp.RiskProfileID
+  WHERE ${score} >= rp.Upper_Bound AND ${score} <= rp.Lower_Bound;
+`;
+     // sql="SELECT * FROM `Template_Portfolios`WHERE RiskProfileID ="+riskprofile;
       const response= await sqlquery(sql,setportfolios);
+      setportfolios(response);
       console.log("SQL response in Fund selection",response,portfolios)
   
     }
-  getfunds("6");
+  getfunds("50");
   },[]);
   const handleFundSelect = (item) => {
     console.log("Selected Fund in Fund Selection Screen", item);
