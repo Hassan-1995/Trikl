@@ -28,11 +28,8 @@ function PlanSummary({ navigation, route }) {
    const [fund,setFund] = useState(null);
   const [rate,setRate ] = useState(contextData.fund?.MeanReturn);
   const [result, setResult] = useState("Result appears  here");
- 
-
-  const [toggle, setToggle] = useState(true);
-
-  const [frequency, setFrequency] = useState("");
+   const [toggle, setToggle] = useState(true);
+  const [frequency, setFrequency] = useState(contextData.goal.frequency);
 //const rate=10;
 //useeffect first run
 useEffect(() => {

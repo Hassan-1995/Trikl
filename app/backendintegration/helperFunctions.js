@@ -54,18 +54,34 @@ const modifyRiskQuestionaire=(data)=>{
 }
 
  /// tvm function
+export const timeToTargetFutureValue = (FV, PV, PMT, frequency, annualRate) => {
+  console.log("values to calculate tvm", FV, PV, PMT, frequency, annualRate);
 
- export const  timeToTargetFutureValue=(FV, PV, PMT, frequency, annualRate) =>{
-  console.log("values to calculate tvm",FV, PV, PMT, frequency, annualRate);
+  // Convert frequency string to number of compounding periods per year
+  const frequencyMap = {
+    daily: 365,
+    weekly: 52,
+    biweekly: 26,
+    monthly: 12,
+    quarterly: 4,
+    semiannually: 2,
+    annually: 1
+  };
+
+  const n = frequencyMap[frequency.toLowerCase()];
+  if (!n) {
+    throw new Error(`Invalid frequency: ${frequency}`);
+  }
+
   // Convert annual rate to decimal
   let r = annualRate / 100;
+
   // Periodic rate
-  let n = frequency;
   let periodicRate = r / n;
 
   // Avoid division by zero when PMT is zero
   if (periodicRate === 0) {
-      return Infinity;
+    return Infinity;
   }
 
   // Calculate time in years
@@ -75,12 +91,11 @@ const modifyRiskQuestionaire=(data)=>{
 
   // Convert to days
   let days = years * 365;
-  const formatteddays=formatDays(Math.ceil(days));
-  console.log("TVM in helper",FV, PV, PMT, frequency, annualRate,years,days);
-  
-  return {days:days,label:formatteddays};
+  const formatteddays = formatDays(Math.ceil(days));
+  console.log("TVM in helper", FV, PV, PMT, frequency, annualRate, years, days);
 
-}
+  return { days: days, label: formatteddays };
+};
 
 // tvm function end
 
