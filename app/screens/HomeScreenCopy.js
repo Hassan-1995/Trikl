@@ -217,7 +217,7 @@ function HomeScreenCopy({ navigation }) {
   
   const[draftGoals,setDraftGoals]=useState(draftGoalItems.slice(0,1));
 
-  // useeffect for usergoals
+  // useeffect for usergoals.
   useEffect(async() => {
   // await AsyncStorage.setItem('localgoals', JSON.stringify([]));
     const storedGoals = await AsyncStorage.getItem('localgoals');
