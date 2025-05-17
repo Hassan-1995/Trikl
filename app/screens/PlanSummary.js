@@ -15,31 +15,49 @@ import colors from "../config/colors";
 function PlanSummary({ navigation, route }) {
     const contextData = useContext(StoreContext);
 
-    console.log("Context in Plan Summary", contextData);
+   
     //--
-  const values =[1000,200,30] //route?.params?.amount.map((str) => parseInt(str, 10));
-  const frequency ={id:2,value:'monthly'}; //route?.params?.button;
+  //const values =[1000,200,30] //route?.params?.amount.map((str) => parseInt(str, 10));
+//const frequency1 ={id:2,value:'monthly'}; //route?.params?.button;
   const [goal, setGoal] = useState(contextData.goal);
-  const [target, setTarget] = useState(values[0]);
-  const [initialInvestment, setInitialInvestment] = useState(values[1]);
-  const [recurringInvestment, setRecurringInvestment] = useState(values[2]);
+  const [target, setTarget] = useState(contextData.goal?.target);
+  const [initialInvestment, setInitialInvestment] = useState(contextData.goal?.initial);
+  const [recurringInvestment, setRecurringInvestment] = useState(contextData.goal?.recurring);
   const [time, setTime] = useState(0);
-  const [fund,setFund] = useState(contextData.fund);
+  const [user,setUser] = useState(null);
+   const [fund,setFund] = useState(null);
   const [rate,setRate ] = useState(contextData.fund?.MeanReturn);
   const [result, setResult] = useState("Result appears  here");
-  console.log("PLanner:", route?.params);
+ 
 
   const [toggle, setToggle] = useState(true);
 
-  const [button, setButton] = useState(frequency);
+  const [frequency, setFrequency] = useState("");
 //const rate=10;
+//useeffect first run
+useEffect(() => {
+    console.log("Context in Plan Summary UseEffect", contextData);
+  if(contextData?.goal&&contextData.user)
+  {
+    setGoal(contextData.goal);
+    setInitialInvestment(contextData.goal.initial);
+     setRecurringInvestment(contextData.goal.recurring);
+      setTarget(contextData.goal?.target);
+       setFrequency(contextData.goal.frequency);
+        setInitialInvestment(contextData.goal.initial);
+        setRate(contextData.fund?.MeanReturn);
+        setUser(contextData.user);
+  }else{
+    alert("Missing Goal or User");
+  }
+  }, []);
 
 //useeffect for tvm
 useEffect(() => {
-  console.log("PlanSummary Routes after Fund Selection",route.params);
+
   // Effect runs once when the component mounts
-  const duration=timeToTargetFutureValue(target,initialInvestment,recurringInvestment,frequency.id,rate);
-  console.log("Total Days of:",target,initialInvestment,recurringInvestment,frequency.id,rate);
+  let duration=timeToTargetFutureValue(target,initialInvestment,recurringInvestment,frequency,rate);
+  console.log("Total Days of:",target,initialInvestment,recurringInvestment,frequency,rate);
   console.log("Total Days",duration);
   setResult(duration.label);
   setTime(duration.days)
@@ -59,14 +77,15 @@ useEffect(() => {
 
 if(goal?.allocationId &&!contextData.fund){
 
+getfund(goal?.allocationId);
 }
   
 
-}, [target,initialInvestment,recurringInvestment,frequency]);
+}, []);
 
   function savegoal(plannedInvestmentValues){
     try{
-  const resp= addGoal(goal,target,initialInvestment,frequency.value,recurringInvestment,time, fund.TemplateID);
+  const resp= addGoal(user.user_Id,goal,target,initialInvestment,frequency,recurringInvestment,time, goal.allocationId);
    console.log("Response after adding Goal",resp);
 }catch(error){
   console.log("Error  after adding Goal",error);
@@ -84,11 +103,11 @@ if(goal?.allocationId &&!contextData.fund){
       targetAmount: target,
       initialInvestment: initialInvestment,
       recurringInvestment: recurringInvestment,
-      recurringType: { button },
+      recurringType: { frequency },
       allocatedFund:fund
     };
     savegoal(plannedInvestmentValues);
-    console.log({ target, initialInvestment, recurringInvestment, button });
+    console.log({ target, initialInvestment, recurringInvestment, frequency });
     // navigation.navigate("PaymentScreen", plannedInvestmentValues);
     navigation.navigate("WalletScreen", plannedInvestmentValues);
   };
@@ -143,8 +162,8 @@ if(goal?.allocationId &&!contextData.fund){
         </View> */}
         <View style={{ alignItems: "center", marginVertical: 10 }}>
           <PreferenceInvestmentOptionComponent
-            preSelectedId={frequency.id}
-            onChange={(id, value) => setButton({ id, value })}
+            preSelectedId={frequency}
+            onChange={(id, value) => setFrequency(value )}
           />
           <AppText>You will reach your goal in </AppText>
           <AppText style={styles.resultContainer}>{result} </AppText>

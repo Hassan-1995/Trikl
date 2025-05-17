@@ -56,6 +56,7 @@ const modifyRiskQuestionaire=(data)=>{
  /// tvm function
 
  export const  timeToTargetFutureValue=(FV, PV, PMT, frequency, annualRate) =>{
+  console.log("values to calculate tvm",FV, PV, PMT, frequency, annualRate);
   // Convert annual rate to decimal
   let r = annualRate / 100;
   // Periodic rate
@@ -74,9 +75,9 @@ const modifyRiskQuestionaire=(data)=>{
 
   // Convert to days
   let days = years * 365;
-  console.log("TVM in helper",FV, PV, PMT, frequency, annualRate,years);
   const formatteddays=formatDays(Math.ceil(days));
-
+  console.log("TVM in helper",FV, PV, PMT, frequency, annualRate,years,days);
+  
   return {days:days,label:formatteddays};
 
 }

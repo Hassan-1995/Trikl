@@ -219,7 +219,7 @@ function HomeScreenCopy({ navigation }) {
 
   // useeffect for usergoals
   useEffect(async() => {
- //  await AsyncStorage.setItem('localgoals', JSON.stringify([]));
+  // await AsyncStorage.setItem('localgoals', JSON.stringify([]));
     const storedGoals = await AsyncStorage.getItem('localgoals');
     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
     console.log("stored goals",existingList,draftGoals);
@@ -274,11 +274,15 @@ useEffect(() => {
   return;
   }
      if (user.status == "guest") {
+        contextData.setGoal(asset);
     guestUser(asset,user);
+
      }else if (user.status =="prospect") {
+        contextData.setGoal(asset);
       prospectUser(asset,user);
       
     }else if (user.status == "registered") {
+        contextData.setGoal(asset);
       registeredUser(asset,user);
   }
 }

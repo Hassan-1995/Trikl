@@ -122,7 +122,11 @@ function FundSelectionScreen({ navigation, route }) {
   },[]);
   const handleFundSelect = (item) => {
     console.log("Selected Fund in Fund Selection Screen", item);
+    let goal=contextData.goal;
+    goal.allocationId=item.TemplateID;
+    contextData.setGoal(goal);
     contextData.setFund(item);
+
      navigation.navigate("PlanSummary",{route:route?.params,fund:item});
   // navigation.navigate("PlanSummary",{tvm:tempValue,fund:item});
 

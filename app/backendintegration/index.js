@@ -81,10 +81,11 @@ const apiUrl= baseUrl+"user/adduser"
               return
             }
           }
-          export const addGoal= async(goaltemplate, target,initialInv,frequency, recurring,duration,allocationId)=>{
+          export const addGoal= async(user_id,goaltemplate, target,initialInv,frequency, recurring,duration,allocationId)=>{
             const apiUrl= baseUrl+"goal/addgoal";
             console.log("Arguments",goaltemplate, target,initialInv,frequency, recurring,duration,allocationId)
             const payload={
+              user_id:user_id,
               goalName: goaltemplate.goalName,
               templateId: goaltemplate.goalID, 
               allocationId:allocationId,
