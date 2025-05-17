@@ -71,7 +71,7 @@ function WalletScreen({ props, route }) {
 
     async function  getSchedule(userId){
      //const  sql="SELECT ps.*,ug.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE ps.due_date < CURDATE()AND ug.UserId ="+userId.toString();
-     const  sql="SELECT ps.*,ug.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE ug.UserId ="+userId.toString();
+     const  sql="SELECT ps.*,ug.* FROM PaymentSchedule ps JOIN UserGoal ug ON ps.goal_id = ug.goalId WHERE payment_status='Unpaid' AND ug.UserId ="+userId.toString();
 
      const response= await sqlquery(sql,setSchedule);
      if(response){
