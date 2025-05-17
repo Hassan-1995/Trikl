@@ -58,7 +58,7 @@ useEffect(() => {
   console.log("Total Days",duration);
   setResult(duration.label);
   setTime(duration.days)
-}, [target,initialInvestment,recurringInvestment,frequency]);
+}, [target,initialInvestment,recurringInvestment,frequency,rate]);
 
 //useeffect for loading fund
 useEffect(() => {
@@ -117,7 +117,10 @@ getfund(goal?.allocationId);
           maximumValue={1000000}
           typedValue={target}
           onChange={(value) => {
-            setTarget(Math.floor(value));
+            console.log(" value in custom slider",value);
+            if (!isNaN(value)) {
+    setTarget(Math.floor(value));
+  }
           }}
           title="Your target amount"
           trackBarHeight={15}
