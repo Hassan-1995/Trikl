@@ -297,17 +297,15 @@ function guestUser(asset,user){
 }
 function prospectUser(asset,user){
   console.log("selected Draft for prospect", asset);
-  if(!user.riskScore){
-  navigation.navigate("AccountOnBoardingScreen", {option:asset  });
-  }else if(!asset.recurring){
+   if(!asset.recurring||!asset.recurring){
     navigation.navigate("InvestmentScreen", {option:asset  });
   
-}else if(!asset.initial){
-  navigation.navigate("InvestmentScreen", {option:asset  });
+}
+else if(asset.recurring&&asset.recurring&&!user.riskScore){// got initial recurring but missing risk score
+   navigation.navigate("SuitabilityAssesmentScreen", {option:asset  });
 }
 else{
-  alert(" PleaseComplete your suitability Assessment" );
-  navigation.navigate("SuitabilityAssesmentScreen", {option:asset  });
+  alert("Unable to recall correct data, please start over");
 }
 }
 function registeredUser(asset,user){

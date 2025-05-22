@@ -8,8 +8,8 @@ export const StoreProvider = ({ children }) => {
     user_Id: 1,
     user_name: "Guest",
     user_email: "guest@finomics.com.pk",
-    status:"guest",
-    riskScore:50
+    status:"prospect",
+    riskScore:""
   });
   const [goal, setGoal] = useState({
     // goalName: "Dummy",
