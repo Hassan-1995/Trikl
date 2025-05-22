@@ -25,7 +25,7 @@ const paymentSchedule = [
 function PaymentModal({ item, allPayments, onClose, handleInvestmentRequest }) {
   console.log("in Payment Modal", item, allPayments);
   const [amount, setAmount] = useState(item?.totalAmount);
-  const [schedule, setSchedule] = useState(paymentSchedule);
+  const [schedule, setSchedule] = useState([]);
 
   useEffect(() => {
     const resp = filterschedule(item, allPayments);
@@ -53,7 +53,7 @@ function PaymentModal({ item, allPayments, onClose, handleInvestmentRequest }) {
                 key={item.id}
                 style={[index % 2 === 0 ? styles.rowLight : styles.rowDark]}
               >
-                <DataTable.Cell style={styles.cell}>{item.date}</DataTable.Cell>
+                <DataTable.Cell style={styles.cell}>{(new Date(item?.due_date)).toDateString()}</DataTable.Cell>
                 <DataTable.Cell style={styles.cell}>{item.amount}</DataTable.Cell>
               </DataTable.Row>
             ))}

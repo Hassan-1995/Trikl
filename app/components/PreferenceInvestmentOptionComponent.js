@@ -23,7 +23,7 @@ function PreferenceInvestmentOptionComponent({
   const options = [
     { id: 12, label: "Monthly" },
     { id: 4, label: "Quarterly" },
-    { id: 2, label: "Semi-Annual" },
+    { id: 2, label: "semiannually" },
     { id: 1, label: "Annual" },
   ];
 

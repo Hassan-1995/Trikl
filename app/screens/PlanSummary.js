@@ -3,6 +3,7 @@ import React, { useState,useEffect,useContext } from "react";
 import { ScrollView, StyleSheet, View } from "react-native";
 
 import AppButton from "../components/AppButton";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import AppText from "../components/AppText";
 import CustomSlider from "../components/CustomSlider";
 import PreferenceInvestmentOptionComponent from "../components/PreferenceInvestmentOptionComponent";
@@ -84,6 +85,7 @@ getfund(goal?.allocationId);
     try{
   const resp= addGoal(user.user_Id,goal,target,initialInvestment,frequency,recurringInvestment,time, goal.allocationId);
    console.log("Response after adding Goal",resp);
+   deleteLocalGoal(goal);
 }catch(error){
   console.log("Error  after adding Goal",error);
 
@@ -91,6 +93,29 @@ getfund(goal?.allocationId);
     
 
     }
+    async function deleteLocalGoal(goal) {
+    
+  try {
+    const storedGoals = await AsyncStorage.getItem('localgoals');
+     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
+console.log("retreive existing list",existingList);
+    const index = existingList.findIndex(item => item.goalName === goal.goalName);
+
+    if (index !== -1) {
+      console.log("Before updated array",existingList)
+existingList.splice(index,1);
+console.log("updated array",existingList);
+     // existingList[index]=goal;
+      await AsyncStorage.setItem('localgoals', JSON.stringify(existingList));
+      alert(" local Goal deleted  successfully");
+
+    } else {
+alert("Goal Not found");
+    }
+  } catch (error) {
+    console.error('Error handling goal in AsyncStorage:', error);
+  }
+}
   
 
   const handlePayment = () => {
