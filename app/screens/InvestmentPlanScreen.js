@@ -117,10 +117,10 @@ function InvestmentPlanScreen({ navigation, route }) {
 if (contextData.user?.status== "guest") {
   guestUser(contextData.goal);
    }else if (contextData.user?.status == "prospect") {
-    prospectUser(contextData.goal);
-    navigation.navigate("SuitabilityAssesmentScreen", {goal: usergoal,
+    prospectUser(contextData.goal,contextData.user);
+ //   navigation.navigate("SuitabilityAssesmentScreen", {goal: usergoal,
      
-    });
+    
 
   }else if (contextData.user?.status == "registered"){
  
@@ -179,10 +179,15 @@ async function guestUser(goal){
   updateLocalGoal(goal);
   navigation.navigate("Register Screen",route.param);
 }
-async function prospectUser(goal){
-  alert("Updating your provided details as prospect user");
+async function prospectUser(goal,user){
+  alert("Updating your provided details as prospect user",user);
   updateLocalGoal(goal);
-  navigation.navigate("SuitabilityAssesmentScreen",route.param);
+  if(!user.riskScore){
+  navigation.navigate("SuitabilityAssesmentScreen",{goal:goal,user:user});
+  }else{
+    navigation.navigate("FundSelection",{goal:goal,user:user});
+
+  }
 }
 async function registeredUser(goal,user){
   // logic for registered User
