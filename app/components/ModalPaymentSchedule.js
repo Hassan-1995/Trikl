@@ -37,7 +37,7 @@ function PaymentModal({ item, allPayments, onClose, handleInvestmentRequest }) {
     console.log("In hayandle P", amount, item);
     handleInvestmentRequest(item, amount);
   };
-
+//
   return (
     <View style={styles.container}>
       <DataTable style={styles.table}>
