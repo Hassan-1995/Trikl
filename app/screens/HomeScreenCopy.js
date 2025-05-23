@@ -297,12 +297,18 @@ function guestUser(asset,user){
 }
 function prospectUser(asset,user){
   console.log("selected Draft for prospect", asset);
-   if(!asset.recurring||!asset.recurring){
-    navigation.navigate("InvestmentScreen", {option:asset  });
+   if(!asset.initial||!asset.recurring){
+    console.log("Prospect has missing Investment Plan in Goals",asset);
+    navigation.navigate("InvestmentPlanScreen", {option:asset  });
   
 }
-else if(asset.recurring&&asset.recurring&&!user.riskScore){// got initial recurring but missing risk score
-   navigation.navigate("SuitabilityAssesmentScreen", {option:asset  });
+else if(asset.initial&&asset.recurring&&!user.riskScore){// got initial, recurring but missing risk score
+    console.log("Prospect has  Investment Plan in Goals, but missing risk score",asset,user); 
+  navigation.navigate("SuitabilityAssesmentScreen", {option:asset  });
+}
+else if(asset.initial&&asset.recurring&&user.riskScore){// got initial, recurring and  risk score
+    console.log("Prospect has  Investment Plan in Goals plus risk score",user); 
+  navigation.navigate("FundSelection", {option:asset  });
 }
 else{
   alert("Unable to recall correct data, please start over");
