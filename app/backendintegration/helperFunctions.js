@@ -152,20 +152,31 @@ console.log("Grouped",result);
 return result;
 }
 
+export const portfoliocalculation=(data)=>{
+  // Step 1: Calculate allocated value
+const withAllocated = data.map(item => ({
+    ...item,
+    allocated_value: item.portfolio_value * item.AllocationPercentage / 100
+}));
+console.log("Portfolio with Allocated",withAllocated);
 
-// Test cases
-console.log(formatDays(400));    // Output: 1 Year and 1 Month
-console.log(formatDays(730));    // Output: 2 Years
-console.log(formatDays(365));    // Output: 1 Year
-console.log(formatDays(30));     // Output: 1 Month
-console.log(formatDays(60));     // Output: 2 Months
-console.log(formatDays(15));     // Output: Less than a month
-console.log(formatDays(0));      // Output: Less than a month
-console.log(formatDays(1000));   // Output: 2 Years and 9 Months
-console.log(formatDays(-10));    // Output: Invalid input. Please provide a non-negative number of days.
-console.log(formatDays("abc"));   // Output: Invalid input. Please provide a non-negative number of days.
-console.log(formatDays(395)); // Output: 1 Year and 1 Month
-console.log(formatDays(366)); // Output: 1 Year and 0 Months (or just "1 Year")
+// Step 2: Group and sum by AssetClassID
+const groupedByAssetClass = withAllocated.reduce((acc, item) => {
+    if (!acc[item.AssetClassID]) {
+        acc[item.AssetClassID] = {
+            AssetClassID: item.AssetClassID,
+            AssetClassName: item.AssetClassName,
+            total_allocated_value: 0
+        };
+    }
+    acc[item.AssetClassID].total_allocated_value += item.allocated_value;
+    console.log("Portfolio  Grouped",acc);
+    return acc;
+}, {});
+return groupedByAssetClass;
+
+}
+
 
 
 

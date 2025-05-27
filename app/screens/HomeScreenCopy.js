@@ -2,6 +2,9 @@ import React, { useState,useEffect,useContext } from "react";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import{sqlquery} from "../backendintegration/index";
+import{portfolio_Query} from "../backendintegration/sqlQueries";
+import{portfoliocalculation} from "../backendintegration/helperFunctions";
+
 import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import Screen from "../components/Screen";
@@ -214,18 +217,48 @@ function HomeScreenCopy({ navigation }) {
    const contextData = useContext(StoreContext);
       console.log("context in Home ",contextData);
   const[usergoals,setuserGoals]=useState([]);
+  const[userPortfolio,setUserPortfolio]=useState([]);
   
   const[draftGoals,setDraftGoals]=useState(draftGoalItems.slice(0,1));
 
-  // useeffect for usergoals.
+  // useeffect for localgoals.
   useEffect(async() => {
- //  await AsyncStorage.setItem('localgoals', JSON.stringify([]));
+ // await AsyncStorage.setItem('localgoals', JSON.stringify([]));
     const storedGoals = await AsyncStorage.getItem('localgoals');
     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
     console.log("stored goals",existingList,draftGoals);
 setDraftGoals(draftGoals.concat(existingList));
  }, []);
+  // useeffect for userPortfolios
+useEffect(() => {
+  let isMounted = true;
 
+  async function getUserPortfolios() {
+    try {
+      const sql = portfolio_Query;
+
+      const resp = await sqlquery(sql);
+console.log("UserPortfolio in Home",resp);
+      if (resp) {
+       const groupedPortfolio= portfoliocalculation(resp);
+console.log("Grouped UserPortfolio in Home",resp,groupedPortfolio);
+        setUserPortfolio(resp);
+      }
+    } catch (err) {
+      console.error("Failed to fetch user portfolios", err);
+    }
+  }
+
+  getUserPortfolios();
+
+  return () => {
+    isMounted = false;
+  };
+}, [contextData.reload]);
+
+
+
+ 
   // useeffect for usergoals
 useEffect(() => {
   let isMounted = true;

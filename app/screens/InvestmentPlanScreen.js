@@ -177,7 +177,7 @@ if (contextData.user?.status== "guest") {
 async function guestUser(goal){
   alert("Updating your provided details as guest user");
   updateLocalGoal(goal);
-  navigation.navigate("Register Screen",route.param);
+  navigation.navigate("SuitabilityAssesmentScreen",route.param);
 }
 async function prospectUser(goal,user){
   alert("Updating your provided details as prospect user",user);

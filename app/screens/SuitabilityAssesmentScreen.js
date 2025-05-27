@@ -126,24 +126,55 @@ const questions = [
 ];
 //SELECT rq.keyId, rq.question, rq.category, JSON_ARRAYAGG(JSON_OBJECT('key', a.answerId - (rq.keyId * 100), 'option', a.label, 'riskScore', a.riskScore)) AS answers FROM RiskQuestionaire rq JOIN Answers a ON rq.keyId = a.questionId GROUP BY rq.keyId, rq.question, rq.category;
 function SuitabilityAssesmentScreen({ navigation, route }) {
+  const contextData = useContext(StoreContext);
   console.log("Values from TVM in Suitability",route.params);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedBox, setSelectedBox] = useState(null);
   const [riskquitionaire, setriskQuestionaires] = useState(questions);
   const [feedback, setFeedback] = useState([]);
   const [riskProfile, setRiskProfile] = useState([]);
-
+  const [user, setUsr] = useState(contextData.user); 
   const [modalVisible, setModalVisible] = useState(false);
 
   const activeComponent = riskquitionaire[currentIndex];
 
-    const contextData = useContext(StoreContext);
     console.log("context in Suitability",contextData);
+      // useeffect for risk
+//   useEffect(async() => {
+ 
+//     const storedGoals = await AsyncStorage.getItem('riskResponse');
+//     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
+//     console.log("stored goals",existingList,draftGoals);
+// //setDraftGoals(draftGoals.concat(existingList));
+//  }, []);
+    // first useeffect for component
+useEffect(() => {
+  const fetchData = async () => {
+    console.log("user in Suitability", user);
 
-    // first useeffect for sql query
+    try {
+      const response = await AsyncStorage.getItem('riskResponse');
+      let riskResponses = response ? JSON.parse(response) : [];
+      console.log("retrieved responses in Suitability", riskResponses);
+      setFeedback(riskResponses);
+          handleriskCalculation(riskResponses);
+    setModalVisible(!modalVisible);
+
+      if (user.status === "prospect") {
+        // Add logic here if needed
+      }
+    } catch (error) {
+      console.error("Error fetching riskResponse:", error);
+    }
+  };
+
+  fetchData();
+}, []);
+
+    // f useeffect for sql query
       useEffect(() => {
         //console.log("RISK Profile and TVM in FundSelection",riskProfile,tvm);
-        console.log("ROUTES  in FundSelection",route?.params);
+       
     
         async function  getRiskQuest(){
           sql="SELECT rq.keyId, rq.question, rq.category, JSON_ARRAYAGG(JSON_OBJECT('key', a.answerId - (rq.keyId * 100), 'option', a.label, 'riskScore', a.riskScore)) AS answers FROM RiskQuestionaire rq JOIN Answers a ON rq.keyId = a.questionId GROUP BY rq.keyId, rq.question, rq.category;";
@@ -171,7 +202,7 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
     } else {
 
         console.log("completed Assessment", feedback);
-        handleriskCalculation();
+        handleriskCalculation(feedback);
       
       setCurrentIndex(0);
       setSelectedBox(null);
@@ -185,11 +216,11 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
       setCurrentIndex(riskquitionaire.length - 1);
     }
   };
-  function handleriskCalculation(){
+  function handleriskCalculation(responses){
     let riskscore=0;
-    console.log("all Risk Risponses",feedback);
-    for(var i=0; i<feedback.length;i++){
-riskscore =feedback[i].selectedanswer.riskScore
+    console.log("all Risk Risponses",responses);
+    for(var i=0; i<responses.length;i++){
+riskscore =responses[i].selectedanswer.riskScore
     }
     console.log("Total  Risk Sore",riskscore);
     const profile= findRiskProfile(riskscore);
@@ -199,8 +230,10 @@ riskscore =feedback[i].selectedanswer.riskScore
   const handleriskFinalize=async() => {
      // Save contextData to AsyncStorage
      await AsyncStorage.setItem('contextData', JSON.stringify(contextData));
-     console.log("Context data saved to local storage.");
-
+     if(user.status="guest"){
+     await AsyncStorage.setItem('riskResponse', JSON.stringify(feedback));
+     console.log("Context data and risk feedback saved to local storage.");
+     }
     try{
     const resp= await submitRiskProfiling(feedback);
     setModalVisible(!modalVisible);

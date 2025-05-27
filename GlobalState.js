@@ -9,7 +9,7 @@ export const StoreProvider = ({ children }) => {
     user_name: "Guest",
     user_email: "guest@finomics.com.pk",
     status:"prospect",
-    riskScore:"1"
+    riskScore:""
   });
   const [goal, setGoal] = useState({
     // goalName: "Dummy",
