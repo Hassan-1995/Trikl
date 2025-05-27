@@ -1,98 +1,37 @@
-import React, { useState, useEffect, useContext } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FlatList, ScrollView, StyleSheet, View, Text } from "react-native";
-import { LinearGradient } from "expo-linear-gradient";
-import { PieChart } from "react-native-svg-charts";
-import { G, Text as SvgText } from "react-native-svg";
+import React, { useState,useEffect,useContext } from "react";
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import{sqlquery} from "../backendintegration/index";
+import{portfolio_Query} from "../backendintegration/sqlQueries";
+import{portfoliocalculation} from "../backendintegration/helperFunctions";
+
+import { LinearGradient } from "expo-linear-gradient";
+import { FlatList, ScrollView, StyleSheet, View } from "react-native";
 import Screen from "../components/Screen";
 import SummaryCard from "../components/SummaryCard";
+import {StoreContext} from "../../GlobalState";
 import GoalCardPicker from "../components/GoalCardPicker";
-import ActiveInvestmentComponent from "../components/ActiveInvestmentComponent";
 
-import { sqlquery } from "../backendintegration/index";
-import { portfolio_Query } from "../backendintegration/sqlQueries";
-import { StoreContext } from "../../GlobalState";
+import ActiveInvestmentComponent from "../components/ActiveInvestmentComponent";
+import ChartComponent from "../components/ChartComponent";
 import colors from "../config/colors";
 
-// Helper to get colors
-const getColor = (index) => {
-  const colorPalette = [
-    "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF",
-    "#FF9F40", "#00A5A8", "#F7464A", "#46BFBD", "#FDB45C",
-  ];
-  return colorPalette[index % colorPalette.length];
-};
-
-// Donut Chart Component
-const DonutChart = ({ data }) => {
-  if (!data || data.length === 0 || data.every(d => Number(d.invested) === 0)) {
-    return <Text style={{ textAlign: 'center', marginVertical: 20 }}>No data to display</Text>;
-  }
-
-  const total = data.reduce((sum, item) => sum + Number(item.invested), 0);
-
-  const chartData = data.map((item, index) => ({
-    key: `${item.title}-${index}`,
-    value: Number(item.invested),
-    svg: { fill: getColor(index) },
-    arc: { outerRadius: '100%', padAngle: 0 },
-    title: item.title,
-  }));
-
-  const Labels = ({ slices }) => {
-    return slices.map((slice, index) => {
-      const { pieCentroid, data } = slice;
-      const percentage = ((data.value / total) * 100).toFixed(1);
-      return (
-        <G key={`label-${index}`}>
-          <SvgText
-            x={pieCentroid[0]}
-            y={pieCentroid[1]}
-            fill="white"
-            textAnchor="middle"
-            alignmentBaseline="middle"
-            fontSize={12}
-            fontWeight="bold"
-          >
-            {`${percentage}%`}
-          </SvgText>
-        </G>
-      );
-    });
-  };
-
-  return (
-    <View style={{ alignItems: "center", marginVertical: 20 }}>
-      <PieChart
-        style={{ height: 200, width: 200 }}
-        data={chartData}
-        innerRadius="60%"
-        outerRadius="90%"
-        labelRadius={100}
-      >
-        <Labels />
-      </PieChart>
-
-      <View style={styles.legendContainer}>
-        {data.map((item, index) => (
-          <View key={index} style={styles.legendItem}>
-            <View style={[styles.legendColor, { backgroundColor: getColor(index) }]} />
-            <Text style={styles.legendLabel}>{item.title}</Text>
-          </View>
-        ))}
-      </View>
-    </View>
-  );
-};
-
-// Draft goals
 const draftGoalItems = [
-  { goalName: "Create New", value: 0, image: require("../assets/others.png") },
-  { goalName: "Education", value: 2, image: require("../assets/education.png") },
-  { goalName: "Electronics", value: 3, image: require("../assets/electronics.png") },
+  { goalName: "Create New", value: 0,  image: require("../assets/others.png") },
+  {goalName: "Education", value: 2,
+    image: require("../assets/education.png"),
+  },
+  {
+    goalName: "Electronics",
+    value: 3,
+    image: require("../assets/electronics.png"),
+  },
   { goalName: "Car", value: 5, image: require("../assets/car.png") },
-  { goalName: "Furniture", value: 6, image: require("../assets/furniture.png") },
+  {
+    goalName: "Furniture",
+    value: 6,
+    image: require("../assets/furniture.png"),
+  },
   { goalName: "Wedding", value: 7, image: require("../assets/wedding.png") },
   { goalName: "Music", value: 8, image: require("../assets/music.png") },
   { goalName: "Jewelry", value: 9, image: require("../assets/jewelry.png") },
@@ -100,75 +39,329 @@ const draftGoalItems = [
   { goalName: "Others", value: 4, image: require("../assets/travel.png") },
 ];
 
-// Sample chart data
 const items = [
   {
-    title: "ETF-Sovereign Bond",
-    invested: 15600,
-  },{
-    title: "ETF-Commodities",
-    invested: 5600,
+    title: "Create New",
+    status: "On",
+    goal: 24000,
+    initial:1000,
+    recurring:222,
+    invested: 5000,
+    value: 1,
+    image: require("../assets/others.png"),
   },
   {
-    title: "ETF-Equities",
-    invested: 15600,
+    title: "Travel",
+    status: "Off",
+    goal: 15000,
+    initial:1000,
+    recurring:222,
+    invested: 8000,
+    value: 2,
+    image: require("../assets/travel.png"),
+  },
+  {
+    title: "Education",
+    status: "On",
+    goal: 18000,
+    initial:1000,
+    recurring:222,
+    invested: 10000,
+    value: 2,
+    image: require("../assets/education.png"),
+  },
+  {
+    title: "Electronics",
+    status: "On",
+    goal: 20000,
+    initial:1000,
+    recurring:222,
+    invested: 12000,
+    value: 3,
+    image: require("../assets/electronics.png"),
+  },
+  {
+    title: "Car",
+    status: "On",
+    goal: 25000,
+    invested: 15000,
+    value: 4,
+    image: require("../assets/car.png"),
+  },
+  {
+    title: "Furniture",
+    status: "Off",
+    goal: 22000,
+    invested: 11000,
+    value: 5,
+    image: require("../assets/furniture.png"),
+  },
+  {
+    title: "Wedding",
+    status: "On",
+    goal: 30000,
+    invested: 20000,
+    value: 6,
+    image: require("../assets/wedding.png"),
+  },
+  {
+    title: "Music",
+    status: "On",
+    goal: 18000,
+    invested: 10000,
+    value: 7,
+    image: require("../assets/music.png"),
+  },
+  {
+    title: "Jewelry",
+    status: "On",
+    goal: 35000,
+    invested: 18000,
+    value: 8,
+    image: require("../assets/jewelry.png"),
+  },
+  {
+    title: "Fitness",
+    status: "Off",
+    goal: 20000,
+    invested: 9000,
+    value: 9,
+    image: require("../assets/fitness.png"),
   },
 ];
+// active goals list
+const goalsList=[
+    {
+        "userId": 0,
+        "goalId": 20,
+        "goalName": "Furniture",
+        "templateId": null,
+        "allocationId": 10,
+        "goalTarget": 1000,
+        "goalDuration": -1473,
+        "total_payments": 0,
+        "savingFrequency": "monthly",
+        "initialContribution": 4093,
+        "recurringAmount": 249,
+        "status": "Draft",
+        "fundingStatus": "inprogress",
+        "goal_id": null,
+        "Template_Goal_name": null,
+        "goal_icon": null,
+        "Goal_description": null,
+        "prompt_target": null,
+        "prompt_initialContribution": null,
+        "prompt_savingFrequency": null,
+        "prompt_regularContribution": null,
+        "goal_type": null,
+        "goal_status": null,
+        "total_amount_due": null
+    },
+    {
+        "userId": 0,
+        "goalId": 21,
+        "goalName": "Electronics",
+        "templateId": null,
+        "allocationId": 5,
+        "goalTarget": 63077,
+        "goalDuration": 6746,
+        "total_payments": 0,
+        "savingFrequency": "monthly",
+        "initialContribution": 3975,
+        "recurringAmount": 30,
+        "status": "Draft",
+        "fundingStatus": "inprogress",
+        "goal_id": null,
+        "Template_Goal_name": null,
+        "goal_icon": null,
+        "Goal_description": null,
+        "prompt_target": null,
+        "prompt_initialContribution": null,
+        "prompt_savingFrequency": null,
+        "prompt_regularContribution": null,
+        "goal_type": null,
+        "goal_status": null,
+        "total_amount_due": null
+    },
+    {
+        "userId": 0,
+        "goalId": 22,
+        "goalName": "Create New",
+        "templateId": null,
+        "allocationId": 10,
+        "goalTarget": 49195,
+        "goalDuration": 4929,
+        "total_payments": 0,
+        "savingFrequency": "monthly",
+        "initialContribution": 5679,
+        "recurringAmount": 342,
+        "status": "Draft",
+        "fundingStatus": "inprogress",
+        "goal_id": null,
+        "Template_Goal_name": null,
+        "goal_icon": null,
+        "Goal_description": null,
+        "prompt_target": null,
+        "prompt_initialContribution": null,
+        "prompt_savingFrequency": null,
+        "prompt_regularContribution": null,
+        "goal_type": null,
+        "goal_status": null,
+        "total_amount_due": null
+    }
+];
+
+//- acive goals end
 
 function HomeScreenCopy({ navigation }) {
-  const contextData = useContext(StoreContext);
-  const [usergoals, setuserGoals] = useState([]);
-  const [userPortfolio, setUserPortfolio] = useState([]);
-  const [draftGoals, setDraftGoals] = useState(draftGoalItems.slice(0, 1));
+   const contextData = useContext(StoreContext);
+      console.log("context in Home ",contextData);
+  const[usergoals,setuserGoals]=useState([]);
+  const[userPortfolio,setUserPortfolio]=useState([]);
+  
+  const[draftGoals,setDraftGoals]=useState(draftGoalItems.slice(0,1));
 
-  useEffect(() => {
-    (async () => {
-      const storedGoals = await AsyncStorage.getItem("localgoals");
-      let existingList = storedGoals ? JSON.parse(storedGoals) : [];
-      setDraftGoals(draftGoals.concat(existingList));
-    })();
-  }, []);
+  // useeffect for localgoals.
+  useEffect(async() => {
+ // await AsyncStorage.setItem('localgoals', JSON.stringify([]));
+    const storedGoals = await AsyncStorage.getItem('localgoals');
+    let existingList = storedGoals ? JSON.parse(storedGoals) : [];
+    console.log("stored goals",existingList,draftGoals);
+setDraftGoals(draftGoals.concat(existingList));
+ }, []);
+  // useeffect for userPortfolios
+useEffect(() => {
+  let isMounted = true;
 
-  useEffect(() => {
-    async function getUserPortfolios() {
-      try {
-        const resp = await sqlquery(portfolio_Query);
-        if (resp) {
-          setUserPortfolio(resp);
-        }
-      } catch (err) {
-        console.error("Failed to fetch user portfolios", err);
+  async function getUserPortfolios() {
+    try {
+      const sql = portfolio_Query;
+
+      const resp = await sqlquery(sql);
+console.log("UserPortfolio in Home",resp);
+      if (resp) {
+       const groupedPortfolio= portfoliocalculation(resp);
+console.log("Grouped UserPortfolio in Home",resp,groupedPortfolio);
+        setUserPortfolio(resp);
       }
+    } catch (err) {
+      console.error("Failed to fetch user portfolios", err);
     }
-    getUserPortfolios();
-  }, [contextData.reload]);
+  }
 
-  useEffect(() => {
-    async function getUserGoals() {
-      try {
-        const sql = `
-          SELECT ug.*, tg.*, 
-            (SELECT SUM(amount) FROM PaymentSchedule 
-             WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) 
-             AS total_amount_due 
-          FROM UserGoal ug 
-          LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;
-        `;
-        const resp = await sqlquery(sql);
-        if (resp) {
-          setuserGoals(resp);
-        }
-      } catch (err) {
-        console.error("Failed to fetch user goals:", err);
+  getUserPortfolios();
+
+  return () => {
+    isMounted = false;
+  };
+}, [contextData.reload]);
+
+
+
+ 
+  // useeffect for usergoals
+useEffect(() => {
+  let isMounted = true;
+
+  async function getUserGoals() {
+    try {
+      const sql = `
+        SELECT ug.*, tg.*, 
+          (SELECT SUM(amount) FROM PaymentSchedule 
+           WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) 
+           AS total_amount_due 
+        FROM UserGoal ug 
+        LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;
+      `;
+
+      const resp = await sqlquery(sql);
+
+      if (resp) {
+        setuserGoals(resp);
       }
+    } catch (err) {
+      console.error("Failed to fetch user goals:", err);
     }
-    getUserGoals();
-  }, [contextData.reload]);
+  }
+
+  getUserGoals();
+
+  return () => {
+    isMounted = false;
+  };
+}, [contextData.reload]);
+
+
+
+
 
   const handlePress = (asset) => {
-    navigation.navigate("InvestmentScreen", { option: asset });
-  };
+    console.log("Draft goal pressed ",asset,asset.value,contextData);
+    const user=contextData.user;
+    const riskProfile=contextData.riskProfile;
 
+    console.log("ID number " + asset.id + " is pressed which has value of ", asset,"for User",user);
+    // route to investment screen irrespevtive of user status.
+  if(asset.goalName=="Create New"){
+    navigation.navigate("InvestmentScreen", {option:asset  });
+  return;
+  }
+     if (user.status == "guest") {
+        contextData.setGoal(asset);
+    guestUser(asset,user);
+
+     }else if (user.status =="prospect") {
+        contextData.setGoal(asset);
+      prospectUser(asset,user);
+      
+    }else if (user.status == "registered") {
+        contextData.setGoal(asset);
+      registeredUser(asset,user);
+  }
+}
+function guestUser(asset,user){
+  console.log("selected Draft Goal", asset);
+  if(!asset.recurring){
+  navigation.navigate("InvestmentScreen", {option:asset  });
+}else{
+  alert(" Complete Registration before proceeding");
+  navigation.navigate("Register Screen", {option:asset  });
+}
+}
+function prospectUser(asset,user){
+  console.log("selected Draft for prospect", asset);
+   if(!asset.initial||!asset.recurring){
+    console.log("Prospect has missing Investment Plan in Goals",asset);
+    navigation.navigate("InvestmentPlanScreen", {option:asset  });
+  
+}
+else if(asset.initial&&asset.recurring&&!user.riskScore){// got initial, recurring but missing risk score
+    console.log("Prospect has  Investment Plan in Goals, but missing risk score",asset,user); 
+  navigation.navigate("SuitabilityAssesmentScreen", {option:asset  });
+}
+else if(asset.initial&&asset.recurring&&user.riskScore){// got initial, recurring and  risk score
+    console.log("Prospect has  Investment Plan in Goals plus risk score",user); 
+  navigation.navigate("FundSelection", {option:asset  });
+}
+else{
+  alert("Unable to recall correct data, please start over");
+}
+}
+function registeredUser(asset,user){
+  console.log("selected Draft for registered user", asset,user);
+  if(user.riskScore&&asset.recurring){
+  navigation.navigate("FundSelection", {option:asset  });
+}else if(!asset.recurring){
+  navigation.navigate("InvestmentScreen", {option:asset  });
+
+}else if(!user.riskScore){
+  alert(" PleaseComplete your suitability Assessment" );
+  navigation.navigate("SuitabilityAssesmentScreen", {option:asset  });
+}else{
+  console.log("dont know where to go");
+  alert("Dont know where to go.");
+}
+}
   return (
     <Screen>
       <LinearGradient
@@ -188,9 +381,7 @@ function HomeScreenCopy({ navigation }) {
             label={"Start a New Plan or Resume Drafts"}
             onPress={handlePress}
           />
-
-          <DonutChart data={items} />
-
+          <ChartComponent assets={items} />
           <FlatList
             data={usergoals}
             keyExtractor={(item) => item?.goalId?.toString()}
@@ -205,39 +396,25 @@ function HomeScreenCopy({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  background: {
-    position: "absolute",
-    top: 0,
-    height: 300,
-    width: "100%",
-    zIndex: -1,
-  },
   container: {
     flex: 1,
+    backgroundColor: colors.white,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    marginTop: 10,
+    paddingTop: 10,
+    overflow: "hidden",
+  },
+  background: {
+    position: "absolute",
+    left: 0,
+    right: 0,
+    top: 0,
+    height: 500,
+  },
+  scrollView: {
     paddingHorizontal: 10,
-    paddingBottom: 40,
-  },
-  legendContainer: {
-    marginTop: 20,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-  },
-  legendItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginHorizontal: 10,
-    marginVertical: 5,
-  },
-  legendColor: {
-    width: 12,
-    height: 12,
-    marginRight: 5,
-    borderRadius: 2,
-  },
-  legendLabel: {
-    fontSize: 12,
-    color: colors.dark,
+    // marginTop: 20,
   },
 });
 
