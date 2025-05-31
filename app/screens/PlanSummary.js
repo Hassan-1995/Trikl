@@ -117,6 +117,16 @@ alert("Goal Not found");
   }
 }
   
+async function navigate(goal,user){
+  if(user.status=="registered"){
+navigation.navigate("WalletScreen", plannedInvestmentValues);
+  }else if(user.status=="prospect"){
+    navigation.navigate("AccountOnBoardingScreen");
+
+  }else{
+    navigation.navigate("Login Screen");
+  }
+}
 
   const handlePayment = () => {
    
@@ -130,8 +140,9 @@ alert("Goal Not found");
     };
     savegoal(plannedInvestmentValues);
     console.log({ target, initialInvestment, recurringInvestment, frequency });
+    navidgate(user);
     // navigation.navigate("PaymentScreen", plannedInvestmentValues);
-    navigation.navigate("WalletScreen", plannedInvestmentValues);
+   // navigation.navigate("WalletScreen", plannedInvestmentValues);
   };
 
   return (

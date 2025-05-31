@@ -3,12 +3,18 @@ import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import AppText from "./AppText";
 import {StoreContext} from "../../GlobalState";
+import DonutChart from "../components/DonutChart";
 
 import{activateGoal} from "../backendintegration/index";
 import colors from "../config/colors";
 
 
 const { width } = Dimensions.get("window");
+const items = [
+  { title: "ETF-Sovereign Bond", value: 15600 },
+  { title: "Commodities", value: 15600 },
+  { title: "ETF-Equities", value: 15600 },
+];
 
 function ModalHomeScreenComponent({ item,setModalVisible }) {
      const contextData = useContext(StoreContext);
@@ -65,7 +71,9 @@ setModalVisible(false);
   return (
     <View style={styles.modal}>
       <AppText style={styles.title}>{item.goalName}</AppText>
-      <View style={styles.chartContainer}>{renderPieChart()}</View>
+      <View style={styles.chartContainer}>
+                <DonutChart data={items} />
+      </View>
       <AppText style={styles.planName}>Investment Plan</AppText>
 
       {/* Table Rows */}

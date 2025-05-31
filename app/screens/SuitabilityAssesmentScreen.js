@@ -157,9 +157,10 @@ useEffect(() => {
       let riskResponses = response ? JSON.parse(response) : [];
       console.log("retrieved responses in Suitability", riskResponses);
       setFeedback(riskResponses);
+      if(riskResponses.length>0){
           handleriskCalculation(riskResponses);
     setModalVisible(!modalVisible);
-
+      }
       if (user.status === "prospect") {
         // Add logic here if needed
       }

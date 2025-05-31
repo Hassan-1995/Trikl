@@ -18,14 +18,9 @@ function AlertBox({onPress, riskProfile}) {
             <AppText style={styles.subTitle}>You are <AppText style={styles.underline}>{riskProfile?.RiskProfileName}</AppText> </AppText>
             <ScrollView>
             <AppText style={styles.description}>
-                A moderate investor seeks a balance between risk and return. 
-                They are willing to accept some market volatility and risk of loss 
-                for the potential of higher returns, but they avoid extreme risks. 
-                Their portfolios usually include a mix of stocks and bonds to achieve
-                steady growth over time. Moderate investors typically have a medium to 
-                long-term investment horizon and aim for balanced, diversified portfolios.
+                {riskProfile?.description}
             </AppText>
-            <View style={styles.row}>
+            {/* <View style={styles.row}>
                 <AppText>Risk Tolerance </AppText>
                 <AppText>3/5</AppText>
             </View>
@@ -44,7 +39,7 @@ function AlertBox({onPress, riskProfile}) {
             <View style={styles.row}>
                 <AppText>Portfolio Composition </AppText>
                 <AppText>4/5</AppText>
-            </View>
+            </View> */}
             
             <AppButton
                 title={'Continue'}

@@ -2,8 +2,8 @@ import React, { useState,useEffect,useContext } from "react";
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import{sqlquery} from "../backendintegration/index";
-import{portfolio_Query} from "../backendintegration/sqlQueries";
-import{portfoliocalculation} from "../backendintegration/helperFunctions";
+import{portfolio_Query,goalsquery, sampleresponse} from "../backendintegration/sqlQueries";
+import{portfoliocalculation,goalgroup} from "../backendintegration/helperFunctions";
 
 import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
@@ -223,7 +223,8 @@ function HomeScreenCopy({ navigation }) {
 
   // useeffect for localgoals.
   useEffect(async() => {
- // await AsyncStorage.setItem('localgoals', JSON.stringify([]));
+    //   await AsyncStorage.setItem('riskResponse', JSON.stringify([]));
+ //  await AsyncStorage.setItem('localgoals', JSON.stringify([]));
     const storedGoals = await AsyncStorage.getItem('localgoals');
     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
     console.log("stored goals",existingList,draftGoals);
@@ -234,6 +235,8 @@ useEffect(() => {
   let isMounted = true;
 
   async function getUserPortfolios() {
+    const resp=goalgroup(sampleresponse);
+console.log("Grouped goal in HomeScreenUseeffect",resp);
     try {
       const sql = portfolio_Query;
 
@@ -264,6 +267,7 @@ useEffect(() => {
   let isMounted = true;
 
   async function getUserGoals() {
+
     try {
       const sql = `
         SELECT ug.*, tg.*, 
@@ -274,9 +278,11 @@ useEffect(() => {
         LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;
       `;
 
-      const resp = await sqlquery(sql);
+      const resp = await sqlquery(goalsquery);
 
       if (resp) {
+        groupedgoals= goalgroup(resp);
+        console.log("SQL queried grouped goals",groupedgoals);
         setuserGoals(resp);
       }
     } catch (err) {

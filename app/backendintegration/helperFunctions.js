@@ -1,3 +1,4 @@
+
 export const fillOnboarding=(data)=>{
     let payload={
       User_Reference:0,
@@ -22,9 +23,11 @@ export const fillOnboarding=(data)=>{
   }
 
   export const findRiskProfile = (riskscore) => {
-    return allRiskProfiles.find(profile => {
+   const profile= allRiskProfiles.find(profile => {
       return riskscore >= profile.Upper_Bound && riskscore <= profile.Lower_Bound;
     });
+    console.log("Profile in Find Risk Profile",riskscore,profile);
+    return profile;
   };
 
   export const modifyRiskResponse = (riskResponse,userId) => {
@@ -176,6 +179,60 @@ const groupedByAssetClass = withAllocated.reduce((acc, item) => {
 return groupedByAssetClass;
 
 }
+ export const  goalgroup=(data) =>{
+const grouped = data.reduce((acc, item) => {
+  const {
+    goalId,
+    goalName,
+    goalTarget,
+    goalDuration,
+     status,
+    fundingStatus,
+    portfolio_id,
+    creation_date,
+    invested_amount,
+    portfolio_value,
+    valuation_date,
+    AssetClassID,
+    AssetClassName,
+    AllocationPercentage
+  } = item;
+
+  if (!acc[goalId]) {
+    acc[goalId] = {
+      goalId,
+      goalName,
+      goalTarget,
+      goalDuration,
+      portfolio: portfolio_id ? {
+        portfolio_id,
+        creation_date,
+        invested_amount,
+        portfolio_value,
+        valuation_date,
+        allocations: []
+      } : null
+    };
+  }
+
+  if (portfolio_id && AssetClassID !== null) {
+    acc[goalId].portfolio.allocations.push({
+      AssetClassID,
+      AssetClassName,
+      AllocationPercentage
+    });
+  }
+
+  return acc;
+}, {});
+
+// Convert the result to an array
+const result = Object.values(grouped);
+
+console.log("Grouped Goal in Heler",result);
+return result;
+
+}
 
 
 
@@ -185,47 +242,54 @@ return groupedByAssetClass;
 
 
 
-  const allRiskProfiles=[
-    {
-        "RiskProfileID": 3,
-        "Upper_Bound": 30,
-        "Lower_Bound": 39,
-        "RiskProfileName": "Cautious Turtle",
-        "riskLevel": 1
-    },
-    {
-        "RiskProfileID": 4,
-        "Upper_Bound": 40,
-        "Lower_Bound": 49,
-        "RiskProfileName": "Steady Sailor",
-        "riskLevel": 2
-    },
-    {
-        "RiskProfileID": 6,
-        "Upper_Bound": 50,
-        "Lower_Bound": 59,
-        "RiskProfileName": "Bold Explorer",
-        "riskLevel": 3
-    },
-    {
-        "RiskProfileID": 7,
-        "Upper_Bound": 60,
-        "Lower_Bound": 69,
-        "RiskProfileName": "Fearless Falcon",
-        "riskLevel": 4
-    },
-    {
-        "RiskProfileID": 8,
-        "Upper_Bound": 70,
-        "Lower_Bound": 79,
-        "RiskProfileName": "Strategic Fox",
-        "riskLevel": 5
-    },
-    {
-        "RiskProfileID": 9,
-        "Upper_Bound": 80,
-        "Lower_Bound": 100,
-        "RiskProfileName": "Daring Dragon",
-        "riskLevel": 6
-    }
+const allRiskProfiles = [
+  {
+    "RiskProfileID": 3,
+    "Upper_Bound": 10,
+    "Lower_Bound": 39,
+    "RiskProfileName": "Cautious Turtle",
+    "riskLevel": 1,
+    "description": "A highly conservative investor who prioritizes capital preservation over growth. Prefers low-risk investments with stable returns, such as government bonds or fixed deposits."
+  },
+  {
+    "RiskProfileID": 4,
+    "Upper_Bound": 40,
+    "Lower_Bound": 49,
+    "RiskProfileName": "Steady Sailor",
+    "riskLevel": 2,
+    "description": "A moderately conservative profile focused on steady, reliable income. Comfortable with a small portion of investments in equities while keeping most assets in low-risk vehicles."
+  },
+  {
+    "RiskProfileID": 6,
+    "Upper_Bound": 50,
+    "Lower_Bound": 59,
+    "RiskProfileName": "Bold Explorer",
+    "riskLevel": 3,
+    "description": "A balanced risk-taker who seeks moderate growth. Willing to accept short-term volatility for long-term gains, typically investing in a diversified mix of bonds and equities."
+  },
+  {
+    "RiskProfileID": 7,
+    "Upper_Bound": 60,
+    "Lower_Bound": 69,
+    "RiskProfileName": "Fearless Falcon",
+    "riskLevel": 4,
+    "description": "A growth-oriented investor ready to take calculated risks. Comfortable with market fluctuations and invests heavily in equities for higher potential returns."
+  },
+  {
+    "RiskProfileID": 8,
+    "Upper_Bound": 70,
+    "Lower_Bound": 79,
+    "RiskProfileName": "Strategic Fox",
+    "riskLevel": 5,
+    "description": "A tactical investor with a sharp eye for opportunities. Actively manages risk while pursuing aggressive growth, often investing in dynamic markets and sectors."
+  },
+  {
+    "RiskProfileID": 9,
+    "Upper_Bound": 80,
+    "Lower_Bound": 100,
+    "RiskProfileName": "Daring Dragon",
+    "riskLevel": 6,
+    "description": "An aggressive and adventurous investor who embraces high risk for maximum reward. Invests predominantly in volatile assets like emerging markets, tech stocks, or cryptocurrencies."
+  }
 ];
+
