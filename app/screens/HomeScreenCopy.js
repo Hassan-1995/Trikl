@@ -3,7 +3,7 @@ import React, { useState,useEffect,useContext } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import{sqlquery} from "../backendintegration/index";
 import{portfolio_Query,goalsquery, sampleresponse} from "../backendintegration/sqlQueries";
-import{portfoliocalculation,goalgroup} from "../backendintegration/helperFunctions";
+import{portfoliocalculation,goalgroup,goalstransform} from "../backendintegration/helperFunctions";
 
 import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
@@ -12,6 +12,7 @@ import SummaryCard from "../components/SummaryCard";
 import {StoreContext} from "../../GlobalState";
 import GoalCardPicker from "../components/GoalCardPicker";
 
+import DonutChart from "../components/DonutChart";
 import ActiveInvestmentComponent from "../components/ActiveInvestmentComponent";
 import ChartComponent from "../components/ChartComponent";
 import colors from "../config/colors";
@@ -212,6 +213,12 @@ const goalsList=[
 ];
 
 //- acive goals end
+// chart items
+const chartitems = [
+  { title: "ETF-Sovereign Bond", value: 15600 },
+  { title: "Commodities", value: 15600 },
+  { title: "ETF-Equities", value: 15600 },
+];
 
 function HomeScreenCopy({ navigation }) {
    const contextData = useContext(StoreContext);
@@ -267,23 +274,26 @@ useEffect(() => {
   let isMounted = true;
 
   async function getUserGoals() {
-
+const tempgrouped=goalgroup(sampleresponse);
+const transformed=goalstransform(sampleresponse);
+      console.log(" reTrnsforedGoalsponsea",transformed);
+      setuserGoals(transformed);
     try {
-      const sql = `
-        SELECT ug.*, tg.*, 
-          (SELECT SUM(amount) FROM PaymentSchedule 
-           WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) 
-           AS total_amount_due 
-        FROM UserGoal ug 
-        LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;
-      `;
+      // const sql = `
+      //   SELECT ug.*, tg.*, 
+      //     (SELECT SUM(amount) FROM PaymentSchedule 
+      //      WHERE goal_id = ug.goalId AND due_date < CURRENT_DATE) 
+      //      AS total_amount_due 
+      //   FROM UserGoal ug 
+      //   LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;
+      // `;
 
       const resp = await sqlquery(goalsquery);
 
       if (resp) {
         groupedgoals= goalgroup(resp);
-        console.log("SQL queried grouped goals",groupedgoals);
-        setuserGoals(resp);
+        console.log("SQL queried grouped goals in HomwScreen",tempgrouped,groupedgoals);
+     //   setuserGoals(groupedgoals);
       }
     } catch (err) {
       console.error("Failed to fetch user goals:", err);
@@ -387,7 +397,8 @@ function registeredUser(asset,user){
             label={"Start a New Plan or Resume Drafts"}
             onPress={handlePress}
           />
-          <ChartComponent assets={items} />
+            <DonutChart data={chartitems} />
+          {/* <ChartComponent assets={items} /> */}
           <FlatList
             data={usergoals}
             keyExtractor={(item) => item?.goalId?.toString()}

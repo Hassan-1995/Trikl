@@ -204,6 +204,8 @@ const grouped = data.reduce((acc, item) => {
       goalName,
       goalTarget,
       goalDuration,
+     status,
+    fundingStatus,
       portfolio: portfolio_id ? {
         portfolio_id,
         creation_date,
@@ -234,6 +236,49 @@ return result;
 
 }
 
+
+//--group transform
+
+export const goalstransform=(data)=>{
+
+console.log("before transform",data);
+const summary = Object.values(
+  data.reduce((acc, item) => {
+    const { goalId, goalName, invested_amount, AssetClassName, AllocationPercentage,status,fundingStatus,goalTarget } = item;
+    if (invested_amount === null || AssetClassName === null || AllocationPercentage === null) {
+    //  return acc; // skip incomplete data
+    }
+
+    if (!acc[goalId]) {
+      acc[goalId] = {
+        goalId,
+        goalName,
+        goalTarget,
+        status,
+        fundingStatus,
+        total_InvestedAmount: 0,
+        chartAllocation: []
+      };
+    }
+
+    const value = invested_amount * AllocationPercentage / 100;
+    acc[goalId].total_InvestedAmount += invested_amount;
+
+    // check if asset class already added
+    const existing = acc[goalId].chartAllocation.find(a => a.title === AssetClassName);
+    if (existing) {
+      existing.value += value;
+    } else {
+      acc[goalId].chartAllocation.push({ title: AssetClassName, value });
+    }
+
+    return acc;
+  }, {})
+);
+//JSON.stringify(summary, null, 2)
+console.log("transformedGoal",summary);
+return summary;
+}
 
 
 

@@ -16,6 +16,8 @@ const items = [
   { title: "ETF-Equities", value: 15600 },
 ];
 
+
+
 function ModalHomeScreenComponent({ item,setModalVisible }) {
      const contextData = useContext(StoreContext);
         console.log("context in Home Modal ",contextData);
@@ -28,7 +30,7 @@ function ModalHomeScreenComponent({ item,setModalVisible }) {
 
     // active button
     const handleActive = async() => {
-    console.log("DActive Button is pressd pressed ",item);
+    console.log("Active Button is pressd pressed ",item);
 const resp= await activateGoal(item.goalId);
 contextData.setreload(prev=>!prev);
 setModalVisible(false);
@@ -72,14 +74,14 @@ setModalVisible(false);
     <View style={styles.modal}>
       <AppText style={styles.title}>{item.goalName}</AppText>
       <View style={styles.chartContainer}>
-                <DonutChart data={items} />
+                <DonutChart data={item?.chartAllocation?item.chartAllocation:[]} />
       </View>
       <AppText style={styles.planName}>Investment Plan</AppText>
 
       {/* Table Rows */}
       <View style={[styles.row, styles.shadedRow]}>
         <AppText style={styles.label}>Target Value</AppText>
-        <AppText style={styles.value}>${item.goalTarget.toLocaleString()}</AppText>
+        <AppText style={styles.value}>${item.goalTarget?.toLocaleString()}</AppText>
       </View>
       <View style={styles.row}>
         <AppText style={styles.label}>Actual Portfolio</AppText>

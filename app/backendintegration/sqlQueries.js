@@ -8,6 +8,8 @@ export const sampleresponse= data =[
         "goalName": "Electronics",
         "goalTarget": 111,
         "goalDuration": 1930,
+        "status": "Active",
+        "fundingStatus": "inprogress",
         "portfolio_id": 1,
         "creation_date": "2024-01-15T00:00:00.000Z",
         "invested_amount": 10000,
@@ -22,6 +24,8 @@ export const sampleresponse= data =[
         "goalName": "Wedding",
         "goalTarget": 110,
         "goalDuration": 3975,
+        "status": "Active",
+        "fundingStatus": "inprogress",
         "portfolio_id": 2,
         "creation_date": "2024-02-01T00:00:00.000Z",
         "invested_amount": 5000,
@@ -36,6 +40,8 @@ export const sampleresponse= data =[
         "goalName": "Electronics",
         "goalTarget": 111,
         "goalDuration": 1930,
+        "status": "Active",
+        "fundingStatus": "inprogress",
         "portfolio_id": 1,
         "creation_date": "2024-01-15T00:00:00.000Z",
         "invested_amount": 10000,
@@ -50,6 +56,8 @@ export const sampleresponse= data =[
         "goalName": "Wedding",
         "goalTarget": 110,
         "goalDuration": 3975,
+        "status": "Active",
+        "fundingStatus": "inprogress",
         "portfolio_id": 2,
         "creation_date": "2024-02-01T00:00:00.000Z",
         "invested_amount": 5000,
@@ -64,6 +72,8 @@ export const sampleresponse= data =[
         "goalName": "Car",
         "goalTarget": 111,
         "goalDuration": -1693,
+        "status": "Active",
+        "fundingStatus": "inprogress",
         "portfolio_id": null,
         "creation_date": null,
         "invested_amount": null,
@@ -78,6 +88,8 @@ export const sampleresponse= data =[
         "goalName": "Furniture",
         "goalTarget": 1000,
         "goalDuration": 3979,
+        "status": "Draft",
+        "fundingStatus": "inprogress",
         "portfolio_id": null,
         "creation_date": null,
         "invested_amount": null,
@@ -88,6 +100,7 @@ export const sampleresponse= data =[
         "AllocationPercentage": null
     }
 ]
+
 
 
 /*
