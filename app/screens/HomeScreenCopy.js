@@ -277,7 +277,7 @@ useEffect(() => {
 const tempgrouped=goalgroup(sampleresponse);
 const transformed=goalstransform(sampleresponse);
       console.log(" reTrnsforedGoalsponsea",transformed);
-      setuserGoals(transformed);
+    //  setuserGoals(transformed);
     try {
       // const sql = `
       //   SELECT ug.*, tg.*, 
@@ -292,8 +292,9 @@ const transformed=goalstransform(sampleresponse);
 
       if (resp) {
         groupedgoals= goalgroup(resp);
-        console.log("SQL queried grouped goals in HomwScreen",tempgrouped,groupedgoals);
-     //   setuserGoals(groupedgoals);
+        const sqltransformed=goalstransform(resp);
+        console.log("SQL queried transformed goals in HomwScreen",resp,sqltransformed);
+        setuserGoals(sqltransformed);
       }
     } catch (err) {
       console.error("Failed to fetch user goals:", err);
