@@ -18,6 +18,7 @@ const Stack = createNativeStackNavigator();
 
 const HomeNavigator = () => (
   <Stack.Navigator mode="modal" screenOptions={{ headerShown: true }}>
+  <Stack.Screen name="AttachmentsScreen" component={AttachmentsScreen} />
     <Stack.Screen name="HomeScreenCopy" component={HomeScreenCopy} />
 
 <Stack.Screen
@@ -39,7 +40,6 @@ const HomeNavigator = () => (
       name="InvestmentPlanScreen"
       component={InvestmentPlanScreen}
     />
-    <Stack.Screen name="AttachmentsScreen" component={AttachmentsScreen} />
 
 
     {/*  */}
