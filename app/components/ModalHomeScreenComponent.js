@@ -3,7 +3,7 @@ import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import AppText from "./AppText";
 import {StoreContext} from "../../GlobalState";
-import DonutChart from "../components/DonutChart";
+//import DonutChart from "../components/DonutChart";
 
 import{activateGoal} from "../backendintegration/index";
 import colors from "../config/colors";
@@ -74,7 +74,7 @@ setModalVisible(false);
     <View style={styles.modal}>
       <AppText style={styles.title}>{item.goalName}</AppText>
       <View style={styles.chartContainer}>
-                <DonutChart data={item?.chartAllocation?item.chartAllocation:[]} />
+                {/* <DonutChart data={item?.chartAllocation?item.chartAllocation:[]} /> */}
       </View>
       <AppText style={styles.planName}>Investment Plan</AppText>
 
