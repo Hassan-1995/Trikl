@@ -179,6 +179,18 @@ const groupedByAssetClass = withAllocated.reduce((acc, item) => {
 return groupedByAssetClass;
 
 }
+export const totalInvestment=(data)=>{
+  let totalInvested = 0;
+let totalValue = 0;
+data.forEach(entry => {
+    totalInvested += entry.invested_amount;
+    totalValue += entry.portfolio_value;
+});
+return {invested:totalInvested,investmentValue:totalValue};
+}
+
+
+
  export const  goalgroup=(data) =>{
 const grouped = data.reduce((acc, item) => {
   const {

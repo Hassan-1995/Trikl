@@ -18,8 +18,8 @@ const Stack = createNativeStackNavigator();
 
 const HomeNavigator = () => (
   <Stack.Navigator mode="modal" screenOptions={{ headerShown: true }}>
-  <Stack.Screen name="AttachmentsScreen" component={AttachmentsScreen} />
     <Stack.Screen name="HomeScreenCopy" component={HomeScreenCopy} />
+  <Stack.Screen name="AttachmentsScreen" component={AttachmentsScreen} />
 
 <Stack.Screen
   name="SuitabilityAssesmentScreen"

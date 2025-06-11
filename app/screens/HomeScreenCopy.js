@@ -3,7 +3,7 @@ import React, { useState,useEffect,useContext } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import{sqlquery} from "../backendintegration/index";
 import{portfolio_Query,goalsquery, sampleresponse} from "../backendintegration/sqlQueries";
-import{portfoliocalculation,goalgroup,goalstransform} from "../backendintegration/helperFunctions";
+import{portfoliocalculation,goalgroup,goalstransform,totalInvestment} from "../backendintegration/helperFunctions";
 
 import { LinearGradient } from "expo-linear-gradient";
 import { FlatList, ScrollView, StyleSheet, View } from "react-native";
@@ -223,8 +223,13 @@ const chartitems = [
 function HomeScreenCopy({ navigation }) {
    const contextData = useContext(StoreContext);
       console.log("context in Home ",contextData);
-  const[usergoals,setuserGoals]=useState([]);
-  const[userPortfolio,setUserPortfolio]=useState([]);
+      const[usergoals,setuserGoals]=useState([]);
+              const[userPortfolio,setUserPortfolio]=useState([]);
+
+  // for summary cards 
+    const[investedValue,setInvestedValue]=useState(0);
+      const[portfolioValue,setPortfolioValue]=useState(0);
+         const[profit,setProfit]=useState(0);
   
   const[draftGoals,setDraftGoals]=useState(draftGoalItems.slice(0,1));
 
@@ -252,6 +257,8 @@ console.log("UserPortfolio in Home",resp);
       if (resp) {
        const groupedPortfolio= portfoliocalculation(resp);
 console.log("Grouped UserPortfolio in Home",resp,groupedPortfolio);
+const totalInvestmentmentvalue=totalInvestment(resp);
+console.log("total Investment",totalInvestmentmentvalue);
         setUserPortfolio(resp);
       }
     } catch (err) {
@@ -386,9 +393,10 @@ function registeredUser(asset,user){
         style={styles.background}
       />
       <SummaryCard
-        totalBalance={10000}
+        totalBalance={portfolioValue}
         processingBalance={450006}
-        totalProfit={789}
+        totalProfit={profit}
+        investedAmount={investedValue}
         activeInvestment={10}
       />
       <View style={styles.container}>

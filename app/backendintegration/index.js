@@ -3,7 +3,7 @@ import * as FileSystem from 'expo-file-system'; // If using Expo, otherwise adju
 import {modifyRiskResponse} from "./helperFunctions";
 
 
-export const baseUrl="https://savvy-cdn-api.finomics.com.pk/api/"
+export const baseUrl="https://savvy-save-api.finomics.com.pk/api/"
 
 export const register= async(payload)=>{
   const apiUrl= baseUrl+"auth/register"
