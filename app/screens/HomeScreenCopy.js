@@ -227,9 +227,10 @@ function HomeScreenCopy({ navigation }) {
               const[userPortfolio,setUserPortfolio]=useState([]);
 
   // for summary cards 
-    const[investedValue,setInvestedValue]=useState(0);
-      const[portfolioValue,setPortfolioValue]=useState(0);
-         const[profit,setProfit]=useState(0);
+    const[investedValue,setInvestedValue]=useState("");
+    const[portfolioValue,setPortfolioValue]=useState("123");
+    const[profit,setProfit]=useState("");
+     const[activeInvestment,setActiveInvest]=useState("");
   
   const[draftGoals,setDraftGoals]=useState(draftGoalItems.slice(0,1));
 
@@ -254,11 +255,19 @@ console.log("Grouped goal in HomeScreenUseeffect",resp);
 
       const resp = await sqlquery(sql);
 console.log("UserPortfolio in Home",resp);
+
       if (resp) {
        const groupedPortfolio= portfoliocalculation(resp);
 console.log("Grouped UserPortfolio in Home",resp,groupedPortfolio);
 const totalInvestmentmentvalue=totalInvestment(resp);
 console.log("total Investment",totalInvestmentmentvalue);
+const portfolioValue=totalInvestmentmentvalue?totalInvestmentmentvalue.investmentValue:0;
+const invested=totalInvestmentmentvalue?.invested;
+const profitamount= portfolioValue-invested;
+console.log("Summary Card values",invested,portfolioValue,invested,profitamount,activeInvestment);
+setInvestedValue(invested);
+setPortfolioValue(totalInvestmentmentvalue?.investmentValue);
+setProfit(profitamount);
         setUserPortfolio(resp);
       }
     } catch (err) {
@@ -301,6 +310,8 @@ const transformed=goalstransform(sampleresponse);
         groupedgoals= goalgroup(resp);
         const sqltransformed=goalstransform(resp);
         console.log("SQL queried transformed goals in HomwScreen",resp,sqltransformed);
+       const activeportfolios=sqltransformed.filter((port)=>port.status=='Active');
+       setActiveInvest(activeportfolios.length());
         setuserGoals(sqltransformed);
       }
     } catch (err) {
@@ -397,7 +408,7 @@ function registeredUser(asset,user){
         processingBalance={450006}
         totalProfit={profit}
         investedAmount={investedValue}
-        activeInvestment={10}
+        activeInvestment={activeInvestment}
       />
       <View style={styles.container}>
         <ScrollView>
