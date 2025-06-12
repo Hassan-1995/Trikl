@@ -261,12 +261,12 @@ console.log("UserPortfolio in Home",resp);
 console.log("Grouped UserPortfolio in Home",resp,groupedPortfolio);
 const totalInvestmentmentvalue=totalInvestment(resp);
 console.log("total Investment",totalInvestmentmentvalue);
-const portfolioValue=totalInvestmentmentvalue?totalInvestmentmentvalue.investmentValue:0;
-const invested=totalInvestmentmentvalue?.invested;
-const profitamount= portfolioValue-invested;
+
 console.log("Summary Card values",invested,portfolioValue,invested,profitamount,activeInvestment);
-setInvestedValue(invested);
+
+setInvestedValue(totalInvestmentmentvalue?.invested);
 setPortfolioValue(totalInvestmentmentvalue?.investmentValue);
+setActiveInvest(totalInvestmentmentvalue?.investmentcount)
 setProfit(profitamount);
         setUserPortfolio(resp);
       }
@@ -310,8 +310,7 @@ const transformed=goalstransform(sampleresponse);
         groupedgoals= goalgroup(resp);
         const sqltransformed=goalstransform(resp);
         console.log("SQL queried transformed goals in HomwScreen",resp,sqltransformed);
-       const activeportfolios=sqltransformed.filter((port)=>port.status=='Active');
-       setActiveInvest(activeportfolios.length());
+     
         setuserGoals(sqltransformed);
       }
     } catch (err) {
