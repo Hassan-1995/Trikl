@@ -180,13 +180,25 @@ return groupedByAssetClass;
 
 }
 export const totalInvestment=(data)=>{
-  let totalInvested = 0;
-let totalValue = 0;
-data.forEach(entry => {
+  console.log("Data in total Investment",data);
+const seen = new Set();
+let totalInvested = 0;
+let portfolio_value=0;
+let portfoliocount=0;
+
+for (const entry of data) {
+  if (!seen.has(entry.portfolio_id)) {
     totalInvested += entry.invested_amount;
-    totalValue += entry.portfolio_value;
-});
-return {invested:totalInvested,investmentValue:totalValue};
+    portfolio_value+= entry.portfolio_value;
+    portfoliocount++;
+    seen.add(entry.portfolio_id);
+  }
+}
+const profit=portfolio_value-totalInvested;
+return {invested:totalInvested,investmentValue:portfolio_value, profit:profit,investmentcount:portfoliocount}
+console.log("Total invested amount (unique portfolios):", totalInvested,portfolio_value,portfoliocount);
+
+
 }
 
 
