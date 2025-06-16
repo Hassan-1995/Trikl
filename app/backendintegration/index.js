@@ -170,7 +170,7 @@ export const addRequest= async(userId,goalId, requestType,allocationId, amount)=
           alert("request error");
         }
       }
-    export const sqlquery= async(sql,dispatch)=>{
+    export const sqlquery= async(sql)=>{
       const apiUrl= baseUrl+"goal/executeQuery"
           try {
               const response = await axios.post(apiUrl, {sql:sql}, {
@@ -179,10 +179,10 @@ export const addRequest= async(userId,goalId, requestType,allocationId, amount)=
                 }
               });
               console.log('Query Execute Successfully:', response.data);
-//dispatch(response.data);
+
               return response.data;
             } catch (error) {
-              console.error('Query Failed with', error.response ? error.response.data : error.message);
+              console.error('Query Failed with', error.response ? error.response.data : error.message,sql);
             }
           }
 

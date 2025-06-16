@@ -1,6 +1,6 @@
 export const portfolio_Query = `SELECT up.portfolio_id, up.goal_id, up.creation_date, up.invested_amount, up.portfolio_value, up.valuation_date, ac.AssetClassID, ac.AssetClassName, pa.AllocationPercentage FROM UserPortfolio up JOIN UserGoal ug ON up.goal_id = ug.goalId JOIN Portfolio_Allocations pa ON up.allocationId = pa.TemplateID JOIN Asset_Classes ac ON pa.AssetClassID = ac.AssetClassID WHERE ug.userId = 1;`;
 export const goalsquery= `SELECT ug.goalId, ug.goalName, ug.goalTarget, ug.goalDuration,ug.status,ug.fundingStatus,
-up.portfolio_id, up.creation_date, up.invested_amount, up.portfolio_value, up.valuation_date, ac.AssetClassID, ac.AssetClassName, pa.AllocationPercentage FROM UserGoal ug LEFT JOIN UserPortfolio up ON ug.goalId = up.goal_id LEFT JOIN Portfolio_Allocations pa ON up.allocationId = pa.TemplateID LEFT JOIN Asset_Classes ac ON pa.AssetClassID = ac.AssetClassID WHERE ug.userId = 1;`
+up.portfolio_id, up.creation_date, up.invested_amount, up.portfolio_value, up.valuation_date, ac.AssetClassID, ac.AssetClassName, pa.AllocationPercentage FROM UserGoal ug LEFT JOIN UserPortfolio up ON ug.goalId = up.goal_id LEFT JOIN Portfolio_Allocations pa ON up.allocationId = pa.TemplateID LEFT JOIN Asset_Classes ac ON pa.AssetClassID = ac.AssetClassID WHERE ug.userId =`
 
 export const sampleresponse= data =[
     {

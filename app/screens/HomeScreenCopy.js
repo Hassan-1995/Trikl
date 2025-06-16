@@ -224,6 +224,7 @@ function HomeScreenCopy({ navigation }) {
    const contextData = useContext(StoreContext);
       console.log("context in Home ",contextData);
       const[usergoals,setuserGoals]=useState([]);
+       const[user,setUser]=useState(contextData.user);
               const[userPortfolio,setUserPortfolio]=useState([]);
 
   // for summary cards 
@@ -303,8 +304,8 @@ const transformed=goalstransform(sampleresponse);
       //   FROM UserGoal ug 
       //   LEFT JOIN TemplateGoals tg ON ug.templateId = tg.goal_id;
       // `;
-
-      const resp = await sqlquery(goalsquery);
+const finalquery=goalsquery+user.user_Id;
+      const resp = await sqlquery(finalquery);
 
       if (resp) {
         groupedgoals= goalgroup(resp);
