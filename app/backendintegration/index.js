@@ -65,9 +65,9 @@ const apiUrl= baseUrl+"user/adduser"
       }
     }
 
-    export const submitRiskProfiling= async(payload,userId)=>{
-      console.log("orginalRiskResponse",payload);
-      const modifiedresp= modifyRiskResponse(payload,userId);
+    export const submitRiskProfiling= async(payload,userId,riskScore)=>{
+      console.log("orginalRiskResponse",payload,riskScore,userId);
+      const modifiedresp= modifyRiskResponse(payload,userId,riskScore);
       console.log("modifiedRiskResponse",modifiedresp );
       const apiUrl= baseUrl+"user/assessmentResponse"
           try {

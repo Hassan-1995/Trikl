@@ -30,7 +30,7 @@ export const fillOnboarding=(data)=>{
     return profile;
   };
 
-  export const modifyRiskResponse = (riskResponse,userId) => {
+  export const modifyRiskResponse = (riskResponse,userId,riskScore) => {
     let modifiedResponse=[];
    
     riskResponse.forEach(item=>{
@@ -42,7 +42,8 @@ export const fillOnboarding=(data)=>{
     })
     const returnedResponse={
 userId:userId,
-responses:modifiedResponse
+responses:modifiedResponse,
+riskScore:riskScore
     };
     console.log("Modified responses".returnedResponse);
     return returnedResponse;

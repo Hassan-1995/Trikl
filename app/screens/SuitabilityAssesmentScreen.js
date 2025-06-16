@@ -135,6 +135,7 @@ function SuitabilityAssesmentScreen({ navigation, route }) {
   const [riskProfile, setRiskProfile] = useState([]);
   const [user, setUsr] = useState(contextData.user); 
   const [modalVisible, setModalVisible] = useState(false);
+const [riskScore, serRiskScore] = useState(""); 
 
   const activeComponent = riskquitionaire[currentIndex];
 
@@ -226,6 +227,7 @@ riskscore =responses[i].selectedanswer.riskScore
     console.log("Total  Risk Sore",riskscore);
     const profile= findRiskProfile(riskscore);
     console.log("Total  Risk Sore",riskscore,profile);
+    serRiskScore(riskscore);
     setRiskProfile(profile);
   };
   const handleriskFinalize=async() => {
@@ -236,7 +238,7 @@ riskscore =responses[i].selectedanswer.riskScore
      console.log("Context data and risk feedback saved to local storage.");
      }
     try{
-    const resp= await submitRiskProfiling(feedback,user.user_Id);
+    const resp= await submitRiskProfiling(feedback,user.user_Id,riskScore);
     setModalVisible(!modalVisible);
 
     console.log("Params in -handle riskProfile",route.params);
