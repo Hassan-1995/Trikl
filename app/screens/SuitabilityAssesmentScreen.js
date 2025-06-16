@@ -236,7 +236,7 @@ riskscore =responses[i].selectedanswer.riskScore
      console.log("Context data and risk feedback saved to local storage.");
      }
     try{
-    const resp= await submitRiskProfiling(feedback);
+    const resp= await submitRiskProfiling(feedback,user.user_Id);
     setModalVisible(!modalVisible);
 
     console.log("Params in -handle riskProfile",route.params);
