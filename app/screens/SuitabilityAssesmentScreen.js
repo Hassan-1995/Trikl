@@ -241,9 +241,13 @@ riskscore =responses[i].selectedanswer.riskScore
 
     console.log("Params in -handle riskProfile",route.params);
     console.log("Risk Profile in  -handle riskProfile",resp);
-            //   navigation.navigate("PlanSummary", route.params);
+  
+    if (confirm("Clear local Risk Data")){// confirm and delete old risk responses
+       await AsyncStorage.setItem('riskResponse', JSON.stringify([]));
+    }
               navigation.navigate("FundSelection", {riskProfile:riskProfile,tvm:route.params});
     console.log("Submitted Risk Profile",resp,feedback);
+
   //  navigation.navigate("PlanSummary", route.params);
     }catch(error){
       console.log("Error Submitting Risk Profile",error);
