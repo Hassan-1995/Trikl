@@ -25,7 +25,8 @@ export const register= async(payload)=>{
         }
       }
       //login
-      export const login= async(payload,didispatch)=>{
+      export const login= async(payload)=>{
+        console.log("Payload in Login",payload);
         const apiUrl= baseUrl+"auth/login"
         const data={
                   user_email:payload.name,
@@ -37,15 +38,16 @@ export const register= async(payload)=>{
                     'Content-Type': 'application/json'
                   }
                 });
-                console.log('User login  successfully:', response);
-                if(response?.data?.return.toLowerCase()=="success"){
-                dispatch(response.data.user);
+                console.log('User login  successfully:', response.data);
+                if(response?.data.return.toLowerCase()=="success"){
+               // dispatch(response.data.data.user);
+                return response.data.user;
                 }else{
                   alert("Login failed");
                 }
                 return response;
               } catch (error) {
-                console.error('Error in User Registration:', error.response ? error.response.data : error.message);
+                console.error('Error in User Login', error);
               }
             }
 

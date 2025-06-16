@@ -29,8 +29,9 @@ function LoginScreen({ navigation }) {
      const contextData = useContext(StoreContext);
   const handleSubmit = async(values) => {
     
-    const resp= await login(values,contextData.setUser);
-    console.log("in login  handle submit",values,contextData);
+    const resp= await login(values);
+    console.log("in login  handle submit",values,contextData,resp);
+    contextData.setUser(resp)
     navigation.navigate("HomeScreenCopy");
   };
 
