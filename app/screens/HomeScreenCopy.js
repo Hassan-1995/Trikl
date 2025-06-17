@@ -237,8 +237,8 @@ function HomeScreenCopy({ navigation }) {
 
   // useeffect for localgoals.
   useEffect(async() => {
-    //   await AsyncStorage.setItem('riskResponse', JSON.stringify([]));
- //  await AsyncStorage.setItem('localgoals', JSON.stringify([]));
+     //  await AsyncStorage.setItem('riskResponse', JSON.stringify([]));
+  // await AsyncStorage.setItem('localgoals', JSON.stringify([]));
     const storedGoals = await AsyncStorage.getItem('localgoals');
     let existingList = storedGoals ? JSON.parse(storedGoals) : [];
     console.log("stored goals",existingList,draftGoals);

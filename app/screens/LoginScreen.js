@@ -28,11 +28,15 @@ const validationSchema = Yup.object().shape({
 function LoginScreen({ navigation }) {
      const contextData = useContext(StoreContext);
   const handleSubmit = async(values) => {
-    
+    try{
     const resp= await login(values);
     console.log("in login  handle submit",values,contextData,resp);
-    contextData.setUser(resp)
+    contextData.setUser(resp.data.user);
+    
     navigation.navigate("HomeScreenCopy");
+    }catch(err){
+      alert("Invalid login credentials");
+    }
   };
 
   return (

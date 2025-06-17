@@ -41,7 +41,7 @@ export const register= async(payload)=>{
                 console.log('User login  successfully:', response.data);
                 if(response?.data.return.toLowerCase()=="success"){
                // dispatch(response.data.data.user);
-                return response.data.user;
+                return response;
                 }else{
                   alert("Login failed");
                 }

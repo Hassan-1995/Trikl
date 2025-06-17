@@ -1,4 +1,4 @@
-import {React,useContext} from "react";
+import {React,useContext,useState} from "react";
 import { View, StyleSheet, Dimensions, TouchableOpacity } from "react-native";
 import { Svg, Path } from "react-native-svg";
 import AppText from "./AppText";
@@ -20,6 +20,7 @@ const items = [
 
 function ModalHomeScreenComponent({ item,setModalVisible }) {
      const contextData = useContext(StoreContext);
+     const [user,setUser]=useState(contextData.user)
         console.log("context in Home Modal ",contextData);
   const segments = [
     { percentage: 0.3, color: "#00796B" },
@@ -31,8 +32,12 @@ function ModalHomeScreenComponent({ item,setModalVisible }) {
     // active button
     const handleActive = async() => {
     console.log("Active Button is pressd pressed ",item);
+    if(user.status=="registered"){
 const resp= await activateGoal(item.goalId);
 contextData.setreload(prev=>!prev);
+    }else{
+      alert("Please complete registration process first");
+    }
 setModalVisible(false);
 }
    // active button
