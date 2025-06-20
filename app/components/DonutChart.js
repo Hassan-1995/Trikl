@@ -1,52 +1,41 @@
-// DonutChart.js
-import React from "react";
-import { View, Text, StyleSheet, Dimensions } from "react-native";
-import Pie from "react-native-pie";
-import colors from "../config/colors";
+import React from 'react';
+import { View, Text, StyleSheet } from 'react-native';
+import PieChart from 'react-native-pie-chart';
 
-const screenWidth = Dimensions.get("window").width;
-const chartSize = screenWidth * 0.45;
+const DonutChart = () => {
+  const widthAndHeight = 160;
 
-const getColor = (index) => {
-  const colorPalette = [
-    "#FF6384", "#36A2EB", "#FFCE56", "#4BC0C0", "#9966FF",
-    "#FF9F40", "#00A5A8", "#F7464A", "#46BFBD", "#FDB45C",
+  const chartitems = [
+    { title: "ETF-Sovereign Bond", value: 15600 },
+    { title: "Commodities", value: 15600 },
+    { title: "ETF-Equities", value: 15600 },
   ];
-  return colorPalette[index % colorPalette.length];
-};
 
-const DonutChart = ({ data }) => {
-  if (!data || data.length === 0 || data.every(d => Number(d.value) === 0)) {
-    return <Text style={{ textAlign: 'center', marginVertical: 20 }}>____</Text>;
-  }
+  const total = chartitems.reduce((sum, item) => sum + item.value, 0);
 
-  const total = data.reduce((sum, item) => sum + Number(item.value), 0);
+  // Blue color palette
+  const colors = ['#4A90E2', '#5DADE2', '#85C1E9', '#AED6F1', '#D6EAF8'];
 
-  const chartData = data.map((item, index) => ({
-    percentage: (Number(item.value) / total) * 100,
-    color: getColor(index),
+  const series = chartitems.map((item, index) => ({
+    value: item.value,
+    color: colors[index % colors.length],
+    label: {
+      text: `${((item.value / total) * 100).toFixed(1)}%`,
+    },
   }));
 
   return (
     <View style={styles.container}>
-      <View style={{ width: chartSize, height: chartSize }}>
-        <Pie
-          radius={chartSize / 2.5}
-          innerRadius={chartSize / 5}
-          sections={chartData}
-          dividerSize={1}
-          strokeCap={"butt"}
-        />
-        <View style={styles.gauge}>
-          <Text style={styles.total}>{total}</Text>
-        </View>
-      </View>
-
-      <View style={styles.legendContainerRight}>
-        {data.map((item, index) => (
-          <View key={index} style={styles.legendItem}>
-            <View style={[styles.legendColor, { backgroundColor: getColor(index) }]} />
-            <Text style={styles.legendLabel}>{item.title}</Text>
+      <PieChart
+        widthAndHeight={widthAndHeight}
+        series={series}
+        cover={{ radius: 0.5, color: '#fff' }}
+      />
+      <View style={styles.legendContainer}>
+        {chartitems.map((item, i) => (
+          <View style={styles.legendItem} key={i}>
+            <View style={[styles.legendColorBox, { backgroundColor: colors[i % colors.length] }]} />
+            <Text style={styles.legendText}>{item.title}</Text>
           </View>
         ))}
       </View>
@@ -56,41 +45,31 @@ const DonutChart = ({ data }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    marginVertical: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
   },
-  gauge: {
-    position: "absolute",
-    width: "100%",
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  total: {
-    fontSize: 16,
-    fontWeight: "bold",
-    color: colors.dark,
-  },
-  legendContainerRight: {
-    marginLeft: 20,
-    justifyContent: "center",
+  legendContainer: {
+    marginLeft: 15,
+    justifyContent: 'center',
+    flexShrink: 1,
   },
   legendItem: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+    flexWrap: 'wrap',
   },
-  legendColor: {
-    width: 12,
-    height: 12,
-    marginRight: 5,
+  legendColorBox: {
+    width: 10,
+    height: 10,
+    marginRight: 6,
     borderRadius: 2,
   },
-  legendLabel: {
+  legendText: {
     fontSize: 12,
-    color: colors.dark,
+    color: '#333',
+    flexShrink: 1,
   },
 });
 

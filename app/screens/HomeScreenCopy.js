@@ -12,7 +12,7 @@ import SummaryCard from "../components/SummaryCard";
 import {StoreContext} from "../../GlobalState";
 import GoalCardPicker from "../components/GoalCardPicker";
 
-//import DonutChart from "../components/DonutChart";
+import DonutChart from "../components/DonutChart";
 import ActiveInvestmentComponent from "../components/ActiveInvestmentComponent";
 import ChartComponent from "../components/ChartComponent";
 import colors from "../config/colors";
@@ -417,7 +417,7 @@ function registeredUser(asset,user){
             label={"Start a New Plan or Resume Drafts"}
             onPress={handlePress}
           />
-            {/* <DonutChart data={chartitems} /> */}
+           <DonutChart data={chartitems} />
           {/* <ChartComponent assets={items} /> */}
           <FlatList
             data={usergoals}
